@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "JJ.SmartHome.Job": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

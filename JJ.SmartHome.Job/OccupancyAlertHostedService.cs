@@ -43,6 +43,10 @@ namespace JJ.SmartHome.Job
             {
                 _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}");
             }
+            else
+            {
+                _logger.LogInformation($"No occupancy detected");
+            }
         }
     }
 }
