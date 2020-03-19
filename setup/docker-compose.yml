@@ -1,0 +1,45 @@
+version: "3.5"
+services:
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    volumes:
+      - ${PWD}/zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    restart: always
+    networks:
+      - default
+    privileged: true
+    environment:
+      - TZ=Europe/Amsterdam
+      
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ${PWD}/mosquitto/:/mosquitto/config/
+    networks:
+      - default
+
+  jj-smarthome-job:
+    container_name: jj-smarthome-job
+    image: jj-smarthome-job
+    networks:
+      - default
+    environment:
+      - MQTT__URI=mosquitto
+      - MQTT__Topic="zigbee2mqtt/hall_occupancy"
+      - MQTT__User=
+      - MQTT__Password=
+
+networks:
+  default:

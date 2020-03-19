@@ -1,0 +1,32 @@
+version: "3.5"
+services:
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ${PWD}/setup/mosquitto/:/mosquitto/config/
+    networks:
+      - default
+
+  jj-smarthome-job:
+    container_name: jj-smarthome-job
+    build:
+      context: .
+      dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
+    networks:
+      - default
+    environment:
+      - MQTT__URI=mosquitto
+      - MQTT__Topic="zigbee2mqtt/hall_occupancy"
+      - MQTT__User=
+      - MQTT__Password=
+
+networks:
+  default:
