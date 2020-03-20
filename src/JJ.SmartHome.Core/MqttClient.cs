@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -20,11 +21,11 @@ namespace JJ.SmartHome.Core
             _logger = logger;
         }
 
-        public async Task Connect()
+        public async Task Connect(Action connected = null, Action disconnected = null)
         {
             var messageBuilder = new MqttClientOptionsBuilder()
                 .WithClientId(Guid.NewGuid().ToString())
-                .WithCredentials(_options.User, _options.Password)
+                //.WithCredentials(_options.User, _options.Password)
                 .WithTcpServer(_options.URI, _options.Port)
                 .WithCleanSession();
 
@@ -45,10 +46,12 @@ namespace JJ.SmartHome.Core
             _client.UseConnectedHandler(e =>
             {
                 _logger.LogInformation("Connected from MQTT Broker.");
+                connected?.Invoke();
             })
             .UseDisconnectedHandler(e =>
             {
                 _logger.LogWarning(e.Exception, $"Disconnected from MQTT Broker.");
+                disconnected?.Invoke();
             });
             await _client.StartAsync(managedOptions);
         }
@@ -61,6 +64,26 @@ namespace JJ.SmartHome.Core
                 .Build());
 
             _client.UseApplicationMessageReceivedHandler(handler);
+        }
+
+        public async Task Publish(string topic, string payload)
+        {
+            await _client.PublishAsync(new ManagedMqttApplicationMessageBuilder()
+                .WithApplicationMessage(new MqttApplicationMessageBuilder()
+                    .WithTopic(topic)
+                    .WithPayload(payload)
+                    .WithExactlyOnceQoS()
+                    .WithRetainFlag()
+                    .Build()
+                )
+                .Build());
+        }
+
+        public Task Publish<T>(string topic, T payload) => Publish(topic, JsonSerializer.Serialize(payload));
+
+        public Task Close()
+        {
+            return _client.StopAsync();
         }
 
         #region IDisposable Support
@@ -83,6 +106,7 @@ namespace JJ.SmartHome.Core
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }
