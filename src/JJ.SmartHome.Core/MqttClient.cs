@@ -56,7 +56,7 @@ namespace JJ.SmartHome.Core
             await _client.StartAsync(managedOptions);
         }
 
-        public async Task Subscribe(string topic, Action<MqttApplicationMessageReceivedEventArgs> handler)
+        public async Task Subscribe(string topic, Func<MqttApplicationMessageReceivedEventArgs, Task> handler)
         {
             await _client.SubscribeAsync(new TopicFilterBuilder()
                 .WithTopic(topic)

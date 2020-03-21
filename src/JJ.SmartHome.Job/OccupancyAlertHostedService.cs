@@ -19,7 +19,7 @@ namespace JJ.SmartHome.Job
         private readonly MqttClientOptions _options;
 
         public OccupancyAlertHostedService(
-            IMqttClient mqttClient, 
+            IMqttClient mqttClient,
             IOptions<MqttClientOptions> options,
             ILogger<OccupancyAlertHostedService> logger)
         {
@@ -30,14 +30,29 @@ namespace JJ.SmartHome.Job
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _mqttClient.Connect();
-            await _mqttClient.Subscribe(_options.Topic, HandleMessage);
+            _logger.LogInformation($"Start {nameof(OccupancyAlertHostedService)}");
+            await _mqttClient.Connect(async () =>
+            {
+                _logger.LogInformation($"Subscribing to {_options.Topic}");
+                await _mqttClient.Subscribe(_options.Topic, HandleMessage);
+            });
+
+            while (true)
+            {
+                if (stoppingToken.IsCancellationRequested)
+                {
+                    break;
+                }
+                Thread.Sleep(1000);
+            }
+
+            _logger.LogInformation($"End {nameof(OccupancyAlertHostedService)}");
         }
 
-        protected void HandleMessage(MqttApplicationMessageReceivedEventArgs message)
+        protected Task HandleMessage(MqttApplicationMessageReceivedEventArgs message)
         {
             var payload = Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
-            _logger.LogDebug($"Topic {message.ApplicationMessage.Topic}. Message {payload}");
+            _logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {payload}");
             var messageEvent = JsonSerializer.Deserialize<AqaraOccupancySensorEvent>(payload);
             if (messageEvent.Occupancy)
             {
@@ -47,6 +62,7 @@ namespace JJ.SmartHome.Job
             {
                 _logger.LogInformation($"No occupancy detected");
             }
+            return Task.CompletedTask;
         }
     }
 }
