@@ -1,4 +1,4 @@
-namespace JJ.SmartHome.Core
+namespace JJ.SmartHome.Core.MQTT
 {
     public class MqttClientOptions
     {

@@ -7,7 +7,7 @@ using MQTTnet;
 using MQTTnet.Client.Options;
 using MQTTnet.Extensions.ManagedClient;
 
-namespace JJ.SmartHome.Core
+namespace JJ.SmartHome.Core.MQTT
 {
     public class MqttClient : IDisposable, IMqttClient
     {
@@ -25,7 +25,7 @@ namespace JJ.SmartHome.Core
         {
             var messageBuilder = new MqttClientOptionsBuilder()
                 .WithClientId(Guid.NewGuid().ToString())
-                //.WithCredentials(_options.User, _options.Password)
+                .WithCredentials(_options.User, _options.Password)
                 .WithTcpServer(_options.URI, _options.Port)
                 .WithCleanSession();
 

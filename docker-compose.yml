@@ -15,6 +15,21 @@ services:
     networks:
       - default
 
+  smtp:
+    image: mailhog/mailhog
+    hostname: mailhog
+    command: ["-smtp-bind-addr", "0.0.0.0:25"]
+    user: root
+    expose:
+      - 25
+      - 8025
+    ports:
+      - 8025:8025
+    healthcheck:
+      test: echo | telnet 127.0.0.1 25
+    networks:
+      - default
+
   jj-smarthome-job:
     container_name: jj-smarthome-job
     build:
@@ -27,6 +42,11 @@ services:
       - MQTT__Topic=zigbee2mqtt/hall_occupancy
       - MQTT__User=
       - MQTT__Password=
+      - SMTP__Host=mailhog
+      - SMTP__Port=25
+      - SMTP__Ssl=false
+      - SMTP__User=
+      - SMTP__Password=
 
 networks:
   default:

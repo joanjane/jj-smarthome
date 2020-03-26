@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MQTTnet;
 
-namespace JJ.SmartHome.Core
+namespace JJ.SmartHome.Core.MQTT
 {
     public interface IMqttClient
     {

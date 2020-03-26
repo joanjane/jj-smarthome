@@ -1,4 +1,4 @@
-using JJ.SmartHome.Core;
+using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Job.Dto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
