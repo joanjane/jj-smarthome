@@ -1,5 +1,5 @@
+﻿using JJ.SmartHome.Core.Alerts.Dto;
 using JJ.SmartHome.Core.MQTT;
-using JJ.SmartHome.Job.Dto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,28 +12,28 @@ namespace JJ.SmartHome.Tests
     public class TestSeed
     {
         [Fact]
-        public async Task TestOccupancyDetectedEvent()
+        public async Task SimulateAqaraOccupancyDetectedEvent()
         {
             var payload = new AqaraOccupancySensorEvent
             {
+                Occupancy = true,
                 LinkQuality = 1,
                 Battery = 100,
                 Illuminance = 50,
                 IlluminanceLux = 50,
                 Voltage = 300,
-                Occupancy = true
             };
             await PublishTestMessage(payload);
         }
 
         private static async Task PublishTestMessage(AqaraOccupancySensorEvent payload)
         {
-            var configuration = new ConfigurationBuilder()
+            var options = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.Testing.json")
-                .Build();
-            var options = configuration
+                .Build()
                 .GetSection("MQTT")
                 .Get<MqttClientOptions>();
+
             var logger = LoggerFactory.Create(c => c.AddConsole()).CreateLogger<MqttClient>();
 
             using (var mqttClient = new MqttClient(Options.Create(options), logger))

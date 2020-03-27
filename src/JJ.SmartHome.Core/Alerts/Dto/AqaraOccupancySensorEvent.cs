@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JJ.SmartHome.Job.Dto
+namespace JJ.SmartHome.Core.Alerts.Dto
 {
     public class AqaraOccupancySensorEvent
     {
