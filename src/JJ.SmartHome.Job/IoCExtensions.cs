@@ -21,26 +21,27 @@ namespace JJ.SmartHome.Job
 
         private static IServiceCollection ConfigureMqtt(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<MqttClientOptions>(configuration.GetSection("MQTT"));
-            services.AddTransient<IMqttClient, MqttClient>();
-            return services;
+            return services
+                .Configure<MqttClientOptions>(configuration.GetSection("MQTT"))
+                .AddTransient<IMqttClient, MqttClient>();
         }
 
         private static IServiceCollection ConfigureMailing(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<EmailOptions>(configuration.GetSection("SMTP"));
-
-            services.AddTransient<SmtpClientFactory>();
-            services.AddTransient<IAlertNotifier, EmailAlertNotifier>(c => new EmailAlertNotifier(
-                c.GetRequiredService<IOptions<EmailOptions>>(),
-                c.GetRequiredService<SmtpClientFactory>().Build()
-            ));
-            return services;
+            return services
+                .Configure<EmailOptions>(configuration.GetSection("SMTP"))
+                .AddTransient<SmtpClientFactory>()
+                .AddTransient<IAlertNotifier, EmailAlertNotifier>(c => new EmailAlertNotifier(
+                    c.GetRequiredService<IOptions<EmailOptions>>(),
+                    c.GetRequiredService<SmtpClientFactory>().Build()
+                ));
         }
 
         private static IServiceCollection ConfigureCore(this IServiceCollection services)
         {
-            return services.AddTransient<IOccupancyAlertService, OccupancyAlertService>();
+            return services
+                .AddTransient<IOccupancyAlertService, OccupancyAlertService>()
+                .AddSingleton<IOccupancyAlertService, OccupancyAlertService>();
         }
 
         private static IServiceCollection ConfigureHost(this IServiceCollection services)
