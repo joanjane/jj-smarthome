@@ -18,7 +18,6 @@ services:
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto
-    hostname: mosquitto
     expose:
       - "1883"
       - "9001"
@@ -33,16 +32,25 @@ services:
   jj-smarthome-job:
     container_name: jj-smarthome-job
     image: jj-smarthome-job
+    build:
+      context: ../
+      dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
     networks:
       - default
     environment:
       - MQTT__URI=mosquitto
+      - MQTT__Port=1883
       - MQTT__User=
       - MQTT__Password=
+      - MQTT__Secure=false
       - Alerts__OccupancyTopic=zigbee2mqtt/hall_occupancy
+      - SMTP__Host=${SMTP__Host}
+      - SMTP__Port=${SMTP__Port}
+      - SMTP__Ssl=${SMTP__Ssl}
+      - SMTP__User=${SMTP__User}
       - SMTP__Password=${SMTP__Password}
       - SMTP__Sender=${SMTP__Sender}
       - SMTP__NotificationAddresses__0=${SMTP__NotificationAddresses__0}
-      - SnoozePeriodAfterAlerting={SnoozePeriodAfterAlerting}
+      - SnoozePeriodAfterAlerting=${SnoozePeriodAfterAlerting}
 networks:
   default:

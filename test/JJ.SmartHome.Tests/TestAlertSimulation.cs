@@ -12,6 +12,7 @@ namespace JJ.SmartHome.Tests
     public class TestAlertSimulation
     {
         [Fact]
+        [Trait("TestCategory", "DeviceOccupiedSimulation")]
         public async Task SimulateAqaraOccupancyDetectedEvent()
         {
             var payload = new AqaraOccupancySensorEvent
