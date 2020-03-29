@@ -28,10 +28,11 @@ namespace JJ.SmartHome.Tests
 
         private static async Task PublishTestMessage(AqaraOccupancySensorEvent payload)
         {
-            var options = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.Testing.json")
-                .Build()
-                .GetSection("MQTT")
+                .Build();
+            
+            var options = configuration.GetSection("MQTT")
                 .Get<MqttClientOptions>();
 
             var logger = LoggerFactory.Create(c => c.AddConsole()).CreateLogger<MqttClient>();
@@ -48,7 +49,7 @@ namespace JJ.SmartHome.Tests
                     await Task.Delay(8000, waitToken.Token); // Wait connection to be stablished
                 }
                 catch { }
-                await mqttClient.Publish(options.Topic, payload);
+                await mqttClient.Publish(configuration["MQTT:Topic"], payload);
                 await Task.Delay(5000);
                 await mqttClient.Close();
             }

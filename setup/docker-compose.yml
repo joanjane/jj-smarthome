@@ -37,9 +37,10 @@ services:
       - default
     environment:
       - MQTT__URI=mosquitto
-      - MQTT__Topic=zigbee2mqtt/hall_occupancy
       - MQTT__User=
       - MQTT__Password=
-
+      - Alerts__OccupancyTopic=zigbee2mqtt/hall_occupancy
+      - SMTP__Password=${SMTP__Password}
+      - SnoozePeriodAfterAlerting={SnoozePeriodAfterAlerting}
 networks:
   default:

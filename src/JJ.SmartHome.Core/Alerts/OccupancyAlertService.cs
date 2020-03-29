@@ -16,17 +16,20 @@ namespace JJ.SmartHome.Core.Alerts
     {
         private readonly IMqttClient _mqttClient;
         private readonly IAlertNotifier _alertNotifier;
+        private readonly AlertStatusProvider _alertStatusProvider;
         private readonly ILogger<OccupancyAlertService> _logger;
-        private readonly MqttClientOptions _options;
+        private readonly AlertsOptions _options;
 
         public OccupancyAlertService(
             IMqttClient mqttClient,
-            IOptions<MqttClientOptions> options,
+            IOptions<AlertsOptions> options,
             IAlertNotifier alertNotifier,
+            AlertStatusProvider alertStatusProvider,
             ILogger<OccupancyAlertService> logger)
         {
             _mqttClient = mqttClient;
             _alertNotifier = alertNotifier;
+            _alertStatusProvider = alertStatusProvider;
             _logger = logger;
             _options = options.Value;
         }
@@ -36,8 +39,8 @@ namespace JJ.SmartHome.Core.Alerts
             _logger.LogInformation($"Start {nameof(OccupancyAlertService)}");
             await _mqttClient.Connect(async () =>
             {
-                _logger.LogInformation($"Subscribing to {_options.Topic}");
-                await _mqttClient.Subscribe(_options.Topic, HandleMessage);
+                _logger.LogInformation($"Subscribing to {_options.OccupancyTopic}");
+                await _mqttClient.Subscribe(_options.OccupancyTopic, HandleMessage);
             });
 
             while (true)
@@ -61,7 +64,12 @@ namespace JJ.SmartHome.Core.Alerts
             if (messageEvent.Occupancy)
             {
                 _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}");
-                await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.\nPayload: {payload}");
+                if (_alertStatusProvider.ShouldRaiseAlert())
+                {
+                    _logger.LogInformation($"Notifying alert");
+                    _alertStatusProvider.RaiseAlert();
+                    await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.\nPayload: {payload}");
+                }
             }
             else
             {

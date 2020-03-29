@@ -1,4 +1,4 @@
-namespace JJ.SmartHome.Core.MQTT
+﻿namespace JJ.SmartHome.Core.MQTT
 {
     public class MqttClientOptions
     {
@@ -7,6 +7,5 @@ namespace JJ.SmartHome.Core.MQTT
         public string Password { get; set; }
         public int Port { get; set; } = 1883;
         public bool Secure { get; set; }
-        public string Topic { get; set; }
     }
 }

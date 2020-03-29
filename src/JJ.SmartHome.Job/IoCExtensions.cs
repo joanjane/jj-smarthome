@@ -15,7 +15,7 @@ namespace JJ.SmartHome.Job
             return services
                 .ConfigureMqtt(configuration)
                 .ConfigureMailing(configuration)
-                .ConfigureCore()
+                .ConfigureCore(configuration)
                 .ConfigureHost();
         }
 
@@ -37,11 +37,12 @@ namespace JJ.SmartHome.Job
                 ));
         }
 
-        private static IServiceCollection ConfigureCore(this IServiceCollection services)
+        private static IServiceCollection ConfigureCore(this IServiceCollection services, IConfiguration configuration)
         {
             return services
+                .Configure<AlertsOptions>(configuration.GetSection("Alerts"))
                 .AddTransient<IOccupancyAlertService, OccupancyAlertService>()
-                .AddSingleton<IOccupancyAlertService, OccupancyAlertService>();
+                .AddSingleton<AlertStatusProvider>();
         }
 
         private static IServiceCollection ConfigureHost(this IServiceCollection services)
