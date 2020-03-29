@@ -32,11 +32,7 @@ namespace JJ.SmartHome.Job
             return services
                 .Configure<EmailOptions>(configuration.GetSection("SMTP"))
                 .AddTransient<SmtpClientFactory>()
-                .AddTransient<IAlertNotifier, EmailAlertNotifier>(c => new EmailAlertNotifier(
-                    c.GetRequiredService<IOptions<EmailOptions>>(),
-                    c.GetRequiredService<SmtpClientFactory>().Build(),
-                    c.GetRequiredService<ILogger<EmailAlertNotifier>>()
-                ));
+                .AddTransient<IAlertNotifier, EmailAlertNotifier>();
         }
 
         private static IServiceCollection ConfigureCore(this IServiceCollection services, IConfiguration configuration)

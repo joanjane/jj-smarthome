@@ -22,14 +22,12 @@ namespace JJ.SmartHome.Tests
                 .AddJsonFile("appsettings.Testing.json")
                 .Build();
             
-            var options = Options.Create(
-                configuration.GetSection("SMTP").Get<EmailOptions>()
-                );
+            var options = Options.Create(configuration.GetSection("SMTP").Get<EmailOptions>());
 
             var logger = LoggerFactory.Create(c => c.AddConsole()).CreateLogger<EmailAlertNotifier>();
             return new EmailAlertNotifier(
                 options,
-                new SmtpClientFactory(options).Build(),
+                new SmtpClientFactory(options),
                 logger);
         }
     }
