@@ -21,7 +21,7 @@ namespace JJ.SmartHome.Core.Notifications
                 Host = _options.Host,
                 Port = _options.Port,
                 EnableSsl = _options.Ssl,
-                Credentials = new NetworkCredential(_options.Username, _options.Password)
+                Credentials = new NetworkCredential(_options.User, _options.Password)
             };
         }
     }
