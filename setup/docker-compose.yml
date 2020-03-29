@@ -34,7 +34,7 @@ services:
     image: jj-smarthome-job
     build:
       context: ../
-      dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
+      dockerfile: ./src/JJ.SmartHome.Job/arm.Dockerfile
     networks:
       - default
     environment:
