@@ -15,7 +15,7 @@ services:
     networks:
       - default
 
-  smtp:
+  mailhog:
     image: mailhog/mailhog
     hostname: mailhog
     command: ["-smtp-bind-addr", "0.0.0.0:25"]
@@ -24,7 +24,8 @@ services:
       - 25
       - 8025
     ports:
-      - 8025:8025
+      - "8026:25"
+      - "8025:8025"
     healthcheck:
       test: echo | telnet 127.0.0.1 25
     networks:
@@ -47,6 +48,8 @@ services:
       - SMTP__Ssl=false
       - SMTP__User=
       - SMTP__Password=
+      - SMTP__Sender=jj-smarthome@development.com
+      - SMTP__NotificationAddresses__0=jj-smarthome@receiver.com
       - SnoozePeriodAfterAlerting=00:01:00
 
 networks:

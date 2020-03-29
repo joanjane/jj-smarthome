@@ -3,6 +3,7 @@ using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Core.Notifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 
@@ -33,7 +34,8 @@ namespace JJ.SmartHome.Job
                 .AddTransient<SmtpClientFactory>()
                 .AddTransient<IAlertNotifier, EmailAlertNotifier>(c => new EmailAlertNotifier(
                     c.GetRequiredService<IOptions<EmailOptions>>(),
-                    c.GetRequiredService<SmtpClientFactory>().Build()
+                    c.GetRequiredService<SmtpClientFactory>().Build(),
+                    c.GetRequiredService<ILogger<EmailAlertNotifier>>()
                 ));
         }
 

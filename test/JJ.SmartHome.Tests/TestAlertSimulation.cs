@@ -9,7 +9,7 @@ using Xunit;
 
 namespace JJ.SmartHome.Tests
 {
-    public class TestSeed
+    public class TestAlertSimulation
     {
         [Fact]
         public async Task SimulateAqaraOccupancyDetectedEvent()
