@@ -18,6 +18,7 @@ services:
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto
+    restart: always
     expose:
       - "1883"
       - "9001"
@@ -32,6 +33,7 @@ services:
   jj-smarthome-job:
     container_name: jj-smarthome-job
     image: jj-smarthome-job
+    restart: always
     build:
       context: ../
       dockerfile: ./src/JJ.SmartHome.Job/arm.Dockerfile
