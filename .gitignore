@@ -340,4 +340,9 @@ ASALocalRun/
 healthchecksdb
 
 *.db
+
+*.cert
+*.key
+
 /setup/zigbee2mqtt/state.json
+/setup/.env

@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt
+    volumes:
+      - ${PWD}/zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    restart: always
+    networks:
+      - default
+    privileged: true
+    environment:
+      - TZ=${ZIGBEE2MQTT_TZ:-Europe/Amsterdam}
+      
+  mosquitto:
+    image: eclipse-mosquitto
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "19001:9001"
+    volumes:
+      - ${PWD}/mosquitto/:/mosquitto/config/
+    networks:
+      - default
+      
