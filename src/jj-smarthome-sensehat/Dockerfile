@@ -12,13 +12,13 @@ RUN apt-get update && apt-get install build-essential \
 
 # Copy our package.json into the container. This tells npm about the
 # module that we're trying to run
-COPY package.json ./
+COPY src/jj-smarthome-sensehat/package.json ./
 
 # Let's install our dependencies
 RUN npm install
 
 # And now let's copy our code into the container
-COPY . ./
+COPY src/jj-smarthome-sensehat/ ./
 
 # Execute our code when the continer starts up
 CMD ["npm", "start"]

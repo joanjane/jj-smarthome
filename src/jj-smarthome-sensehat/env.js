@@ -7,5 +7,5 @@ module.exports = {
   DEVICE: process.env.DEVICE || 'jj-smarthome-sensehat',
   MQTT_URI: process.env.MQTT_URI,
   MQTT_ALARM_TOPIC: process.env.MQTT_ALARM_TOPIC || 'alarm/status',
-  MQTT_ENV_SENSORS_TOPIC: process.env.MQTT_ENV_SENSORS_TOPIC || 'env-sensors/status'
+  MQTT_ENV_SENSORS_TOPIC: process.env.MQTT_ENV_SENSORS_TOPIC || 'env-sensors/sensehat'
 };
