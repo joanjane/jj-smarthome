@@ -1,4 +1,5 @@
 ﻿using JJ.SmartHome.Core.Alerts.Dto;
+using JJ.SmartHome.Core.Extensions;
 using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Core.Notifications;
 using Microsoft.Extensions.Logging;
@@ -34,7 +35,7 @@ namespace JJ.SmartHome.Core.Alerts
             _options = options.Value;
         }
 
-        public async Task HandleOccupancyAlerts(CancellationToken stoppingToken)
+        public async Task Run(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"Start {nameof(OccupancyAlertService)}");
             await _mqttClient.Connect(async () =>
@@ -43,14 +44,7 @@ namespace JJ.SmartHome.Core.Alerts
                 await _mqttClient.Subscribe(_options.OccupancyTopic, HandleMessage);
             });
 
-            while (true)
-            {
-                if (stoppingToken.IsCancellationRequested)
-                {
-                    break;
-                }
-                Thread.Sleep(1000);
-            }
+            stoppingToken.LoopUntilCancelled();
 
             _logger.LogInformation($"End {nameof(OccupancyAlertService)}");
         }

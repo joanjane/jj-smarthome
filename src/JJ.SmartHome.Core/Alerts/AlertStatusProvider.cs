@@ -8,6 +8,7 @@ namespace JJ.SmartHome.Core.Alerts
         private readonly AlertsOptions _options;
         private object LockObject = new object();
         private DateTime? LastFiredAlert { get; set; }
+        private bool AlarmUnlocked = false;
 
         public AlertStatusProvider(IOptions<AlertsOptions> options)
         {
@@ -16,16 +17,31 @@ namespace JJ.SmartHome.Core.Alerts
 
         public bool ShouldRaiseAlert()
         {
-            return !LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow;
+            return !AlarmUnlocked || !LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow;
         }
 
         public void RaiseAlert()
         {
-            lock(LockObject)
+            lock (LockObject)
             {
                 LastFiredAlert = DateTime.UtcNow;
             }
         }
 
+        public void SetAlertStatus(string status)
+        {
+            if (status == "lock")
+            {
+                AlarmUnlocked = false;
+            }
+            else if (status == "unlock")
+            {
+                AlarmUnlocked = true;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid alarm status to set", nameof(status));
+            }
+        }
     }
 }
