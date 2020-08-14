@@ -14,7 +14,6 @@ services:
       - MQTT__User=
       - MQTT__Password=
       - MQTT__Secure=false
-      - Alerts__OccupancyTopic=zigbee2mqtt/hall_occupancy
       - SMTP__Host=${SMTP__Host}
       - SMTP__Port=${SMTP__Port}
       - SMTP__Ssl=${SMTP__Ssl}
@@ -23,6 +22,10 @@ services:
       - SMTP__Sender=${SMTP__Sender}
       - SMTP__NotificationAddresses__0=${SMTP__NotificationAddresses__0}
       - SnoozePeriodAfterAlerting=${SnoozePeriodAfterAlerting}
+      - InfluxDB__Uri=http://influxdb:9999
+      - InfluxDB__User=${InfluxDB__User}
+      - InfluxDB__Password=${InfluxDB__Password}
+      - InfluxDB__Token=${InfluxDB__Token}
   
   jj-smarthome-sensehat:
     image: jj-smarthome-sensehat

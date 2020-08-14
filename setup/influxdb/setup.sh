@@ -1,3 +1,3 @@
 #!/bin/sh
 
-influx setup -o "$JJ_ORG" -b "$JJ_BUCKET" -u "$JJ_USER" -p "$JJ_PASSWORD" -r "$JJ_RETENTION" -t "$JJ_TOKEN" -f
+influx setup -o "$InfluxDB__Organization" -b "$InfluxDB__Bucket" -u "$InfluxDB__User" -p "$InfluxDB__Password" -r "$InfluxDB__Retention" -t "$InfluxDB__Token" -f

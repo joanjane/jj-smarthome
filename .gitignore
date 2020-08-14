@@ -346,3 +346,4 @@ healthchecksdb
 
 /setup/zigbee2mqtt/state.json
 /setup/.env
+/setup/pi.env
