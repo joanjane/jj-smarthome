@@ -33,6 +33,7 @@ services:
     build:
       context: ../
       dockerfile: ./src/jj-smarthome-sensehat/Dockerfile
+    privileged: true
     networks:
       - default
     environment:
