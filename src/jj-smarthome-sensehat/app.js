@@ -1,6 +1,6 @@
 const env = require('./env');
 
-const envSensorsCheckMinutes = 0.2;
+const envSensorsCheckMinutes = 1;
 
 class App {
   constructor(display, joystick, environmentSensors, mqttClient) {
