@@ -5,6 +5,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /repo
 COPY ["src/JJ.SmartHome.Job/JJ.SmartHome.Job.csproj", "src/JJ.SmartHome.Job/"]
 COPY ["src/JJ.SmartHome.Core/JJ.SmartHome.Core.csproj", "src/JJ.SmartHome.Core/"]
+COPY ["src/JJ.SmartHome.Db/JJ.SmartHome.Db.csproj", "src/JJ.SmartHome.Db/"]
 RUN dotnet restore "src/JJ.SmartHome.Job/JJ.SmartHome.Job.csproj"
 COPY . .
 WORKDIR "/repo/src/JJ.SmartHome.Job"
