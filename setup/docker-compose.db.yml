@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  influxdb:
+    image: quay.io/influxdb/influxdb:2.0.0-beta
+    restart: always
+    ports:
+      - "8086:8086"
+      - "9999:9999"
+    volumes:
+      - influxdbv2-storage:/root/.influxdbv2
+      - ./influxdb:/root/.influxdbsetup
+    environment:
+      - JJ_ORG=${JJ_ORG}
+      - JJ_BUCKET=${JJ_BUCKET}
+      - JJ_USER=${JJ_USER}
+      - JJ_PASSWORD=${JJ_PASSWORD}
+      - JJ_TOKEN=${JJ_TOKEN}
+    command: bash -c "
+      influxd &
+      sleep 10s && (sh /root/.influxdbsetup/setup.sh) &
+      sleep infinity"
+  
+volumes:
+  influxdbv2-storage:

@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\JJ.SmartHome.Core\JJ.SmartHome.Core.csproj" />
     <ProjectReference Include="..\..\src\JJ.SmartHome.Job\JJ.SmartHome.Job.csproj" />
+    <ProjectReference Include="..\..\src\JJ.SmartHome.Db\JJ.SmartHome.Db.csproj" />
   </ItemGroup>
 
 </Project>

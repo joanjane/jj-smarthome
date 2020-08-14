@@ -16,6 +16,7 @@ services:
       
   mosquitto:
     image: eclipse-mosquitto
+    restart: always
     expose:
       - "1883"
       - "9001"

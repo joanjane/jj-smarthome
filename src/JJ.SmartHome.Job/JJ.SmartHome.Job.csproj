@@ -8,6 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JJ.SmartHome.Core\JJ.SmartHome.Core.csproj" />
+    <ProjectReference Include="..\JJ.SmartHome.Db\JJ.SmartHome.Db.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>

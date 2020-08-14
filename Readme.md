@@ -7,6 +7,10 @@ A pet project to build my own smarthome network using 3rd party tools.
 3. Read received emails on http://localhost:8025/
 4. To simulate an occupancy detected event, run `dotnet test --filter TestCategory=DeviceOccupiedSimulation`
 
+### jj-smarthome-sensehat
+For development, use simulator mode. Rename file `/src/jj-smarthome-sensehat/.sample.env` to `.env` if debugging locally, or use setup scripts for docker.
+Use [pi-sense-hat-remote-simulator](https://joanjane.github.io/pi-sense-hat-remote-simulator/) web simulator.
+
 ## Deployment
 1. On /setup folder, set variables on `.env` file from sample file `.sample.env`
 2. If a new version is deployed, run `./build.sh` script
