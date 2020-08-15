@@ -1,16 +1,14 @@
 version: "3.8"
 services:
   influxdb:
-    image: jjsh-influxdb:2.0.0-beta
+    image: quay.io/influxdb/influxdb:2.0.0-beta
     restart: always
-    build:
-      context: ./influxdb
-      dockerfile: ./Dockerfile
     ports:
       - "8086:8086"
       - "9999:9999"
     volumes:
-      - jjsh-influxdbv2-storage:/root/.influxdbv2
+      - influxdbv2-storage:/root/.influxdbv2
+      - ./influxdb:/root/.influxdbsetup
     environment:
       - InfluxDB__Organization=${InfluxDB__Organization}
       - InfluxDB__Bucket=${InfluxDB__Bucket}
@@ -24,4 +22,4 @@ services:
       sleep infinity"
   
 volumes:
-  jjsh-influxdbv2-storage:
+  influxdbv2-storage:

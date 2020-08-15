@@ -1,0 +1,15 @@
+FROM debian:buster-slim
+ENV VERSION=2.0.0-beta.16
+
+WORKDIR /tmp
+RUN apt-get update && apt-get install curl -y
+RUN curl -L https://dl.influxdata.com/influxdb/releases/influxdb_${VERSION}_linux_arm64.tar.gz --output influxdb_${VERSION}_linux_arm64.tar.gz
+RUN ls
+RUN tar xvzf ./influxdb_${VERSION}_linux_arm64.tar.gz
+RUN cp ./influxdb_${VERSION}_linux_arm64/influx /usr/local/bin/
+RUN cp ./influxdb_${VERSION}_linux_arm64/influxd /usr/local/bin/
+
+WORKDIR /root/.influxdbsetup
+COPY . .
+
+CMD [ "influxd" ]
