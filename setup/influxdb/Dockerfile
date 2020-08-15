@@ -8,8 +8,8 @@ RUN curl -L https://dl.influxdata.com/influxdb/releases/influxdb_${VERSION}_linu
 RUN tar xvzf ./influxdb_${VERSION}_linux_arm64.tar.gz
 
 RUN mkdir /root/bin
-RUN cp ./influxdb_${VERSION}_linux_arm64/influx /root/bin/influx
-RUN cp ./influxdb_${VERSION}_linux_arm64/influxd /root/bin/influxd
+RUN mv ./influxdb_${VERSION}_linux_arm64/influx /root/bin
+RUN mv ./influxdb_${VERSION}_linux_arm64/influxd /root/bin
 RUN ls /root/bin
 
 ENV PATH="/root/bin:${PATH}"
