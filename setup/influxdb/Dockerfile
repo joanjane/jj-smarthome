@@ -10,7 +10,8 @@ RUN tar xvzf ./influxdb_${VERSION}_linux_arm64.tar.gz
 RUN mkdir /root/bin
 RUN mv ./influxdb_${VERSION}_linux_arm64/influx /root/bin
 RUN mv ./influxdb_${VERSION}_linux_arm64/influxd /root/bin
-RUN ls /root/bin
+RUN chmod +x /root/bin/*
+RUN ls -la /root/bin
 
 ENV PATH="/root/bin:${PATH}"
 
