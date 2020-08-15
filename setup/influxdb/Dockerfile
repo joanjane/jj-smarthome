@@ -18,5 +18,6 @@ ENV PATH="/root/bin:${PATH}"
 
 WORKDIR /root/.influxdbsetup
 COPY . .
+RUN chmod +x ./*.sh
 
-CMD [ "influxd" ]
+CMD [ "./entrypoint.sh" ]

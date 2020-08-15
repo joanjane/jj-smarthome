@@ -20,10 +20,10 @@ services:
       - InfluxDB__Password=${InfluxDB__Password}
       - InfluxDB__Token=${InfluxDB__Token}
       - InfluxDB__Retention=${InfluxDB__Retention}
-    command: bash -c "
-      influxd &
-      sleep 10s && (sh /root/.influxdbsetup/setup.sh) &
-      sleep infinity"
+    # command: bash -c "
+    #   influxd &
+    #   sleep 10s && (sh /root/.influxdbsetup/setup.sh) &
+    #   sleep infinity"
   
 volumes:
   jjsh-influxdbv2-storage:
