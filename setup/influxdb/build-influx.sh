@@ -6,7 +6,7 @@ cd influxdb
 make
 
 ls -la
-ls -la **/*
+ls -la bin
 
-cp influx /usr/local/bin/
-cp influxd /usr/local/bin/
+cp ./bin/influx /usr/local/bin/
+cp ./bin/influxd /usr/local/bin/
