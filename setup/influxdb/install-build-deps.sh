@@ -2,7 +2,10 @@
 
 apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev -y
 
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+apt remove cmdtest
+
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
 apt update && apt install yarn -y
 
