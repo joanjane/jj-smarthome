@@ -4,7 +4,7 @@ apt-get update && apt-get install git curl nano build-essential bzr protobuf-com
 
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 
-sudo apt update && sudo apt install yarn -y
+apt update && apt install yarn -y
 
 mkdir -p /usr/local/rustup
 mkdir -p /usr/local/cargo
