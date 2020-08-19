@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone --depth 1 --branch $InfluxDB__Version https://github.com/influxdata/influxdb.git
+git clone --depth 1 --branch "v$InfluxDB__Version" https://github.com/influxdata/influxdb.git
 cd influxdb
 
 make
