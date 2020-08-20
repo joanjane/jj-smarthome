@@ -1,17 +1,14 @@
 version: "3.8"
 services:
   influxdb:
-    image: jjsh-influxdb:2.0.0-beta.1
+    # image: quay.io/influxdb/influxdb:2.0.0-beta
+    image: voidborn/rpi_influxdb2
     restart: always
-    build:
-      context: ./influxdb
-      dockerfile: ./src.Dockerfile
-      args:
-        - InfluxDB__Arch=${InfluxDB__Arch}
     ports:
       - "9999:9999"
     volumes:
-      - jjsh-influxdbv2-storage:/root/.influxdbv2
+      - influxdbv2-storage:/root/.influxdbv2
+      - ./influxdb:/root/.influxdbsetup
     environment:
       - InfluxDB__Organization=${InfluxDB__Organization}
       - InfluxDB__Bucket=${InfluxDB__Bucket}
@@ -19,6 +16,7 @@ services:
       - InfluxDB__Password=${InfluxDB__Password}
       - InfluxDB__Token=${InfluxDB__Token}
       - InfluxDB__Retention=${InfluxDB__Retention}
+    command: sh /root/.influxdbsetup/entrypoint.sh
   
 volumes:
-  jjsh-influxdbv2-storage:
+  influxdbv2-storage:
