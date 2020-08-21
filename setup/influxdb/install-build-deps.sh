@@ -11,14 +11,19 @@ apt update && apt-get install -y nodejs yarn
 
 apt remove cmdtest
 
-mkdir -p /usr/local/rustup
-mkdir -p /usr/local/cargo
+# install rust
+# mkdir -p /usr/local/rustup
+# mkdir -p /usr/local/cargo
 
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --profile minimal
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --profile minimal
 
-chmod -R a+w $RUSTUP_HOME $CARGO_HOME
+# chmod -R a+w $RUSTUP_HOME $CARGO_HOME
 
-cat <<EOF > /usr/local/cargo/config
-[target.armv7-unknown-linux-gnueabihf]
-linker = "arm-linux-gnueabihf-gcc-4.7"
-EOF
+# cat <<EOF > /usr/local/cargo/config
+# [target.armv7-unknown-linux-gnueabihf]
+# linker = "arm-linux-gnueabihf-gcc-4.7"
+# EOF
+
+# install go
+https://dl.google.com/go/go1.13.15.linux-arm64.tar.gz | tar -C /usr/local -xzf
+export PATH=$PATH:/usr/local/go/bin

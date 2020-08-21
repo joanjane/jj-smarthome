@@ -1,4 +1,5 @@
-FROM golang:1.13.0-buster
+FROM ragnaroek/rust-raspberry:1.45.2
+# FROM golang:1.13.0-buster
 
 ARG InfluxDB__Version=2.0.0-beta.16
 ARG InfluxDB__Arch=arm64
