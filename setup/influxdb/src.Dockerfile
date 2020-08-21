@@ -14,6 +14,8 @@ RUN sh ./install-build-deps.sh
 
 ENV PATH=/usr/local/cargo/bin:$PATH
 
+RUN rustup --version && cargo --version && rustc --version
+
 COPY ./build-influx.sh .
 RUN sh ./build-influx.sh
 
