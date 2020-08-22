@@ -11,14 +11,14 @@ echo "Installed global deps!"
 # mkdir -p /usr/local/rustup
 # mkdir -p /usr/local/cargo
 
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --profile minimal
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --profile minimal
 
 # chmod -R a+w $RUSTUP_HOME $CARGO_HOME
 
-cat <<EOF > $HOME/.cargo/config
-[target.armv7-unknown-linux-gnueabihf]
-linker = "arm-linux-gnueabihf-gcc-5"
-EOF
+# cat <<EOF > $HOME/.cargo/config
+# [target.armv7-unknown-linux-gnueabihf]
+# linker = "arm-linux-gnueabihf-gcc-5"
+# EOF
 
 export PATH=$HOME/.cargo/bin:$PATH
 source $HOME/.cargo/env
