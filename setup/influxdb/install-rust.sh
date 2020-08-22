@@ -23,9 +23,11 @@ cp ./rust-on-raspberry-docker/bin/gcc-sysroot $HOME/pi-tools/arm-bcm2708/gcc-lin
 # configure cargo
 cp ./rust-on-raspberry-docker/conf/cargo-config $HOME/.cargo/config
 
-cp ./rust-on-raspberry-docker/bin $HOME/bin
+cp -r ./rust-on-raspberry-docker/bin $HOME/bin
 export PATH=$HOME/bin:$PATH
 
 sh ./rust-on-raspberry-docker/bin/run.sh
 
-rustup --version && cargo --version && rustc --version
+rustup --version
+cargo --version
+rustc --version

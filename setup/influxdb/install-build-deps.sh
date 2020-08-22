@@ -20,15 +20,15 @@ echo "Installed global deps!"
 # linker = "arm-linux-gnueabihf-gcc-5"
 # EOF
 
-export PATH=$HOME/.cargo/bin:$PATH
-source $HOME/.cargo/env
-cat $HOME/.cargo/config
-echo "Installed rust!"
+# export PATH=$HOME/.cargo/bin:$PATH
+# source $HOME/.cargo/env
+# cat $HOME/.cargo/config
+# echo "Installed rust!"
 
-rustup --version
-$HOME/.cargo/bin/cargo --version
+# rustup --version
+# # $HOME/.cargo/bin/cargo --version
 # cargo --version
-rustc --version
+# rustc --version
 
 ##############         install go       #############
 # https://dl.google.com/go/go1.13.15.linux-arm64.tar.gz | tar -C /usr/local -xzf
