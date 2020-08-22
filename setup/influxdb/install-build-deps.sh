@@ -25,7 +25,8 @@ source $HOME/.cargo/env
 echo "Installed rust!"
 
 rustup --version
-cargo --version
+$HOME/.cargo/bin/cargo --version
+# cargo --version
 rustc --version
 
 ##############         install go       #############
