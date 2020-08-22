@@ -1,4 +1,3 @@
-#!/bin/bash
 set -e
 
 apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev gcc-4.7-multilib-arm-linux-gnueabihf -y
