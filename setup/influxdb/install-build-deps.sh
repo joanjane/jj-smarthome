@@ -4,6 +4,11 @@ set -e
 # apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev -y
 echo "Installed global deps!"
 
+cat <<EOF > $HOME/.cargo/config
+[build]
+target = "armv7-unknown-linux-gnueabihf"
+EOF
+
 cargo --version
 rustc --version
 rustup --version
