@@ -3,6 +3,7 @@ set -e
 
 # apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev -y
 echo "Installed global deps!"
+echo $PATH
 
 ##############        install rust      #############
 # export RUSTUP_HOME=/usr/local/rustup
