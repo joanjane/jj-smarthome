@@ -6,10 +6,10 @@ echo "Installed global deps!"
 
 cat <<EOF > $HOME/.cargo/config
 [build]
-target = "armv7-unknown-linux-gnueabihf"
+target = "arm-unknown-linux-gnueabihf"
 EOF
 
-cargo --version
+$HOME/.cargo/bin/cargo --version
 rustc --version
 rustup --version
 
