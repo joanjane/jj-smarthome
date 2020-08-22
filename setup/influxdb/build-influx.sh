@@ -1,4 +1,7 @@
+#!/bin/bash
 set -e
+
+export GO111MODULE=on
 
 # modify yarn timeout
 yarn config set network-timeout 600000 -g
