@@ -6,14 +6,14 @@ ARG InfluxDB__Arch=arm64
 WORKDIR /src/influx
 
 # COPY ./install-rust.sh .
-# RUN sh ./install-rust.sh
+# RUN bash ./install-rust.sh
 
 COPY ./install-build-deps.sh .
-RUN sh ./install-build-deps.sh
+RUN bash ./install-build-deps.sh
 
 COPY ./build-influx.sh .
-RUN sh ./build-influx.sh
+RUN bash ./build-influx.sh
 
 COPY . .
 EXPOSE 9999
-CMD [ "sh", "./entrypoint.sh" ]
+CMD [ "bash", "./entrypoint.sh" ]
