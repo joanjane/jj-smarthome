@@ -28,6 +28,7 @@ cp -r ./rust-on-raspberry-docker/bin $HOME/bin
 
 export PATH=$HOME/bin:$HOME/.cargo/bin:$PATH
 source $HOME/.cargo/env
+echo $PATH
 
 cargo --version
 rustc --version
