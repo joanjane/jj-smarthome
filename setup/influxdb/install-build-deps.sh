@@ -15,13 +15,14 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --prof
 
 # chmod -R a+w $RUSTUP_HOME $CARGO_HOME
 
-# cat <<EOF > /usr/local/cargo/config
+# cat <<EOF > $HOME/.cargo/config
 # [target.armv7-unknown-linux-gnueabihf]
 # linker = "arm-linux-gnueabihf-gcc-4.7"
 # EOF
 
 export PATH=$HOME/.cargo/bin:$PATH
 source $HOME/.cargo/env
+cat $HOME/.cargo/config
 echo "Installed rust!"
 
 rustup --version
