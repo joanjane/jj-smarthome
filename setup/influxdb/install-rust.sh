@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 # update system
 apt-get update && \
   apt-get install -y curl git gcc xz-utils sudo pkg-config unzip
@@ -24,8 +25,10 @@ cp ./rust-on-raspberry-docker/bin/gcc-sysroot $HOME/pi-tools/arm-bcm2708/gcc-lin
 cp ./rust-on-raspberry-docker/conf/cargo-config $HOME/.cargo/config
 
 cp -r ./rust-on-raspberry-docker/bin $HOME/bin
-export PATH=$HOME/bin:$PATH
 
-rustup --version
+export PATH=$HOME/bin:$HOME/.cargo/bin:$PATH
+source $HOME/.cargo/env
+
 cargo --version
 rustc --version
+rustup --version
