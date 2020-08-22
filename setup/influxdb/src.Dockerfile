@@ -6,7 +6,6 @@ ARG InfluxDB__Arch=arm64
 WORKDIR /src/influx
 
 RUN apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev -y
-# RUN apt-get install gcc-arm-none-eabi -y
 
 COPY ./install-rust.sh .
 RUN chmod +x *.sh; ./install-rust.sh
