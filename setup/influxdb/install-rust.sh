@@ -26,10 +26,6 @@ cp ./rust-on-raspberry-docker/conf/cargo-config $HOME/.cargo/config
 
 cp -r ./rust-on-raspberry-docker/bin $HOME/bin
 
-export PATH=$HOME/bin:$HOME/.cargo/bin:$PATH
+export PATH=$HOME/bin:$PATH
 source $HOME/.cargo/env
 echo $PATH
-
-cargo --version
-rustc --version
-rustup --version
