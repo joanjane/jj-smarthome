@@ -26,13 +26,6 @@ cp ./rust-on-raspberry-docker/conf/cargo-config $HOME/.cargo/config
 cp -r ./rust-on-raspberry-docker/bin $HOME/bin
 export PATH=$HOME/bin:$PATH
 
-# create unneeded folder required by following script
-mkdir $HOME/project
-sh ./rust-on-raspberry-docker/bin/run.sh
-
-# return to original path
-cd /src/influx
-
 rustup --version
 cargo --version
 rustc --version
