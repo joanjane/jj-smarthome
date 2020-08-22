@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev -y
+# apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev -y
+echo "Installed global deps!"
 
 ##############        install rust      #############
 # export RUSTUP_HOME=/usr/local/rustup
@@ -19,20 +20,24 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --prof
 # linker = "arm-linux-gnueabihf-gcc-4.7"
 # EOF
 
-# export PATH=/usr/local/cargo/bin:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
 source $HOME/.cargo/env
+echo "Installed rust!"
 
-rustup --version && cargo --version && rustc --version
+rustup --version
+cargo --version
+rustc --version
 
 ##############         install go       #############
 # https://dl.google.com/go/go1.13.15.linux-arm64.tar.gz | tar -C /usr/local -xzf
 # export PATH=$PATH:/usr/local/go/bin
+# echo "Installed go!"
 
 ##############      install node+yarn   #############
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 curl -sL https://deb.nodesource.com/setup_lts.x | bash -
-apt update && apt-get install -y nodejs yarn
 
-apt remove cmdtest
+apt update && apt-get install -y nodejs yarn
+echo "Installed node and yarn!"
