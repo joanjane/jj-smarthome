@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev gcc-4.7-multilib-arm-linux-gnueabihf -y
+apt-get update && apt-get install git curl nano build-essential bzr protobuf-compiler libprotobuf-dev -y
 
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
