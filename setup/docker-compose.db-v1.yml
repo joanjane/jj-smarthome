@@ -6,12 +6,11 @@ services:
       - "8086:8086"
     volumes:
       - influxdb_v1-storage:/var/lib/influxdb
-      - ${PWD}/influxdb/influxdbv1.conf:/etc/influxdb/influxdb.conf:ro
     environment:
       - INFLUXDB_DB=${InfluxDB__Bucket}
       - INFLUXDB_ADMIN_USER=${InfluxDB__User}
       - INFLUXDB_ADMIN_PASSWORD=${InfluxDB__Password}
-    command: "influxdb -config /etc/influxdb/influxdb.conf"
+      - INFLUXDB_HTTP_FLUX_ENABLED=true
 
   chronograf:
     image: chronograf:latest
