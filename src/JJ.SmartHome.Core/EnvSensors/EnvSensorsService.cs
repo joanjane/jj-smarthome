@@ -6,6 +6,7 @@ using JJ.SmartHome.Db.Entities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MQTTnet;
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -14,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace JJ.SmartHome.Core.EnvSensors
 {
-
     public class EnvSensorsService : IEnvSensorsService
     {
         private readonly IMqttClient _mqttClient;
@@ -56,35 +56,63 @@ namespace JJ.SmartHome.Core.EnvSensors
             var location = message.ApplicationMessage.Topic.Split('/').Last();
             var messageEvent = JsonSerializer.Deserialize<EnvSensorsEvent>(payload);
 
+
             if (messageEvent.Temperature.HasValue)
             {
-                await _envSensorsStore.WriteMeasure(new Temperature
+                try
                 {
-                    Location = location,
-                    Value = messageEvent.Temperature.Value,
-                    Time = messageEvent.Time
-                });
+                    _logger.LogInformation($"Storing temperature measure");
+                    await _envSensorsStore.WriteMeasure(new Temperature
+                    {
+                        Location = location,
+                        Value = messageEvent.Temperature.Value,
+                        Time = messageEvent.Time
+                    });
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, $"Error storing temperature measure");
+                }
             }
 
             if (messageEvent.Pressure.HasValue)
             {
-                await _envSensorsStore.WriteMeasure(new Pressure
+                try
                 {
-                    Location = location,
-                    Value = messageEvent.Pressure.Value,
-                    Time = messageEvent.Time
-                });
+                    _logger.LogInformation($"Storing pressure measure");
+                    await _envSensorsStore.WriteMeasure(new Pressure
+                    {
+                        Location = location,
+                        Value = messageEvent.Pressure.Value,
+                        Time = messageEvent.Time
+                    });
+
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, $"Error storing pressure measure");
+                }
             }
 
             if (messageEvent.Humidity.HasValue)
             {
-                await _envSensorsStore.WriteMeasure(new Humidity
+                try
                 {
-                    Location = location,
-                    Value = messageEvent.Humidity.Value,
-                    Time = messageEvent.Time
-                });
+                    _logger.LogInformation($"Storing humidity measure");
+                    await _envSensorsStore.WriteMeasure(new Humidity
+                    {
+                        Location = location,
+                        Value = messageEvent.Humidity.Value,
+                        Time = messageEvent.Time
+                    });
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, $"Error storing humidity measure");
+                }
             }
+            
+            _logger.LogInformation($"Stored measures");
         }
     }
 }
