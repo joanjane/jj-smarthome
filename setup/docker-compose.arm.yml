@@ -22,7 +22,7 @@ services:
       - SMTP__Sender=${SMTP__Sender}
       - SMTP__NotificationAddresses__0=${SMTP__NotificationAddresses__0}
       - SnoozePeriodAfterAlerting=${SnoozePeriodAfterAlerting}
-      - InfluxDB__Uri=http://influxdb:9999
+      - InfluxDB__Uri=${InfluxDB__Uri:-http://influxdb:8086}
       - InfluxDB__User=${InfluxDB__User}
       - InfluxDB__Password=${InfluxDB__Password}
       - InfluxDB__Token=${InfluxDB__Token}

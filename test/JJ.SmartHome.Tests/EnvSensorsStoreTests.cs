@@ -33,8 +33,8 @@ namespace JJ.SmartHome.Tests
 
             var tempMeasures = await envSensorsStore.QueryMeasure(
                 "temperature",
-                utcNow.AddSeconds(-1).ToString("o"),
-                utcNow.AddSeconds(1).ToString("o")
+                utcNow.AddSeconds(-2).ToString("o"),
+                utcNow.AddSeconds(2).ToString("o")
             );
 
             Assert.NotEmpty(tempMeasures);

@@ -4,12 +4,16 @@ using InfluxDB.Client.Api.Domain;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System;
+using System.Net.Http;
+using System.Web;
+using System.Text;
+using System.Net.Http.Headers;
 
 namespace JJ.SmartHome.Db
 {
     public class InfluxManagement
     {
-        private const int _expirationDays = 7;
         private readonly InfluxDbOptions _options;
         public InfluxManagement(IOptions<InfluxDbOptions> options)
         {
@@ -20,13 +24,21 @@ namespace JJ.SmartHome.Db
         {
             using (var influxDBClient = GetInfluxDBClient())
             {
-                var organization = await EnsureOrganizationCreated(influxDBClient);
+                if (_options.UseV1)
+                {
+                    await CreateV1Database();
+                    return string.Empty;
+                }
+                else
+                {
+                    var organization = await EnsureOrganizationCreated(influxDBClient);
 
-                var bucket = await EnsureBucketCreated(influxDBClient, organization);
-                
-                var authorization = await CreateAuthorizationToken(influxDBClient, bucket);
+                    var bucket = await EnsureBucketCreated(influxDBClient, organization);
 
-                return authorization.Token;
+                    var authorization = await CreateAuthorizationToken(influxDBClient, bucket);
+
+                    return authorization.Token;
+                }
             }
         }
 
@@ -56,17 +68,44 @@ namespace JJ.SmartHome.Db
             var bucket = await influxDBClient.GetBucketsApi().FindBucketByNameAsync(_options.Bucket);
             if (bucket == null)
             {
-                var retention = new BucketRetentionRules(BucketRetentionRules.TypeEnum.Expire, 60 * 60 * 24 * _expirationDays);
+                var retention = new BucketRetentionRules(BucketRetentionRules.TypeEnum.Expire, (int)TimeSpan.Parse(_options.RetentionPolicy).TotalSeconds);
                 bucket = await influxDBClient.GetBucketsApi().CreateBucketAsync(_options.Bucket, retention, organization.Id);
             }
 
             return bucket;
         }
 
+        private async Task CreateV1Database()
+        {
+            using (var http = new HttpClient())
+            {
+                var reqParams = new Dictionary<string, string>
+                {
+                    {"q", $"CREATE DATABASE {_options.Bucket}"}
+                };
+
+                var query = string.Join("&",
+                    reqParams.Keys.Select(k => $"{k}={HttpUtility.UrlEncode(reqParams[k])}"));
+
+                http.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(
+                        "Basic",
+                        Convert.ToBase64String(
+                            Encoding.UTF8.GetBytes($"{_options.User}:{_options.Password}")
+                        ));
+
+                var v1Response = await http.PostAsync($"{_options.Uri}/query?{query}", new StringContent(""));
+                if ((int)v1Response.StatusCode >= 400)
+                {
+                    throw new Exception($"ERROR {v1Response.StatusCode}: {await v1Response.Content.ReadAsStringAsync()}");
+                }
+            }
+        }
+
         private async Task<Organization> EnsureOrganizationCreated(InfluxDBClient influxDBClient)
         {
             var orgs = await influxDBClient.GetOrganizationsApi().FindOrganizationsAsync();
-            
+
             var organization = orgs.FirstOrDefault(r => r.Name == _options.Organization);
             if (organization == null)
             {
@@ -78,12 +117,25 @@ namespace JJ.SmartHome.Db
 
         private InfluxDBClient GetInfluxDBClient()
         {
-            return InfluxDBClientFactory.Create(
-                        InfluxDBClientOptions.Builder.CreateNew()
-                            .Url(_options.Uri)
-                            .Authenticate(_options.User, _options.Password.ToCharArray())
-                            .Build()
-                        );
+            if (_options.UseV1)
+            {
+                return InfluxDBClientFactory.CreateV1(
+                    _options.Uri,
+                    _options.User,
+                    _options.Password.ToCharArray(),
+                    _options.Bucket,
+                    _options.RetentionPolicy
+                );
+            }
+            else
+            {
+                return InfluxDBClientFactory.Create(
+                            InfluxDBClientOptions.Builder.CreateNew()
+                                .Url(_options.Uri)
+                                .Authenticate(_options.User, _options.Password.ToCharArray())
+                                .Build()
+                            );
+            }
         }
     }
 }

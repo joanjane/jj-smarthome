@@ -11,17 +11,30 @@ namespace JJ.SmartHome.Db
         {
             _options = options.Value;
         }
-        
+
         public InfluxDBClient Get()
         {
-            return InfluxDBClientFactory.Create(
-                        InfluxDBClientOptions.Builder.CreateNew()
-                            .Url(_options.Uri)
-                            .Org(_options.Organization)
-                            .Bucket(_options.Bucket)
-                            .AuthenticateToken(_options.Token.ToCharArray())
-                            .Build()
-                        );
+            if (_options.UseV1)
+            {
+                return InfluxDBClientFactory.CreateV1(
+                    _options.Uri,
+                    _options.User,
+                    _options.Password.ToCharArray(),
+                    _options.Bucket,
+                    _options.RetentionPolicy
+                );
+            }
+            else
+            {
+                return InfluxDBClientFactory.Create(
+                            InfluxDBClientOptions.Builder.CreateNew()
+                                .Url(_options.Uri)
+                                .Org(_options.Organization)
+                                .Bucket(_options.Bucket)
+                                .AuthenticateToken(_options.Token.ToCharArray())
+                                .Build()
+                            );
+            }
         }
     }
 }
