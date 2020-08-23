@@ -7,8 +7,7 @@ services:
     volumes:
       - influxdb_v1-storage:/var/lib/influxdb
     environment:
-      - INFLUXDB_DB=db0
-      # - INFLUXDB_DB=${InfluxDB__Bucket}
+      - INFLUXDB_DB=${InfluxDB__Bucket}
       - INFLUXDB_ADMIN_USER=${InfluxDB__User}
       - INFLUXDB_ADMIN_PASSWORD=${InfluxDB__Password}
       - INFLUXDB_HTTP_FLUX_ENABLED=true
