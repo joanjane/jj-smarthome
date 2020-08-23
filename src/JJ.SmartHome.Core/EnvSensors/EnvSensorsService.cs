@@ -56,7 +56,6 @@ namespace JJ.SmartHome.Core.EnvSensors
             var location = message.ApplicationMessage.Topic.Split('/').Last();
             var messageEvent = JsonSerializer.Deserialize<EnvSensorsEvent>(payload);
 
-
             if (messageEvent.Temperature.HasValue)
             {
                 try
