@@ -24,7 +24,8 @@ services:
       - "1883:1883"
       - "19001:9001"
     volumes:
-      - ${PWD}/mosquitto/:/mosquitto/config/
+      - ${PWD}/mosquitto/config:/mosquitto/config/
+      - ${PWD}/mosquitto/data:/mosquitto/data/
     networks:
       - default
       

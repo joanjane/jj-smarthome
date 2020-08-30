@@ -3,6 +3,8 @@ using JJ.SmartHome.Core.MQTT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -36,6 +38,8 @@ namespace JJ.SmartHome.Tests
             var options = configuration.GetSection("MQTT")
                 .Get<MqttClientOptions>();
 
+            var topic = configuration["MQTT:Topic"];
+
             var logger = LoggerFactory.Create(c => c.AddConsole()).CreateLogger<MqttClient>();
 
             using (var mqttClient = new MqttClient(Options.Create(options), logger))
@@ -45,12 +49,19 @@ namespace JJ.SmartHome.Tests
                 {
                     waitToken.Cancel();
                 });
+                
                 try
                 {
                     await Task.Delay(8000, waitToken.Token); // Wait connection to be stablished
                 }
                 catch { }
-                await mqttClient.Publish(configuration["MQTT:Topic"], payload);
+                
+                mqttClient.Subscribe(topic, async (message) => {
+                    var content = Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
+                    logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {content}");
+                });
+
+                await mqttClient.Publish(topic, payload);
                 await Task.Delay(5000);
                 await mqttClient.Close();
             }
