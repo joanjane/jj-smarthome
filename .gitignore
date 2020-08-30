@@ -347,3 +347,4 @@ database.db
 /setup/zigbee2mqtt/state.json
 /setup/.env
 /setup/pi.env
+/setup/mosquitto/data
