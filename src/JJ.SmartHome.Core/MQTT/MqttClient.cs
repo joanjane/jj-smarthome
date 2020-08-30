@@ -24,7 +24,7 @@ namespace JJ.SmartHome.Core.MQTT
         public async Task Connect(Action connected = null, Action disconnected = null)
         {
             var messageBuilder = new MqttClientOptionsBuilder()
-                .WithClientId(Guid.NewGuid().ToString())
+                .WithClientId(_options.ClientId)
                 .WithCredentials(_options.User, _options.Password)
                 .WithTcpServer(_options.URI, _options.Port)
                 .WithCleanSession();
