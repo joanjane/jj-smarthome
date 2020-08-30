@@ -1,6 +1,6 @@
 const env = require('./env');
 
-const envSensorsCheckMinutes = 1;
+const envSensorsCheckMinutes = 5;
 
 class App {
   constructor(display, joystick, environmentSensors, mqttClient) {
@@ -21,12 +21,15 @@ class App {
       console.log('Modules connected');
 
       this.display.clear();
+      this.display.showMessage('Connected', 0.1, '#3c8cd7');
+
       this.interval = setInterval(
         () => this.checkEnvironmentStatus(),
         envSensorsCheckMinutes * 60 * 1000);
 
       this.checkEnvironmentStatus();
       this.setAlarmControls();
+      this.setPermitJoinControls();
     });
   }
 
@@ -40,6 +43,20 @@ class App {
       } else if (e === 'down') {
         this.display.showMessage('Alarm OFF', 0.1, '#d73a49');
         this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: 'unlock' });
+      }
+    });
+  }
+
+  setPermitJoinControls() {
+    this.joystick.on('press', (e) => {
+      console.log('joystick press ' + e);
+
+      if (e === 'left') {
+        this.display.showMessage('PERMIT JOIN', 0.1, '#7ed73a');
+        this.mqttClient.publish(env.MQTT_PERMIT_JOIN_TOPIC, 'true');
+      } else if (e === 'right') {
+        this.display.showMessage('DISABLE JOIN', 0.1, '#d73a49');
+        this.mqttClient.publish(env.MQTT_PERMIT_JOIN_TOPIC, 'false');
       }
     });
   }
