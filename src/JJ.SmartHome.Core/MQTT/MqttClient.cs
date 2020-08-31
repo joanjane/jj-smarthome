@@ -25,6 +25,7 @@ namespace JJ.SmartHome.Core.MQTT
         {
             var messageBuilder = new MqttClientOptionsBuilder()
                 .WithClientId(_options.ClientId)
+                .WithKeepAlivePeriod(TimeSpan.FromSeconds(90))
                 .WithCredentials(_options.User, _options.Password)
                 .WithTcpServer(_options.URI, _options.Port)
                 .WithCleanSession();
@@ -53,7 +54,7 @@ namespace JJ.SmartHome.Core.MQTT
                 _logger.LogWarning(e.Exception, $"Disconnected from MQTT Broker.");
                 disconnected?.Invoke();
             });
-            await _client.StartAsync(managedOptions);
+            await _client.StartAsync(managedOptions)
         }
 
         public async Task Subscribe(string topic, Func<MqttApplicationMessageReceivedEventArgs, Task> handler)
