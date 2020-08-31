@@ -54,7 +54,7 @@ namespace JJ.SmartHome.Core.MQTT
                 _logger.LogWarning(e.Exception, $"Disconnected from MQTT Broker.");
                 disconnected?.Invoke();
             });
-            await _client.StartAsync(managedOptions)
+            await _client.StartAsync(managedOptions);
         }
 
         public async Task Subscribe(string topic, Func<MqttApplicationMessageReceivedEventArgs, Task> handler)
