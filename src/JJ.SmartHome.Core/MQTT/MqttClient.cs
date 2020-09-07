@@ -21,10 +21,10 @@ namespace JJ.SmartHome.Core.MQTT
             _logger = logger;
         }
 
-        public async Task Connect(Action connected = null, Action disconnected = null)
+        public async Task Connect(string clientIdPrefix, Func<Task> connected = null, Func<Task> disconnected = null)
         {
             var messageBuilder = new MqttClientOptionsBuilder()
-                .WithClientId(_options.ClientId)
+                .WithClientId($"{clientIdPrefix}-{_options.ClientId}")
                 .WithKeepAlivePeriod(TimeSpan.FromSeconds(90))
                 .WithCredentials(_options.User, _options.Password)
                 .WithTcpServer(_options.URI, _options.Port)
@@ -44,15 +44,21 @@ namespace JJ.SmartHome.Core.MQTT
 
             _client = new MqttFactory()
                 .CreateManagedMqttClient();
-            _client.UseConnectedHandler(e =>
+            _client.UseConnectedHandler(async e =>
             {
                 _logger.LogInformation("Connected from MQTT Broker.");
-                connected?.Invoke();
+                if (connected != null)
+                {
+                    await connected();
+                }
             })
-            .UseDisconnectedHandler(e =>
+            .UseDisconnectedHandler(async e =>
             {
                 _logger.LogWarning(e.Exception, $"Disconnected from MQTT Broker.");
-                disconnected?.Invoke();
+                if (disconnected != null)
+                {
+                    await disconnected();
+                }
             });
             await _client.StartAsync(managedOptions);
         }

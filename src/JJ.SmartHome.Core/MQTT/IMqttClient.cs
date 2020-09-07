@@ -6,7 +6,7 @@ namespace JJ.SmartHome.Core.MQTT
 {
     public interface IMqttClient
     {
-        Task Connect(Action connected = null, Action disconnected = null);
+        Task Connect(string clientIdPrefix, Func<Task> connected = null, Func<Task> disconnected = null);
         Task Close();
         void Dispose();
         Task Subscribe(string topic, Func<MqttApplicationMessageReceivedEventArgs, Task> handler);

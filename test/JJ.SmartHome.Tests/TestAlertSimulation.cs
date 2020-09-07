@@ -45,9 +45,10 @@ namespace JJ.SmartHome.Tests
             using (var mqttClient = new MqttClient(Options.Create(options), logger))
             {
                 var waitToken = new CancellationTokenSource();
-                await mqttClient.Connect(() =>
+                await mqttClient.Connect("test", () =>
                 {
                     waitToken.Cancel();
+                    return Task.CompletedTask;
                 });
                 
                 try
@@ -56,9 +57,10 @@ namespace JJ.SmartHome.Tests
                 }
                 catch { }
                 
-                mqttClient.Subscribe(topic, async (message) => {
+                mqttClient.Subscribe(topic, (message) => {
                     var content = Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
                     logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {content}");
+                    return Task.CompletedTask;
                 });
 
                 await mqttClient.Publish(topic, payload);

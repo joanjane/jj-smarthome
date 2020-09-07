@@ -38,7 +38,7 @@ namespace JJ.SmartHome.Core.Alerts
         public async Task Run(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"Start {nameof(OccupancyAlertService)}");
-            await _mqttClient.Connect(async () =>
+            await _mqttClient.Connect("Occupancy", async () =>
             {
                 _logger.LogInformation($"Subscribing to {_options.OccupancyTopic}");
                 await _mqttClient.Subscribe(_options.OccupancyTopic, HandleMessage);

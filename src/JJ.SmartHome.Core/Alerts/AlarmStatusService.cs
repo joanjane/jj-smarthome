@@ -33,7 +33,7 @@ namespace JJ.SmartHome.Core.Alerts
         public async Task Run(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"Start {nameof(AlarmStatusService)}");
-            await _mqttClient.Connect(async () =>
+            await _mqttClient.Connect("AlarmStatus", async () =>
             {
                 _logger.LogInformation($"Subscribing to {_options.StatusTopic}");
                 await _mqttClient.Subscribe(_options.StatusTopic, HandleMessage);

@@ -37,7 +37,7 @@ namespace JJ.SmartHome.Core.EnvSensors
         public async Task Run(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"Start {nameof(EnvSensorsService)}");
-            await _mqttClient.Connect(async () =>
+            await _mqttClient.Connect("EnvSensors", async () =>
             {
                 _logger.LogInformation($"Subscribing to {_options.EnvSensorsSenseHatTopic}");
                 await _mqttClient.Subscribe(_options.EnvSensorsSenseHatTopic, HandleMessage);
