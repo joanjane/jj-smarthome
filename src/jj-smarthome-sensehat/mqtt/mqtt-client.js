@@ -31,6 +31,10 @@ module.exports.MqttClient = class MqttClient {
   }
 
   publish(topic, content) {
-    this.client.publish(topic, JSON.stringify(content));
+    if (typeof content === 'string') {
+      this.client.publish(topic, content);
+    } else {
+      this.client.publish(topic, JSON.stringify(content));
+    }
   }
 }
