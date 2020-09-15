@@ -57,6 +57,11 @@ namespace JJ.SmartHome.Job
                     new EnvSensorsStore(
                         c.GetService<IOptions<InfluxDbOptions>>(),
                         c.GetService<InfluxDBClientProvider>().Get()
+                    ))
+                .AddTransient<IAlertsStore, AlertsStore>(c => 
+                    new AlertsStore(
+                        c.GetService<IOptions<InfluxDbOptions>>(),
+                        c.GetService<InfluxDBClientProvider>().Get()
                     ));
         }
 

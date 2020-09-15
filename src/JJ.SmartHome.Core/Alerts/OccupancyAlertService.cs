@@ -2,6 +2,7 @@
 using JJ.SmartHome.Core.Extensions;
 using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Core.Notifications;
+using JJ.SmartHome.Db;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MQTTnet;
@@ -16,6 +17,7 @@ namespace JJ.SmartHome.Core.Alerts
     public class OccupancyAlertService : IOccupancyAlertService
     {
         private readonly IMqttClient _mqttClient;
+        private readonly IAlertsStore _alertsStore;
         private readonly IAlertNotifier _alertNotifier;
         private readonly AlertStatusProvider _alertStatusProvider;
         private readonly ILogger<OccupancyAlertService> _logger;
@@ -24,11 +26,13 @@ namespace JJ.SmartHome.Core.Alerts
         public OccupancyAlertService(
             IMqttClient mqttClient,
             IOptions<AlertsOptions> options,
+            IAlertsStore alertsStore,
             IAlertNotifier alertNotifier,
             AlertStatusProvider alertStatusProvider,
             ILogger<OccupancyAlertService> logger)
         {
             _mqttClient = mqttClient;
+            _alertsStore = alertsStore;
             _alertNotifier = alertNotifier;
             _alertStatusProvider = alertStatusProvider;
             _logger = logger;
@@ -60,14 +64,20 @@ namespace JJ.SmartHome.Core.Alerts
                 _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}");
                 if (_alertStatusProvider.ShouldRaiseAlert())
                 {
-                    _logger.LogInformation($"Notifying alert. Last fired alert ${_alertStatusProvider.GetLastFiredAlert():s}");
+                    _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
                     _alertStatusProvider.RaiseAlert();
                     await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.\nPayload: {payload}");
+                    await _alertsStore.WriteMeasure(new Db.Entities.AlertMeasure {
+                        Location = message.ApplicationMessage.Topic,
+                        Reason = "occupancy",
+                        Value = 1,
+                        Time = DateTime.UtcNow
+                    });
                 }
             }
             else
             {
-                _logger.LogInformation($"No occupancy detected");
+                _logger.LogDebug($"No occupancy detected");
             }
         }
     }
