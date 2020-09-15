@@ -60,7 +60,7 @@ namespace JJ.SmartHome.Core.EnvSensors
             {
                 try
                 {
-                    _logger.LogInformation($"Storing temperature measure");
+                    _logger.LogDebug($"Storing temperature measure");
                     await _envSensorsStore.WriteMeasure(new Temperature
                     {
                         Location = location,
@@ -78,7 +78,7 @@ namespace JJ.SmartHome.Core.EnvSensors
             {
                 try
                 {
-                    _logger.LogInformation($"Storing pressure measure");
+                    _logger.LogDebug($"Storing pressure measure");
                     await _envSensorsStore.WriteMeasure(new Pressure
                     {
                         Location = location,
@@ -97,7 +97,7 @@ namespace JJ.SmartHome.Core.EnvSensors
             {
                 try
                 {
-                    _logger.LogInformation($"Storing humidity measure");
+                    _logger.LogDebug($"Storing humidity measure");
                     await _envSensorsStore.WriteMeasure(new Humidity
                     {
                         Location = location,
@@ -111,7 +111,7 @@ namespace JJ.SmartHome.Core.EnvSensors
                 }
             }
             
-            _logger.LogInformation($"Stored measures");
+            _logger.LogDebug($"Stored measures");
         }
     }
 }

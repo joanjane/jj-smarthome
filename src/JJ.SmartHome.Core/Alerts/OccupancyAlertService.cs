@@ -60,7 +60,7 @@ namespace JJ.SmartHome.Core.Alerts
                 _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}");
                 if (_alertStatusProvider.ShouldRaiseAlert())
                 {
-                    _logger.LogInformation($"Notifying alert");
+                    _logger.LogInformation($"Notifying alert. Last fired alert ${_alertStatusProvider.GetLastFiredAlert():s}");
                     _alertStatusProvider.RaiseAlert();
                     await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.\nPayload: {payload}");
                 }

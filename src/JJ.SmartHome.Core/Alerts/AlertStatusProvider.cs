@@ -17,7 +17,7 @@ namespace JJ.SmartHome.Core.Alerts
 
         public bool ShouldRaiseAlert()
         {
-            return !AlarmUnlocked || !LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow;
+            return !AlarmUnlocked && (!LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow);
         }
 
         public void RaiseAlert()
@@ -42,6 +42,11 @@ namespace JJ.SmartHome.Core.Alerts
             {
                 throw new ArgumentException("Invalid alarm status to set", nameof(status));
             }
+        }
+
+        public DateTime? GetLastFiredAlert()
+        {
+            return this.LastFiredAlert;
         }
     }
 }
