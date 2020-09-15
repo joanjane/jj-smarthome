@@ -32,7 +32,8 @@ namespace JJ.SmartHome.Core.Notifications
             {
                 From = new MailAddress(_options.Sender),
                 Subject = title,
-                Body = content
+                Body = content,
+                IsBodyHtml = true
             })
             {
                 var emailSentTask = new TaskCompletionSource<bool>();

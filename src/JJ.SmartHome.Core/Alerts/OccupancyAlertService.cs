@@ -66,12 +66,12 @@ namespace JJ.SmartHome.Core.Alerts
                 {
                     _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
                     _alertStatusProvider.RaiseAlert();
-                    await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.\nPayload: {payload}");
+                    await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.<br />Payload: <pre>{payload}</pre>");
                     await _alertsStore.WriteMeasure(new Db.Entities.AlertMeasure {
                         Location = message.ApplicationMessage.Topic,
                         Reason = "occupancy",
                         Value = 1,
-                        Time = DateTime.UtcNow
+                        Time = _alertStatusProvider.GetLastFiredAlert() ?? DateTime.UtcNow
                     });
                 }
             }
