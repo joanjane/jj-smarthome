@@ -1,0 +1,1504 @@
+{
+	"meta": {
+		"chronografVersion": "1.8.4",
+		"sources": {
+			"0": {
+				"name": "http://influxdb_v1:8086",
+				"link": "/chronograf/v1/sources/0"
+			}
+		}
+	},
+	"dashboard": {
+		"id": "1",
+		"cells": [
+			{
+				"i": "608ef679-e0b9-40f1-a29f-1f72d0d7e608",
+				"x": 0,
+				"y": 12,
+				"w": 6,
+				"h": 3,
+				"name": "Alerts",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"alert\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"alert\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"0",
+							"1"
+						],
+						"label": "alert fired",
+						"prefix": "",
+						"suffix": "",
+						"base": "raw",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "table",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#7CE490",
+						"name": "honeydew",
+						"value": "-1000000000000000000"
+					},
+					{
+						"id": "0477bbf2-d324-4002-9085-068f136d682c",
+						"type": "text",
+						"hex": "#FFD255",
+						"name": "thunder",
+						"value": "1"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "_time",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_value",
+						"displayName": "",
+						"visible": false
+					},
+					{
+						"internalName": "_field",
+						"displayName": "",
+						"visible": false
+					},
+					{
+						"internalName": "_measurement",
+						"displayName": "",
+						"visible": false
+					},
+					{
+						"internalName": "location",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "reason",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "YYYY-MM-DD HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 0
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/608ef679-e0b9-40f1-a29f-1f72d0d7e608"
+				}
+			},
+			{
+				"i": "39ed0f55-b433-42c6-a320-c65ae31a50ad",
+				"x": 8,
+				"y": 3,
+				"w": 2,
+				"h": 1,
+				"name": "min pressure",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"pressure\")\n|> min()",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"pressure\")\n|> min()",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "hPa",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#7CE490",
+						"name": "honeydew",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/39ed0f55-b433-42c6-a320-c65ae31a50ad"
+				}
+			},
+			{
+				"i": "b8ca5c1d-b198-4a0d-b734-1562f3ca37b8",
+				"x": 6,
+				"y": 3,
+				"w": 2,
+				"h": 1,
+				"name": "max humidity",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"humidity\")\n|> max()",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"humidity\")\n|> max()",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "%",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/b8ca5c1d-b198-4a0d-b734-1562f3ca37b8"
+				}
+			},
+			{
+				"i": "7389feab-3e5d-4bb0-a308-d4dbd7150579",
+				"x": 4,
+				"y": 3,
+				"w": 2,
+				"h": 1,
+				"name": "min humidity",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"humidity\")\n|> min()",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"humidity\")\n|> min()",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "%",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/7389feab-3e5d-4bb0-a308-d4dbd7150579"
+				}
+			},
+			{
+				"i": "b580cd76-0323-45e0-aa47-5f3951b46518",
+				"x": 2,
+				"y": 3,
+				"w": 2,
+				"h": 1,
+				"name": "max temp",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"temperature\")\n|> max()",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"temperature\")\n|> max()",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "ºC",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#F95F53",
+						"name": "curacao",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/b580cd76-0323-45e0-aa47-5f3951b46518"
+				}
+			},
+			{
+				"i": "1512038b-555c-4fca-bf44-4cedaea0bfdc",
+				"x": 0,
+				"y": 3,
+				"w": 2,
+				"h": 1,
+				"name": "min temp",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"temperature\")\n|> min()",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"temperature\")\n|> min()",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "ºC",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#F95F53",
+						"name": "curacao",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/1512038b-555c-4fca-bf44-4cedaea0bfdc"
+				}
+			},
+			{
+				"i": "47219f6b-49a9-4f0a-a250-8bce831c0c74",
+				"x": 0,
+				"y": 4,
+				"w": 12,
+				"h": 5,
+				"name": "temp",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"temperature\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"temperature\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"15",
+							"40"
+						],
+						"label": "temp ºC",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "77c61434-b742-46a2-b333-9b9828ac4d40",
+						"type": "scale",
+						"hex": "#FD7A5D",
+						"name": "Delorean",
+						"value": "0"
+					},
+					{
+						"id": "a47173c9-22b4-43d4-8a50-ecc9894fc3f5",
+						"type": "scale",
+						"hex": "#5F1CF2",
+						"name": "Delorean",
+						"value": "0"
+					},
+					{
+						"id": "e9d0b56b-b6e5-46e1-8ee3-c331afec02f0",
+						"type": "scale",
+						"hex": "#4CE09A",
+						"name": "Delorean",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "_time",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_value",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_field",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_measurement",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "location",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/47219f6b-49a9-4f0a-a250-8bce831c0c74"
+				}
+			},
+			{
+				"i": "5c39353b-5f8f-4054-a6a8-03a07d30e823",
+				"x": 0,
+				"y": 9,
+				"w": 6,
+				"h": 3,
+				"name": "pressure",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"pressure\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"pressure\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"900",
+							"1050"
+						],
+						"label": "pressure hPa",
+						"prefix": "",
+						"suffix": "",
+						"base": "raw",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "f1c026d8-1fe9-4daf-be3a-e00d02fc5b8c",
+						"type": "scale",
+						"hex": "#FDC44F",
+						"name": "Cthulhu",
+						"value": "0"
+					},
+					{
+						"id": "273af72b-1131-4cb6-bc96-d8835552e3ac",
+						"type": "scale",
+						"hex": "#007C76",
+						"name": "Cthulhu",
+						"value": "0"
+					},
+					{
+						"id": "c47d21bd-85aa-4ded-898e-f2a509d0904a",
+						"type": "scale",
+						"hex": "#8983FF",
+						"name": "Cthulhu",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "_time",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_value",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_field",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_measurement",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "location",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/5c39353b-5f8f-4054-a6a8-03a07d30e823"
+				}
+			},
+			{
+				"i": "750bab8a-ef06-4401-86d9-7d7a716098c6",
+				"x": 6,
+				"y": 9,
+				"w": 6,
+				"h": 3,
+				"name": "humidity",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"humidity\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"humidity\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"0",
+							"100"
+						],
+						"label": "humidity %",
+						"prefix": "",
+						"suffix": "",
+						"base": "raw",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "8199ba26-1270-4b30-80d2-bbeafba67f2a",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "2211178a-5066-4bc6-bfb1-1951dd6243da",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "d69f3212-ecd1-4b5b-9ae7-c79700cf5d27",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "_time",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_value",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_field",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "_measurement",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "location",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/750bab8a-ef06-4401-86d9-7d7a716098c6"
+				}
+			},
+			{
+				"i": "8ed444d0-9dde-476a-96a9-50c635e719f4",
+				"x": 4,
+				"y": 0,
+				"w": 4,
+				"h": 3,
+				"name": "current humidity",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: -10m)\n|> filter(fn: (r) => r._measurement == \"humidity\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: -10m)\n|> filter(fn: (r) => r._measurement == \"humidity\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "%",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "gauge",
+				"colors": [
+					{
+						"id": "0",
+						"type": "min",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "0"
+					},
+					{
+						"id": "1",
+						"type": "max",
+						"hex": "#9394FF",
+						"name": "comet",
+						"value": "100"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/8ed444d0-9dde-476a-96a9-50c635e719f4"
+				}
+			},
+			{
+				"i": "8476aac4-ac02-4fa1-9169-a7af7a07836f",
+				"x": 0,
+				"y": 0,
+				"w": 4,
+				"h": 3,
+				"name": "current temp",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: -10m)\n|> filter(fn: (r) => r._measurement == \"temperature\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: -10m)\n|> filter(fn: (r) => r._measurement == \"temperature\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "ºC",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#F95F53",
+						"name": "curacao",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/8476aac4-ac02-4fa1-9169-a7af7a07836f"
+				}
+			},
+			{
+				"i": "222f3266-aba0-4979-a944-c65e1834e66e",
+				"x": 8,
+				"y": 0,
+				"w": 4,
+				"h": 3,
+				"name": "current pressure",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: -10m)\n|> filter(fn: (r) => r._measurement == \"pressure\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: -10m)\n|> filter(fn: (r) => r._measurement == \"pressure\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "hPa",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#7CE490",
+						"name": "honeydew",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/222f3266-aba0-4979-a944-c65e1834e66e"
+				}
+			},
+			{
+				"i": "55bb311b-39d5-4e79-a3f1-31d134171b23",
+				"x": 10,
+				"y": 3,
+				"w": 2,
+				"h": 1,
+				"name": "max pressure",
+				"queries": [
+					{
+						"query": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"pressure\")\n|> max()",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"jjsmarthome\")\n|> range(start: dashboardTime)\n|> filter(fn: (r) => r._measurement == \"pressure\")\n|> max()",
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/0",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "hPa",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#7CE490",
+						"name": "honeydew",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": false,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/55bb311b-39d5-4e79-a3f1-31d134171b23"
+				}
+			}
+		],
+		"templates": [],
+		"name": "jjsmarthome",
+		"organization": "default",
+		"links": {
+			"self": "/chronograf/v1/dashboards/1",
+			"cells": "/chronograf/v1/dashboards/1/cells",
+			"templates": "/chronograf/v1/dashboards/1/templates"
+		}
+	}
+}
