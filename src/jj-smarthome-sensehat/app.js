@@ -65,9 +65,9 @@ class App {
     console.log('Checking environment status');
     this.environmentSensors.getSensorsStatus().then(envSensorsStatus => {
       const envSensorsEvent = {
-        temperature: parseInt(envSensorsStatus.temperature),
-        pressure: parseInt(envSensorsStatus.pressure),
-        humidity: parseInt(envSensorsStatus.humidity),
+        temperature: envSensorsStatus.temperature,
+        pressure: envSensorsStatus.pressure,
+        humidity: envSensorsStatus.humidity,
         time: new Date().toISOString()
       };
 
