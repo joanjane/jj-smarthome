@@ -240,7 +240,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -343,7 +343,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -446,7 +446,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -549,7 +549,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -652,7 +652,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -1173,7 +1173,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -1276,7 +1276,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -1379,7 +1379,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
@@ -1482,7 +1482,7 @@
 				],
 				"timeFormat": "MM/DD/YYYY HH:mm:ss",
 				"decimalPlaces": {
-					"isEnforced": false,
+					"isEnforced": true,
 					"digits": 2
 				},
 				"note": "",
