@@ -1,10 +1,6 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace JJ.SmartHome.Core.Alerts
+﻿namespace JJ.SmartHome.Core.Alerts
 {
-    public interface IOccupancyAlertService
+    public interface IOccupancyAlertService : IBackgroundService
     {
-        Task HandleOccupancyAlerts(CancellationToken stoppingToken);
     }
 }

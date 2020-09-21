@@ -1,0 +1,61 @@
+version: "3.8"
+services:
+  jj-smarthome-job:
+    image: jj-smarthome-job
+    restart: always
+    build:
+      context: ../
+      dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
+    networks:
+      - default
+    environment:
+      - MQTT__URI=mosquitto
+      - MQTT__Port=1883
+      - MQTT__User=
+      - MQTT__Password=
+      - MQTT__Secure=false
+      - SMTP__Host=${SMTP__Host}
+      - SMTP__Port=${SMTP__Port}
+      - SMTP__Ssl=${SMTP__Ssl}
+      - SMTP__User=${SMTP__User}
+      - SMTP__Password=${SMTP__Password}
+      - SMTP__Sender=${SMTP__Sender}
+      - SMTP__NotificationAddresses__0=${SMTP__NotificationAddresses__0}
+      - SnoozePeriodAfterAlerting=${SnoozePeriodAfterAlerting}
+      - InfluxDB__Uri=${InfluxDB__Uri:-http://influxdb:8086}
+      - InfluxDB__User=${InfluxDB__User}
+      - InfluxDB__Password=${InfluxDB__Password}
+      - InfluxDB__Token=${InfluxDB__Token}
+  
+  jj-smarthome-sensehat:
+    image: jj-smarthome-sensehat
+    restart: always
+    build:
+      context: ../
+      dockerfile: ./src/jj-smarthome-sensehat/Dockerfile
+    networks:
+      - default
+    environment:
+      - MQTT_URI=mqtt://mosquitto:1883
+      - MODE=${SENSE_HAT_MODE-simulator}
+      - SERVER_URI=ws://jj-ws-server:8080
+      - DEVICE=jj-smarthome-sensehat
+
+  jj-ws-server:
+    container_name: jj-ws-server
+    image: jj-ws-server
+    build:
+      context: ../
+      dockerfile: ./src/jj-smarthome-sensehat/Dockerfile
+    command: ["npm", "run", "simulator-ws-serve"]
+    expose:
+      - "8080"
+      - "4443"
+    ports:
+      - "8080:8080"
+      - "4443:4443"
+    networks:
+      - default
+
+networks:
+  default:

@@ -6,5 +6,6 @@ namespace JJ.SmartHome.Core.Alerts
     {
         public string OccupancyTopic { get; set; }
         public TimeSpan SnoozePeriodAfterAlerting { get; set; }
+        public string StatusTopic { get; set; }
     }
 }

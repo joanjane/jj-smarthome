@@ -339,5 +339,12 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-*.db
+database.db
+
+*.cert
+*.key
+
 /setup/zigbee2mqtt/state.json
+/setup/.env
+/setup/pi.env
+/setup/mosquitto/data

@@ -1,0 +1,33 @@
+{
+  "name": "jj-smarthome-sensehat",
+  "version": "1.0.0",
+  "description": "Stream events in MQTT from sensehat",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "simulator-ws-serve": "node node_modules/pi-sense-hat-remote-simulator/cjs/scripts/run-server.js 8080 4443"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joanjane/jj-smarthome.git"
+  },
+  "author": "Joan Jané",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joanjane/jj-smarthome/issues"
+  },
+  "homepage": "https://github.com/joanjane/jj-smarthome#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mqtt": "4.1.0",
+    "pi-sense-hat-remote-simulator": "git+https://github.com/joanjane/pi-sense-hat-remote-simulator.git",
+    "ws": "^7.2.0",
+    "self-signed": "^1.3.1"
+  },
+  "devDependencies": {
+    "nodeimu": "^2.1.12",
+    "sense-hat-led": "1.0.1",
+    "sense-joystick": "0.0.3",
+    "pi-sense-hat-library": "git+https://github.com/joanjane/pi-sense-hat-library.git"
+  }
+}

@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  influxdb:
+    image: jjsh-influxdb:2.0.0-beta.1
+    restart: always
+    build:
+      context: ./influxdb
+      dockerfile: ./src.Dockerfile
+      args:
+        - InfluxDB__Arch=${InfluxDB__Arch}
+    ports:
+      - "9999:9999"
+    volumes:
+      - jjsh-influxdbv2-storage:/root/.influxdbv2
+    environment:
+      - InfluxDB__Organization=${InfluxDB__Organization}
+      - InfluxDB__Bucket=${InfluxDB__Bucket}
+      - InfluxDB__User=${InfluxDB__User}
+      - InfluxDB__Password=${InfluxDB__Password}
+      - InfluxDB__Token=${InfluxDB__Token}
+      - InfluxDB__Retention=${InfluxDB__Retention}
+  
+volumes:
+  jjsh-influxdbv2-storage:

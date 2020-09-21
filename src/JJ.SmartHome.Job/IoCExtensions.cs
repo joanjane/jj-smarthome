@@ -1,11 +1,12 @@
 ﻿using JJ.SmartHome.Core.Alerts;
+using JJ.SmartHome.Core.EnvSensors;
 using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Core.Notifications;
+using JJ.SmartHome.Db;
+using JJ.SmartHome.Job.BackgroundServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
 
 namespace JJ.SmartHome.Job
 {
@@ -17,6 +18,7 @@ namespace JJ.SmartHome.Job
                 .ConfigureMqtt(configuration)
                 .ConfigureMailing(configuration)
                 .ConfigureCore(configuration)
+                .ConfigureDb(configuration)
                 .ConfigureHost();
         }
 
@@ -39,13 +41,45 @@ namespace JJ.SmartHome.Job
         {
             return services
                 .Configure<AlertsOptions>(configuration.GetSection("Alerts"))
+                .Configure<EnvSensorsOptions>(configuration.GetSection("EnvSensors"))
                 .AddTransient<IOccupancyAlertService, OccupancyAlertService>()
+                .AddTransient<IAlarmStatusService, AlarmStatusService>()
+                .AddTransient<IEnvSensorsService, EnvSensorsService>()
                 .AddSingleton<AlertStatusProvider>();
+        }
+
+        private static IServiceCollection ConfigureDb(this IServiceCollection services, IConfiguration configuration)
+        {
+            return services
+                .Configure<InfluxDbOptions>(configuration.GetSection("InfluxDB"))
+                .AddTransient<InfluxDBClientProvider>()
+                .AddTransient<IEnvSensorsStore, EnvSensorsStore>(c => 
+                    new EnvSensorsStore(
+                        c.GetService<IOptions<InfluxDbOptions>>(),
+                        c.GetService<InfluxDBClientProvider>().Get()
+                    ))
+                .AddTransient<IAlertsStore, AlertsStore>(c => 
+                    new AlertsStore(
+                        c.GetService<IOptions<InfluxDbOptions>>(),
+                        c.GetService<InfluxDBClientProvider>().Get()
+                    ));
         }
 
         private static IServiceCollection ConfigureHost(this IServiceCollection services)
         {
-            return services.AddHostedService<OccupancyAlertHostedService>();
+            return services
+                .AddBackgroundService<IOccupancyAlertService>()
+                .AddBackgroundService<IAlarmStatusService>()
+                .AddBackgroundService<IEnvSensorsService>()
+                ;
         }
+
+        private static IServiceCollection AddBackgroundService<T>(this IServiceCollection services) where T : IBackgroundService
+        {
+            return services
+                .AddHostedService<BackgroundHostedService<T>>((c) => new BackgroundHostedService<T>(c.GetService<T>()));
+        }
+        
+
     }
 }

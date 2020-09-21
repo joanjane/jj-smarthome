@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  influxdb:
+    # image: quay.io/influxdb/influxdb:2.0.0-beta
+    image: voidborn/rpi_influxdb2
+    restart: always
+    ports:
+      - "9999:9999"
+    volumes:
+      - influxdbv2-storage:/root/.influxdbv2
+      - ./influxdb:/root/.influxdbsetup
+    environment:
+      - InfluxDB__Organization=${InfluxDB__Organization}
+      - InfluxDB__Bucket=${InfluxDB__Bucket}
+      - InfluxDB__User=${InfluxDB__User}
+      - InfluxDB__Password=${InfluxDB__Password}
+      - InfluxDB__Token=${InfluxDB__Token}
+      - InfluxDB__Retention=${InfluxDB__Retention}
+    # command: sh /root/.influxdbsetup/entrypoint.sh
+  
+volumes:
+  influxdbv2-storage:
