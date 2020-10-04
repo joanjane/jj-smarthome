@@ -11,6 +11,12 @@ mqtt:
   # Optional: Include device information to mqtt messages (default: false)
   include_device_information: true
 
+frontend:
+  port: 8899
+
+experimental:
+  new_api: true
+
 serial:
   port: /dev/ttyACM0
   disable_led: true
