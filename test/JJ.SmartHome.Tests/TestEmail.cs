@@ -20,6 +20,7 @@ namespace JJ.SmartHome.Tests
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.Testing.json")
+                .AddEnvironmentVariables()
                 .Build();
             
             var options = Options.Create(configuration.GetSection("SMTP").Get<EmailOptions>());

@@ -40,6 +40,7 @@ namespace JJ.SmartHome.Tests
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.Testing.json")
+                .AddEnvironmentVariables()
                 .Build();
 
             var options = configuration.GetSection("MQTT")
