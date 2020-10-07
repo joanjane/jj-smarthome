@@ -10,6 +10,12 @@ function cleanUp() {
 
 cleanUp
 
+if ! command -v gpio &> /dev/null
+then
+    echo "You must install wiringpi. Run sudo apt-get install wiringpi"
+    exit
+fi
+
 git clone --depth 1 https://github.com/jmichault/flash_cc2531.git
 
 
