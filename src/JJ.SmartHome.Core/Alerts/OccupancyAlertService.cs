@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MQTTnet;
 using System;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -67,8 +68,12 @@ namespace JJ.SmartHome.Core.Alerts
                     _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
                     _alertStatusProvider.RaiseAlert();
                     await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.<br />Payload: <pre>{payload}</pre>");
+                    
+                    var location = message.ApplicationMessage.Topic.Split('/').LastOrDefault()
+                        ?? message.ApplicationMessage.Topic;
+                    
                     await _alertsStore.WriteMeasure(new Db.Entities.AlertMeasure {
-                        Location = message.ApplicationMessage.Topic,
+                        Location = location,
                         Reason = "occupancy",
                         Value = 1,
                         Time = _alertStatusProvider.GetLastFiredAlert() ?? DateTime.UtcNow
