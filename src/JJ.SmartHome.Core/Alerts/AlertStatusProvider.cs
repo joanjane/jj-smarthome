@@ -7,7 +7,7 @@ namespace JJ.SmartHome.Core.Alerts
     {
         private readonly AlertsOptions _options;
         private object LockObject = new object();
-        private DateTime? LastFiredAlert { get; set; }
+        private DateTimeOffset? LastFiredAlert { get; set; }
         private bool AlarmUnlocked = false;
 
         public AlertStatusProvider(IOptions<AlertsOptions> options)
@@ -24,7 +24,7 @@ namespace JJ.SmartHome.Core.Alerts
         {
             lock (LockObject)
             {
-                LastFiredAlert = DateTime.UtcNow;
+                LastFiredAlert = DateTimeOffset.UtcNow;
             }
         }
 
@@ -44,7 +44,7 @@ namespace JJ.SmartHome.Core.Alerts
             }
         }
 
-        public DateTime? GetLastFiredAlert()
+        public DateTimeOffset? GetLastFiredAlert()
         {
             return this.LastFiredAlert;
         }

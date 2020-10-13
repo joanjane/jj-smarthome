@@ -38,10 +38,7 @@ namespace JJ.SmartHome.Tests
 
         private static async Task PublishTestMessage<T>(T payload, string topicSettingKey)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .AddEnvironmentVariables()
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
 
             var options = configuration.GetSection("MQTT")
                 .Get<MqttClientOptions>();
@@ -65,7 +62,7 @@ namespace JJ.SmartHome.Tests
                 }
                 catch { }
 
-                mqttClient.Subscribe(topic, (message) =>
+                await mqttClient.Subscribe(topic, (message) =>
                 {
                     var content = Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
                     logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {content}");

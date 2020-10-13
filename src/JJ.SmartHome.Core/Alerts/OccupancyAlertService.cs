@@ -76,7 +76,7 @@ namespace JJ.SmartHome.Core.Alerts
                         Location = location,
                         Reason = "occupancy",
                         Value = 1,
-                        Time = _alertStatusProvider.GetLastFiredAlert() ?? DateTime.UtcNow
+                        Time = _alertStatusProvider.GetLastFiredAlert() ?? DateTimeOffset.UtcNow
                     });
                 }
             }

@@ -57,10 +57,7 @@ namespace JJ.SmartHome.Tests
 
         private static IOptions<InfluxDbOptions> BuildOptions(string token = null)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .AddEnvironmentVariables()
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
 
             var config = configuration.GetSection("InfluxDB").Get<InfluxDbOptions>();
             if (!string.IsNullOrEmpty(token))

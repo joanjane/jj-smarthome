@@ -18,10 +18,7 @@ namespace JJ.SmartHome.Tests
 
         private static EmailAlertNotifier BuildEmailAlertNotifier()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .AddEnvironmentVariables()
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
             
             var options = Options.Create(configuration.GetSection("SMTP").Get<EmailOptions>());
 

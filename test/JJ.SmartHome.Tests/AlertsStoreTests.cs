@@ -20,7 +20,7 @@ namespace JJ.SmartHome.Tests
 
             var alertsStore = BuildAlertsStore(options);
 
-            DateTime utcNow = DateTime.UtcNow;
+            var utcNow = DateTimeOffset.UtcNow;
             const string location = "hall";
 
             await alertsStore.WriteMeasure(new Db.Entities.AlertMeasure
@@ -56,10 +56,7 @@ namespace JJ.SmartHome.Tests
 
         private static IOptions<InfluxDbOptions> BuildOptions(string token = null)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .AddEnvironmentVariables()
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
 
             var config = configuration.GetSection("InfluxDB").Get<InfluxDbOptions>();
             if (!string.IsNullOrEmpty(token))
