@@ -31,9 +31,10 @@ namespace JJ.SmartHome.Tests
             });
 
             var tempMeasures = await alertsStore.QueryMeasure(
-                "alert",
-                utcNow.AddSeconds(-2).ToString("o"),
-                utcNow.AddSeconds(2).ToString("o")
+                measure: "alert",
+                startRange: utcNow.AddSeconds(-2).ToString("o"),
+                stopRange: utcNow.AddSeconds(2).ToString("o"),
+                aggregateFn: "max()"
             );
 
             Assert.NotEmpty(tempMeasures);

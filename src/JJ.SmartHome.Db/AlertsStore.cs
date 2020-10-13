@@ -30,16 +30,21 @@ namespace JJ.SmartHome.Db
                     measure);
         }
 
-        public async Task<List<FluxTable>> QueryMeasure(string measure, string startRange, string stopRange = "now", string windowSize = "1h")
+        public async Task<List<FluxTable>> QueryMeasure(string measure, string startRange, string stopRange = "now", string aggregateFn = "sum", string windowSize = null)
         {
-            var aggregateFn = "sum";
-
             var query = $@"
                 from(bucket:""{_options.Bucket}"")
                 |> range(start: {startRange}, stop: {stopRange})
-                |> filter(fn: (r) => r._measurement == ""{measure}"")
-                |> aggregateWindow(every: {windowSize}, fn: {aggregateFn})
-                |> fill(usePrevious: true)";
+                |> filter(fn: (r) => r._measurement == ""{measure}"")";
+
+            if (string.IsNullOrEmpty(windowSize)) {
+                query += $@"
+                    |> {aggregateFn}";
+            } else {
+                query += $@"
+                    |> aggregateWindow(every: {windowSize}, fn: {aggregateFn})
+                    |> fill(usePrevious: true)";
+            }
 
             return await _influxDBClient
                 .GetQueryApi()

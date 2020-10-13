@@ -46,7 +46,12 @@ namespace JJ.SmartHome.Core.Alerts
 
         public DateTimeOffset? GetLastFiredAlert()
         {
-            return this.LastFiredAlert;
+            return LastFiredAlert;
+        }
+
+        public DateTimeOffset? SetLastFiredAlert(DateTimeOffset time)
+        {
+            return LastFiredAlert = time;
         }
     }
 }

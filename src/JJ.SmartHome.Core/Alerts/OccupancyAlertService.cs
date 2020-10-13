@@ -43,6 +43,9 @@ namespace JJ.SmartHome.Core.Alerts
         public async Task Run(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"Start {nameof(OccupancyAlertService)}");
+            
+            await CheckLastFiredAlert();
+
             await _mqttClient.Connect("Occupancy", async () =>
             {
                 _logger.LogInformation($"Subscribing to {_options.OccupancyTopic}");
@@ -68,11 +71,12 @@ namespace JJ.SmartHome.Core.Alerts
                     _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
                     _alertStatusProvider.RaiseAlert();
                     await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.<br />Payload: <pre>{payload}</pre>");
-                    
+
                     var location = message.ApplicationMessage.Topic.Split('/').LastOrDefault()
                         ?? message.ApplicationMessage.Topic;
-                    
-                    await _alertsStore.WriteMeasure(new Db.Entities.AlertMeasure {
+
+                    await _alertsStore.WriteMeasure(new Db.Entities.AlertMeasure
+                    {
                         Location = location,
                         Reason = "occupancy",
                         Value = 1,
@@ -83,6 +87,21 @@ namespace JJ.SmartHome.Core.Alerts
             else
             {
                 _logger.LogDebug($"No occupancy detected");
+            }
+        }
+
+        private async Task CheckLastFiredAlert()
+        {
+            var lastFiredAlert = await _alertsStore.QueryMeasure(
+                measure: "alert",
+                startRange: DateTimeOffset.UtcNow.AddDays(-1).ToString("o"),
+                aggregateFn: "max()"
+            );
+
+            var lastFiredTime = lastFiredAlert.FirstOrDefault()?.Records.FirstOrDefault()?.GetTimeInDateTime();
+            if (lastFiredTime.HasValue)
+            {
+                _alertStatusProvider.SetLastFiredAlert(new DateTimeOffset(lastFiredTime.Value, TimeSpan.Zero));
             }
         }
     }
