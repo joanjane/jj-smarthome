@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JJ.SmartHome.Core.Alerts
+namespace JJ.SmartHome.Core
 {
     public interface IBackgroundService
     {

@@ -1,4 +1,5 @@
 ﻿using JJ.SmartHome.Core.Alerts.Dto;
+using JJ.SmartHome.Core.Alerts.Queries;
 using JJ.SmartHome.Core.Extensions;
 using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Core.Notifications;
@@ -19,6 +20,7 @@ namespace JJ.SmartHome.Core.Alerts
     {
         private readonly IMqttClient _mqttClient;
         private readonly IAlertsStore _alertsStore;
+        private readonly ILastFiredAlertQuery _lastFiredAlertQuery;
         private readonly IAlertNotifier _alertNotifier;
         private readonly AlertStatusProvider _alertStatusProvider;
         private readonly ILogger<OccupancyAlertService> _logger;
@@ -28,12 +30,14 @@ namespace JJ.SmartHome.Core.Alerts
             IMqttClient mqttClient,
             IOptions<AlertsOptions> options,
             IAlertsStore alertsStore,
+            ILastFiredAlertQuery lastFiredAlertQuery,
             IAlertNotifier alertNotifier,
             AlertStatusProvider alertStatusProvider,
             ILogger<OccupancyAlertService> logger)
         {
             _mqttClient = mqttClient;
             _alertsStore = alertsStore;
+            _lastFiredAlertQuery = lastFiredAlertQuery;
             _alertNotifier = alertNotifier;
             _alertStatusProvider = alertStatusProvider;
             _logger = logger;
@@ -92,16 +96,10 @@ namespace JJ.SmartHome.Core.Alerts
 
         private async Task CheckLastFiredAlert()
         {
-            var lastFiredAlert = await _alertsStore.QueryMeasure(
-                measure: "alert",
-                startRange: DateTimeOffset.UtcNow.AddDays(-1).ToString("o"),
-                aggregateFn: "max()"
-            );
-
-            var lastFiredTime = lastFiredAlert.FirstOrDefault()?.Records.FirstOrDefault()?.GetTimeInDateTime();
+            var lastFiredTime = await _lastFiredAlertQuery.CheckLastFiredAlertDate();
             if (lastFiredTime.HasValue)
             {
-                _alertStatusProvider.SetLastFiredAlert(new DateTimeOffset(lastFiredTime.Value, TimeSpan.Zero));
+                _alertStatusProvider.SetLastFiredAlert(lastFiredTime.Value);
             }
         }
     }

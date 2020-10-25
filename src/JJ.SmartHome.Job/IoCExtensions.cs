@@ -1,4 +1,6 @@
-﻿using JJ.SmartHome.Core.Alerts;
+﻿using JJ.SmartHome.Core;
+using JJ.SmartHome.Core.Alerts;
+using JJ.SmartHome.Core.Alerts.Queries;
 using JJ.SmartHome.Core.EnvSensors;
 using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Core.Notifications;
@@ -45,6 +47,7 @@ namespace JJ.SmartHome.Job
                 .AddTransient<IOccupancyAlertService, OccupancyAlertService>()
                 .AddTransient<IAlarmStatusService, AlarmStatusService>()
                 .AddTransient<IEnvSensorsService, EnvSensorsService>()
+                .AddTransient<ILastFiredAlertQuery, LastFiredAlertQuery>()
                 .AddSingleton<AlertStatusProvider>();
         }
 
