@@ -3,13 +3,12 @@ using JJ.SmartHome.Core.MQTT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace JJ.SmartHome.Tests
+namespace JJ.SmartHome.Tests.Alerts
 {
     public class TestAlertSimulation
     {

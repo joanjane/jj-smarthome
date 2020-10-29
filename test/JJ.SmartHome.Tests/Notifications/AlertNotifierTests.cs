@@ -5,12 +5,12 @@ using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace JJ.SmartHome.Tests
+namespace JJ.SmartHome.Tests.Alerts.Notifications
 {
-    public class TestEmail
+    public class AlertNotifierTests
     {
         [Fact]
-        public async Task TestAlertEmail()
+        public async Task WhenNotify_ThenSuccess()
         {
             var alertNotifier = BuildEmailAlertNotifier();
             await alertNotifier.Notify("test message", "test content");
