@@ -54,10 +54,10 @@ namespace JJ.SmartHome.Core.Alerts
             {
                 _logger.LogInformation($"Subscribing to {_options.OccupancyTopic}");
                 await _mqttClient.Subscribe(_options.OccupancyTopic, HandleMessage);
+                _logger.LogInformation($"Subscribed to {_options.OccupancyTopic}");
             });
 
             stoppingToken.LoopUntilCancelled();
-
             _logger.LogInformation($"End {nameof(OccupancyAlertService)}");
         }
 
