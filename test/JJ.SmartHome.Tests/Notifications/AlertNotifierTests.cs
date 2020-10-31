@@ -10,6 +10,7 @@ namespace JJ.SmartHome.Tests.Alerts.Notifications
     public class AlertNotifierTests
     {
         [Fact]
+        [Trait("TestCategory", "Integration")]
         public async Task WhenNotify_ThenSuccess()
         {
             var alertNotifier = BuildEmailAlertNotifier();
@@ -21,8 +22,8 @@ namespace JJ.SmartHome.Tests.Alerts.Notifications
             var configuration = Utils.ConfigBuilder.Build();
             
             var options = Options.Create(configuration.GetSection("SMTP").Get<EmailOptions>());
-
             var logger = LoggerFactory.Create(c => c.AddConsole()).CreateLogger<EmailAlertNotifier>();
+
             return new EmailAlertNotifier(
                 options,
                 new SmtpClientFactory(options),

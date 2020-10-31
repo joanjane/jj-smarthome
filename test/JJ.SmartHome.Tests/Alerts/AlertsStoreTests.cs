@@ -11,6 +11,8 @@ namespace JJ.SmartHome.Tests.Alerts
     public class AlertsStoreTests
     {
         [Fact]
+        [Trait("TestCategory", "Integration")]
+        [Trait("TestCategory", "Influx")]
         public async Task GivenNewAlert_WhenWritten_ThenCanBeRetrieved()
         {
             var options = BuildOptions();

@@ -7,7 +7,7 @@ services:
       dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
       target: test
     command: > 
-        bash -c "sleep 15 && dotnet test --no-restore -c Release"
+        bash -c "sleep ${TestSleep} && dotnet test --no-restore -c Release --filter ${TestFilter}"
     networks:
       - default
     environment:

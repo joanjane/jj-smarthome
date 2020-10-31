@@ -1,10 +1,10 @@
-using System;
 using System.Threading.Tasks;
+using JJ.SmartHome.Db.Entities;
 
 namespace JJ.SmartHome.Core.Alerts.Queries
 {
     public interface ILastFiredAlertQuery
     {
-        Task<DateTimeOffset?> CheckLastFiredAlertDate();
+        Task<AlertMeasure> CheckLastFiredAlert();
     }
 }

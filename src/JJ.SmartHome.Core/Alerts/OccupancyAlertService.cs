@@ -96,10 +96,10 @@ namespace JJ.SmartHome.Core.Alerts
 
         private async Task CheckLastFiredAlert()
         {
-            var lastFiredTime = await _lastFiredAlertQuery.CheckLastFiredAlertDate();
-            if (lastFiredTime.HasValue)
+            var lastFiredTime = await _lastFiredAlertQuery.CheckLastFiredAlert();
+            if (lastFiredTime != null)
             {
-                _alertStatusProvider.SetLastFiredAlert(lastFiredTime.Value);
+                _alertStatusProvider.SetLastFiredAlert(lastFiredTime.Time);
             }
         }
     }

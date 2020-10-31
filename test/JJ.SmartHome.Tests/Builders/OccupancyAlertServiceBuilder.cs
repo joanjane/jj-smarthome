@@ -12,7 +12,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace JJ.SmartHome.Tests.Builders
-{ 
+{
     public class OccupancyAlertServiceBuilder
     {
         public const string OccupancyTopic = "occupancy/test";
@@ -21,15 +21,20 @@ namespace JJ.SmartHome.Tests.Builders
         public ILastFiredAlertQuery LastFiredAlertQuery = Substitute.For<ILastFiredAlertQuery>();
         public IAlertsStore AlertsStore = Substitute.For<IAlertsStore>();
         public IAlertNotifier AlertNotifier = Substitute.For<IAlertNotifier>();
-        private AlertsOptions AlertsOptions = new AlertsOptions() 
+        private AlertsOptions AlertsOptions = new AlertsOptions()
         {
             OccupancyTopic = OccupancyTopic
         };
 
         public OccupancyAlertServiceBuilder WithLastFiredAlert(DateTimeOffset lastFiredAlert)
         {
-            LastFiredAlertQuery.CheckLastFiredAlertDate().Returns(
-                Task.FromResult<DateTimeOffset?>(lastFiredAlert)
+            LastFiredAlertQuery.CheckLastFiredAlert().Returns(
+                Task.FromResult(new AlertMeasure
+                {
+                    Time = lastFiredAlert,
+                    Location = "test",
+                    Reason = "test"
+                })
             );
             return this;
         }
@@ -40,7 +45,7 @@ namespace JJ.SmartHome.Tests.Builders
 
             return this;
         }
-        
+
         public OccupancyAlertServiceBuilder WithWriteMeasureSucceeded()
         {
             AlertsStore.WriteMeasure(Arg.Any<AlertMeasure>()).Returns(Task.CompletedTask);
@@ -53,7 +58,7 @@ namespace JJ.SmartHome.Tests.Builders
 
             return this;
         }
-        
+
 
         public OccupancyAlertService Build()
         {

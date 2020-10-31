@@ -13,6 +13,7 @@ namespace JJ.SmartHome.Tests.Alerts
     public class TestAlertSimulation
     {
         [Fact]
+        [Trait("TestCategory", "Integration")]
         [Trait("TestCategory", "DeviceOccupiedSimulation")]
         public async Task SimulateAqaraOccupancyDetectedEvent()
         {
@@ -29,6 +30,7 @@ namespace JJ.SmartHome.Tests.Alerts
         }
 
         [Fact]
+        [Trait("TestCategory", "Integration")]
         [Trait("TestCategory", "Zigbee2MqttPermitJoin")]
         public async Task SimulateZigbee2MqttPermitJoin()
         {

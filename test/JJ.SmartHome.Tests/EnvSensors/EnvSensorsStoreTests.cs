@@ -11,6 +11,8 @@ namespace JJ.SmartHome.Tests.EnvSensors
     public class EnvSensorsStoreTests
     {
         [Fact]
+        [Trait("TestCategory", "Integration")]
+        [Trait("TestCategory", "Influx")]
         public async Task GivenNewTempMeasure_WhenWritten_ThenCanBeRetrieved()
         {
             var options = BuildOptions();

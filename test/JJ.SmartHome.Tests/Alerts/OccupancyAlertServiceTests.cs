@@ -12,6 +12,7 @@ namespace JJ.SmartHome.Tests.Alerts
     public class OccupancyAlertServiceTests
     {
         [Fact]
+        [Trait("TestCategory", "Unit")]
         public async Task GivenLastFiredAlertOutOfSnoozePeriod_WhenOccupancyDetected_ThenNotifyAlert()
         {
             // Arrange
@@ -44,6 +45,7 @@ namespace JJ.SmartHome.Tests.Alerts
         }
 
         [Fact]
+        [Trait("TestCategory", "Unit")]
         public async Task GivenLastFiredAlertInsideOfSnoozePeriod_WhenOccupancyDetected_ThenSkipAlertNotification()
         {
             // Arrange

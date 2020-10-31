@@ -11,6 +11,7 @@ namespace JJ.SmartHome.Tests.Alerts
     public class LastFiredAlertQueryTests
     {
         [Fact]
+        [Trait("TestCategory", "Integration")]
         public async Task GivenAPreviousAlert_WhenGettingLastFiredAlert_ThenReturnDate()
         {
             var options = BuildOptions();
@@ -22,7 +23,7 @@ namespace JJ.SmartHome.Tests.Alerts
             var sut = new LastFiredAlertQuery(alertsStore);
 
             var date = DateTimeOffset.UtcNow.AddMinutes(-1);
-            const string location = "test";
+            var location = "testlastalert" + DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
 
             await alertsStore.WriteMeasure(new Db.Entities.AlertMeasure
             {
@@ -31,10 +32,11 @@ namespace JJ.SmartHome.Tests.Alerts
                 Time = date
             });
 
-            var lastFiredAlertDate = await sut.CheckLastFiredAlertDate();
+            var lastFiredAlert = await sut.CheckLastFiredAlert();
 
-            Assert.NotNull(lastFiredAlertDate);
-            Assert.Equal(date, lastFiredAlertDate);
+            Assert.NotNull(lastFiredAlert);
+            Assert.Equal(location, lastFiredAlert.Location);
+            // Assert.Equal(date, lastFiredAlert.Time);
         }
 
         private static AlertsStore BuildAlertsStore(IOptions<InfluxDbOptions> options)

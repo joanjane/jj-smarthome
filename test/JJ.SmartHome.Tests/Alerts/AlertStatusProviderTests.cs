@@ -9,6 +9,7 @@ namespace JJ.SmartHome.Tests.Alerts
     public class AlertStatusProviderTests
     {
         [Fact]
+        [Trait("TestCategory", "Unit")]
         public async Task GivenNoAlerts_WhenAlertThrown_ThenShouldRaiseIt()
         {
             var options = BuildOptions();
@@ -30,6 +31,7 @@ namespace JJ.SmartHome.Tests.Alerts
         }
 
         [Fact]
+        [Trait("TestCategory", "Unit")]
         public void GivenUnlockedAlarm_WhenAlertThrownAndLocked_ThenShouldRaiseIt()
         {
             var options = BuildOptions();

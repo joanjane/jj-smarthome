@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using JJ.SmartHome.Db.Entities;
 using System.Collections.Generic;
 using InfluxDB.Client.Core.Flux.Domain;
+using System.Linq;
 
 namespace JJ.SmartHome.Db
 {
@@ -30,17 +31,28 @@ namespace JJ.SmartHome.Db
                     measure);
         }
 
-        public async Task<List<FluxTable>> QueryMeasure(string measure, string startRange, string stopRange = "now", string aggregateFn = "sum", string windowSize = null)
+        public async Task<List<FluxTable>> QueryMeasure(string measure, string startRange, string stopRange = "now()", string aggregateFn = "sum", string[] group = null, string windowSize = null)
         {
             var query = $@"
                 from(bucket:""{_options.Bucket}"")
                 |> range(start: {startRange}, stop: {stopRange})
-                |> filter(fn: (r) => r._measurement == ""{measure}"")";
+                |> filter(fn: (r) => r._measurement == ""{measure}"")
+                ";
 
-            if (string.IsNullOrEmpty(windowSize)) {
+            if (group != null)
+            {
+                var groups = string.Join(",", group.Select(g => '"' + g + '"'));
+                query += $@"
+                |> group(columns: [{groups}])";
+            }
+            
+            if (string.IsNullOrEmpty(windowSize))
+            {
                 query += $@"
                     |> {aggregateFn}";
-            } else {
+            }
+            else
+            {
                 query += $@"
                     |> aggregateWindow(every: {windowSize}, fn: {aggregateFn})
                     |> fill(usePrevious: true)";
