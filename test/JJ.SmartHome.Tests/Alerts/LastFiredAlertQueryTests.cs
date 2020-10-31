@@ -20,7 +20,7 @@ namespace JJ.SmartHome.Tests.Alerts
             options = BuildOptions(authToken);
 
             var alertsStore = BuildAlertsStore(options);
-            var sut = new LastFiredAlertQuery(alertsStore);
+            var sut = new LastFiredAlertQuery(BuildFluxQueryBuilder(options));
 
             var date = DateTimeOffset.UtcNow.AddMinutes(-1);
             var location = "testlastalert" + DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
@@ -36,7 +36,6 @@ namespace JJ.SmartHome.Tests.Alerts
 
             Assert.NotNull(lastFiredAlert);
             Assert.Equal(location, lastFiredAlert.Location);
-            // Assert.Equal(date, lastFiredAlert.Time);
         }
 
         private static AlertsStore BuildAlertsStore(IOptions<InfluxDbOptions> options)
@@ -46,6 +45,13 @@ namespace JJ.SmartHome.Tests.Alerts
             return alertsStore;
         }
 
+        private static IFluxQueryBuilder BuildFluxQueryBuilder(IOptions<InfluxDbOptions> options)
+        {
+            var influxDBClientProvider = new InfluxDBClientProvider(options);
+            var envSensorsStore = new FluxQueryBuilder(options, influxDBClientProvider.Get());
+            return envSensorsStore;
+        }
+        
         private static IOptions<InfluxDbOptions> BuildOptions(string token = null)
         {
             var configuration = Utils.ConfigBuilder.Build();

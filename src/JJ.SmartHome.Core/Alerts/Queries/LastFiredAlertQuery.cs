@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 
 namespace JJ.SmartHome.Core.Alerts.Queries
 {
-
     public class LastFiredAlertQuery : ILastFiredAlertQuery
     {
-        private readonly IAlertsStore _alertsStore;
+        private readonly IFluxQueryBuilder _fluxQueryBuilder;
 
-        public LastFiredAlertQuery(
-            IAlertsStore alertsStore)
+        public LastFiredAlertQuery(IFluxQueryBuilder fluxQueryBuilder)
         {
-            _alertsStore = alertsStore;
+            _fluxQueryBuilder = fluxQueryBuilder;
         }
 
         public async Task<AlertMeasure> CheckLastFiredAlert()
         {
-            var lastFiredAlert = await _alertsStore.QueryMeasure(
-                measure: "alert",
-                startRange: DateTimeOffset.UtcNow.AddDays(-1).ToString("o"),
-                aggregateFn: "last()",
-                group: new[] { "_measure" }
-            );
+            var lastFiredAlert = await _fluxQueryBuilder
+                .From()
+                .Range( DateTimeOffset.UtcNow.AddDays(-1))
+                .FilterMeasurement("alert")
+                .Group(new[] { "_measurement" })
+                .Aggregate("last()")
+                .Query();
 
             var lastFiredTime = lastFiredAlert.FirstOrDefault()?.Records.FirstOrDefault();
             if (lastFiredTime == null)

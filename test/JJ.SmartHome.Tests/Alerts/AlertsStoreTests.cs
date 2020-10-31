@@ -19,11 +19,12 @@ namespace JJ.SmartHome.Tests.Alerts
             var influxManagement = new InfluxManagement(options);
             var authToken = await influxManagement.Setup();
             options = BuildOptions(authToken);
+            var fluxQueryBuilder = BuildFluxQueryBuilder(options);
 
             var alertsStore = BuildAlertsStore(options);
 
             var utcNow = DateTimeOffset.UtcNow;
-            const string location = "hall";
+            const string location = "AlertsStoreTests";
 
             await alertsStore.WriteMeasure(new Db.Entities.AlertMeasure
             {
@@ -32,12 +33,12 @@ namespace JJ.SmartHome.Tests.Alerts
                 Time = utcNow
             });
 
-            var tempMeasures = await alertsStore.QueryMeasure(
-                measure: "alert",
-                startRange: utcNow.AddSeconds(-2).ToString("o"),
-                stopRange: utcNow.AddSeconds(2).ToString("o"),
-                aggregateFn: "max()"
-            );
+            var tempMeasures = await fluxQueryBuilder
+                .From()
+                .Range(utcNow.AddSeconds(-2), utcNow.AddSeconds(2))
+                .FilterMeasurement("alert")
+                .Aggregate("max()")
+                .Query();
 
             Assert.NotEmpty(tempMeasures);
 
@@ -55,6 +56,13 @@ namespace JJ.SmartHome.Tests.Alerts
             var influxDBClientProvider = new InfluxDBClientProvider(options);
             var alertsStore = new AlertsStore(options, influxDBClientProvider.Get());
             return alertsStore;
+        }
+
+        private static IFluxQueryBuilder BuildFluxQueryBuilder(IOptions<InfluxDbOptions> options)
+        {
+            var influxDBClientProvider = new InfluxDBClientProvider(options);
+            var envSensorsStore = new FluxQueryBuilder(options, influxDBClientProvider.Get());
+            return envSensorsStore;
         }
 
         private static IOptions<InfluxDbOptions> BuildOptions(string token = null)

@@ -7,7 +7,6 @@ namespace JJ.SmartHome.Db
 {
     public interface IAlertsStore
     {
-        Task<List<FluxTable>> QueryMeasure(string measure, string startRange, string stopRange = "now()", string aggregateFn = "sum", string[] group = null, string windowSize = null);
         Task WriteMeasure(AlertMeasure measure);
     }
 }

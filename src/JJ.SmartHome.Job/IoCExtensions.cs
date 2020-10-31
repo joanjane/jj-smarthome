@@ -56,6 +56,10 @@ namespace JJ.SmartHome.Job
             return services
                 .Configure<InfluxDbOptions>(configuration.GetSection("InfluxDB"))
                 .AddTransient<InfluxDBClientProvider>()
+                .AddTransient<IFluxQueryBuilder>(c => new FluxQueryBuilder(
+                    c.GetService<IOptions<InfluxDbOptions>>(),
+                    c.GetService<InfluxDBClientProvider>().Get()
+                ))
                 .AddTransient<IEnvSensorsStore, EnvSensorsStore>(c => 
                     new EnvSensorsStore(
                         c.GetService<IOptions<InfluxDbOptions>>(),
