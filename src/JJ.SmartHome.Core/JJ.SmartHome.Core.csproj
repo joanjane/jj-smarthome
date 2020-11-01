@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JJ.SmartHome.Db\JJ.SmartHome.Db.csproj" />
+    <ProjectReference Include="..\JJ.SmartHome.Notifications\JJ.SmartHome.Notifications.csproj" />
   </ItemGroup>
 
 </Project>

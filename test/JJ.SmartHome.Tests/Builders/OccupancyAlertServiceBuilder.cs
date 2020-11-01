@@ -1,6 +1,6 @@
 using JJ.SmartHome.Core.Alerts;
 using JJ.SmartHome.Core.Alerts.Queries;
-using JJ.SmartHome.Core.Notifications;
+using JJ.SmartHome.Notifications;
 using JJ.SmartHome.Db;
 using JJ.SmartHome.Db.Entities;
 using JJ.SmartHome.Tests.Mocks;

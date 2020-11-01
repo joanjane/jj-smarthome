@@ -2,7 +2,7 @@
 using JJ.SmartHome.Core.Alerts.Queries;
 using JJ.SmartHome.Core.Extensions;
 using JJ.SmartHome.Core.MQTT;
-using JJ.SmartHome.Core.Notifications;
+using JJ.SmartHome.Notifications;
 using JJ.SmartHome.Db;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

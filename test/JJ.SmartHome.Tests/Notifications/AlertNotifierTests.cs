@@ -1,4 +1,4 @@
-﻿using JJ.SmartHome.Core.Notifications;
+﻿using JJ.SmartHome.Notifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

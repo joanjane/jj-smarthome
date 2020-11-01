@@ -3,7 +3,7 @@ using JJ.SmartHome.Core.Alerts;
 using JJ.SmartHome.Core.Alerts.Queries;
 using JJ.SmartHome.Core.EnvSensors;
 using JJ.SmartHome.Core.MQTT;
-using JJ.SmartHome.Core.Notifications;
+using JJ.SmartHome.Notifications;
 using JJ.SmartHome.Db;
 using JJ.SmartHome.Job.BackgroundServices;
 using Microsoft.Extensions.Configuration;

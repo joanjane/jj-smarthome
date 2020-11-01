@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace JJ.SmartHome.Core.Notifications
+namespace JJ.SmartHome.Notifications
 {
     public class EmailAlertNotifier : IAlertNotifier
     {
