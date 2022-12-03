@@ -3,7 +3,7 @@ using System;
 using System.Net;
 using System.Net.Mail;
 
-namespace JJ.SmartHome.Core.Notifications
+namespace JJ.SmartHome.Notifications
 {
     public class SmtpClientFactory
     {

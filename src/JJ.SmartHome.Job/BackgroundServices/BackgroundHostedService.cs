@@ -1,4 +1,4 @@
-﻿using JJ.SmartHome.Core.Alerts;
+﻿using JJ.SmartHome.Core;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using System.Threading.Tasks;

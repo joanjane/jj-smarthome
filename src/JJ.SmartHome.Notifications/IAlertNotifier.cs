@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace JJ.SmartHome.Core.Notifications
+namespace JJ.SmartHome.Notifications
 {
     public interface IAlertNotifier
     {

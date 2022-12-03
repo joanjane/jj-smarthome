@@ -1,16 +1,17 @@
-﻿using JJ.SmartHome.Core.Notifications;
+﻿using JJ.SmartHome.Notifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace JJ.SmartHome.Tests
+namespace JJ.SmartHome.Tests.Alerts.Notifications
 {
-    public class TestEmail
+    public class AlertNotifierTests
     {
         [Fact]
-        public async Task TestAlertEmail()
+        [Trait("TestCategory", "Integration")]
+        public async Task WhenNotify_ThenSuccess()
         {
             var alertNotifier = BuildEmailAlertNotifier();
             await alertNotifier.Notify("test message", "test content");
@@ -18,13 +19,11 @@ namespace JJ.SmartHome.Tests
 
         private static EmailAlertNotifier BuildEmailAlertNotifier()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
             
             var options = Options.Create(configuration.GetSection("SMTP").Get<EmailOptions>());
-
             var logger = LoggerFactory.Create(c => c.AddConsole()).CreateLogger<EmailAlertNotifier>();
+
             return new EmailAlertNotifier(
                 options,
                 new SmtpClientFactory(options),

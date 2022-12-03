@@ -1,17 +1,18 @@
-﻿using JJ.SmartHome.Db;
+﻿using JJ.SmartHome.Core.Alerts.Queries;
+using JJ.SmartHome.Db;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace JJ.SmartHome.Tests
+namespace JJ.SmartHome.Tests.Alerts
 {
-    public class AlertsStoreTests
+    public class LastFiredAlertQueryTests
     {
         [Fact]
-        public async Task GivenNewAlert_WhenWritten_ThenCanBeRetrieved()
+        [Trait("TestCategory", "Integration")]
+        public async Task GivenAPreviousAlert_WhenGettingLastFiredAlert_ThenReturnDate()
         {
             var options = BuildOptions();
             var influxManagement = new InfluxManagement(options);
@@ -19,32 +20,22 @@ namespace JJ.SmartHome.Tests
             options = BuildOptions(authToken);
 
             var alertsStore = BuildAlertsStore(options);
+            var sut = new LastFiredAlertQuery(BuildFluxQueryBuilder(options));
 
-            DateTime utcNow = DateTime.UtcNow;
-            const string location = "hall";
+            var date = DateTimeOffset.UtcNow.AddMinutes(-1);
+            var location = "testlastalert" + DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
 
             await alertsStore.WriteMeasure(new Db.Entities.AlertMeasure
             {
                 Location = location,
                 Value = 1,
-                Time = utcNow
+                Time = date
             });
 
-            var tempMeasures = await alertsStore.QueryMeasure(
-                "alert",
-                utcNow.AddSeconds(-2).ToString("o"),
-                utcNow.AddSeconds(2).ToString("o")
-            );
+            var lastFiredAlert = await sut.CheckLastFiredAlert();
 
-            Assert.NotEmpty(tempMeasures);
-
-            var actualSumAlerts = tempMeasures
-                .SingleOrDefault(t => t.Records.Any(c => c.GetValueByKey("location") as string == location))
-                ?.Records
-                .Select(fluxRecord => fluxRecord.GetValue())
-                .SingleOrDefault();
-
-            Assert.Equal(1d, actualSumAlerts);
+            Assert.NotNull(lastFiredAlert);
+            Assert.Equal(location, lastFiredAlert.Location);
         }
 
         private static AlertsStore BuildAlertsStore(IOptions<InfluxDbOptions> options)
@@ -54,11 +45,16 @@ namespace JJ.SmartHome.Tests
             return alertsStore;
         }
 
+        private static IFluxQueryBuilder BuildFluxQueryBuilder(IOptions<InfluxDbOptions> options)
+        {
+            var influxDBClientProvider = new InfluxDBClientProvider(options);
+            var envSensorsStore = new FluxQueryBuilder(options, influxDBClientProvider.Get());
+            return envSensorsStore;
+        }
+        
         private static IOptions<InfluxDbOptions> BuildOptions(string token = null)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
 
             var config = configuration.GetSection("InfluxDB").Get<InfluxDbOptions>();
             if (!string.IsNullOrEmpty(token))

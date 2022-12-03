@@ -1,4 +1,4 @@
-using JJ.SmartHome.Core.Alerts;
+using JJ.SmartHome.Core;
 
 namespace JJ.SmartHome.Core.EnvSensors
 {

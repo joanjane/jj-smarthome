@@ -1,7 +1,9 @@
-﻿using JJ.SmartHome.Core.Alerts;
+﻿using JJ.SmartHome.Core;
+using JJ.SmartHome.Core.Alerts;
+using JJ.SmartHome.Core.Alerts.Queries;
 using JJ.SmartHome.Core.EnvSensors;
 using JJ.SmartHome.Core.MQTT;
-using JJ.SmartHome.Core.Notifications;
+using JJ.SmartHome.Notifications;
 using JJ.SmartHome.Db;
 using JJ.SmartHome.Job.BackgroundServices;
 using Microsoft.Extensions.Configuration;
@@ -45,6 +47,7 @@ namespace JJ.SmartHome.Job
                 .AddTransient<IOccupancyAlertService, OccupancyAlertService>()
                 .AddTransient<IAlarmStatusService, AlarmStatusService>()
                 .AddTransient<IEnvSensorsService, EnvSensorsService>()
+                .AddTransient<ILastFiredAlertQuery, LastFiredAlertQuery>()
                 .AddSingleton<AlertStatusProvider>();
         }
 
@@ -53,6 +56,10 @@ namespace JJ.SmartHome.Job
             return services
                 .Configure<InfluxDbOptions>(configuration.GetSection("InfluxDB"))
                 .AddTransient<InfluxDBClientProvider>()
+                .AddTransient<IFluxQueryBuilder>(c => new FluxQueryBuilder(
+                    c.GetService<IOptions<InfluxDbOptions>>(),
+                    c.GetService<InfluxDBClientProvider>().Get()
+                ))
                 .AddTransient<IEnvSensorsStore, EnvSensorsStore>(c => 
                     new EnvSensorsStore(
                         c.GetService<IOptions<InfluxDbOptions>>(),

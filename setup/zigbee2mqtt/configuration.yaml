@@ -15,4 +15,9 @@ frontend:
 serial:
   port: /dev/ttyACM0
   disable_led: true
+
+advanced:
+  log_output:
+    - console
+
 devices: devices.yaml

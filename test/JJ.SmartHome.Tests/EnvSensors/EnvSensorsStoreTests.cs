@@ -6,17 +6,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace JJ.SmartHome.Tests
+namespace JJ.SmartHome.Tests.EnvSensors
 {
     public class EnvSensorsStoreTests
     {
         [Fact]
+        [Trait("TestCategory", "Integration")]
+        [Trait("TestCategory", "Influx")]
         public async Task GivenNewTempMeasure_WhenWritten_ThenCanBeRetrieved()
         {
             var options = BuildOptions();
             var influxManagement = new InfluxManagement(options);
             var authToken = await influxManagement.Setup();
             options = BuildOptions(authToken);
+            var fluxQueryBuilder = BuildFluxQueryBuilder(options);
 
             var envSensorsStore = BuildEnvSensorsStore(options);
 
@@ -31,12 +34,13 @@ namespace JJ.SmartHome.Tests
                 Time = utcNow
             });
 
-            var tempMeasures = await envSensorsStore.QueryMeasure(
-                "temperature",
-                utcNow.AddSeconds(-2).ToString("o"),
-                utcNow.AddSeconds(2).ToString("o")
-            );
-
+            var tempMeasures = await fluxQueryBuilder
+                .From()
+                .Range(utcNow.AddSeconds(-2), utcNow.AddSeconds(2))
+                .FilterMeasurement("temperature")
+                .AggregateWindow("mean", "1h")
+                .Query();
+            
             Assert.NotEmpty(tempMeasures);
 
             var actualTemp = tempMeasures
@@ -54,12 +58,17 @@ namespace JJ.SmartHome.Tests
             var envSensorsStore = new EnvSensorsStore(options, influxDBClientProvider.Get());
             return envSensorsStore;
         }
+        
+        private static IFluxQueryBuilder BuildFluxQueryBuilder(IOptions<InfluxDbOptions> options)
+        {
+            var influxDBClientProvider = new InfluxDBClientProvider(options);
+            var envSensorsStore = new FluxQueryBuilder(options, influxDBClientProvider.Get());
+            return envSensorsStore;
+        }
 
         private static IOptions<InfluxDbOptions> BuildOptions(string token = null)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
 
             var config = configuration.GetSection("InfluxDB").Get<InfluxDbOptions>();
             if (!string.IsNullOrEmpty(token))

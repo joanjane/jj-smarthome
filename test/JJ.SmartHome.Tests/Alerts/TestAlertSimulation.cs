@@ -3,17 +3,17 @@ using JJ.SmartHome.Core.MQTT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace JJ.SmartHome.Tests
+namespace JJ.SmartHome.Tests.Alerts
 {
     public class TestAlertSimulation
     {
         [Fact]
+        [Trait("TestCategory", "Integration")]
         [Trait("TestCategory", "DeviceOccupiedSimulation")]
         public async Task SimulateAqaraOccupancyDetectedEvent()
         {
@@ -30,6 +30,7 @@ namespace JJ.SmartHome.Tests
         }
 
         [Fact]
+        [Trait("TestCategory", "Integration")]
         [Trait("TestCategory", "Zigbee2MqttPermitJoin")]
         public async Task SimulateZigbee2MqttPermitJoin()
         {
@@ -38,9 +39,7 @@ namespace JJ.SmartHome.Tests
 
         private static async Task PublishTestMessage<T>(T payload, string topicSettingKey)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Testing.json")
-                .Build();
+            var configuration = Utils.ConfigBuilder.Build();
 
             var options = configuration.GetSection("MQTT")
                 .Get<MqttClientOptions>();
@@ -64,7 +63,7 @@ namespace JJ.SmartHome.Tests
                 }
                 catch { }
 
-                mqttClient.Subscribe(topic, (message) =>
+                await mqttClient.Subscribe(topic, (message) =>
                 {
                     var content = Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
                     logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {content}");

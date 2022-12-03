@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace JJ.SmartHome.Core.Notifications
+namespace JJ.SmartHome.Notifications
 {
     public class EmailOptions
     {

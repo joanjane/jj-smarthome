@@ -11,6 +11,6 @@ namespace JJ.SmartHome.Db.Entities
 
         [Column("value")] public double Value { get; set; }
 
-        [Column(IsTimestamp = true)] public DateTime Time;
+        [Column(IsTimestamp = true)] public DateTimeOffset Time;
     }
 }
