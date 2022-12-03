@@ -348,3 +348,4 @@ database.db
 /setup/.env
 /setup/pi.env
 /setup/mosquitto/data
+/setup/zigbee2mqtt/coordinator_backup.json

@@ -6,7 +6,7 @@ services:
       - "8086:8086"
     volumes:
       - influxdb_v1-storage:/var/lib/influxdb
-    restart: always
+    restart: unless-stopped
     environment:
       - INFLUXDB_DB=${InfluxDB__Bucket}
       - INFLUXDB_ADMIN_USER=${InfluxDB__User}
@@ -21,7 +21,7 @@ services:
       - "8888:8888"
     volumes:
       - chronograf-storage:/var/lib/chronograf
-    restart: always
+    restart: unless-stopped
     depends_on:
       - influxdb_v1
     environment:

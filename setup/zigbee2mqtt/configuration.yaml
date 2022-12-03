@@ -7,18 +7,12 @@ mqtt:
   # Optional: MQTT server authentication password (default: nothing)
   #password: my_password
   # Optional: MQTT client ID (default: nothing)
-  client_id: 'jjane-rpi2'
+  client_id: jj-smarthome-z2m
   # Optional: Include device information to mqtt messages (default: false)
   include_device_information: true
-
 frontend:
   port: 8899
-
-experimental:
-  new_api: true
-
 serial:
   port: /dev/ttyACM0
   disable_led: true
-
 devices: devices.yaml
