@@ -99,6 +99,7 @@ namespace JJ.SmartHome.Core.Alerts
             var lastFiredTime = await _lastFiredAlertQuery.CheckLastFiredAlert();
             if (lastFiredTime != null)
             {
+                _logger.LogInformation($"Last fired alert was {lastFiredTime:d}");
                 _alertStatusProvider.SetLastFiredAlert(lastFiredTime.Time);
             }
         }
