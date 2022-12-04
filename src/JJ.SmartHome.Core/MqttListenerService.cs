@@ -33,18 +33,17 @@ namespace JJ.SmartHome.Core
         {
             _logger.LogInformation($"Start {GetType().Name}");
 
-            var task = Task.Run(async () => 
+            return Task.Run(async () =>
+            {
                 await _mqttClient.Connect(_clientPrefix, async () =>
                 {
                     _logger.LogInformation($"Subscribing to {_topic}");
                     await _mqttClient.Subscribe(_topic, HandleMqttMessage);
-                })
-            , stoppingToken);
-
-            stoppingToken.LoopUntilCancelled();
-            _logger.LogInformation($"End {GetType().Name}");
-
-            return task;
+                });
+                
+                stoppingToken.LoopUntilCancelled();
+                _logger.LogInformation($"End {GetType().Name}");
+            }, stoppingToken);
         }
 
         protected virtual T DeserializeMessage<T>(MqttApplicationMessageReceivedEventArgs message)
