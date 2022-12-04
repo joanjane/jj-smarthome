@@ -60,16 +60,16 @@ namespace JJ.SmartHome.Tests.Builders
         }
 
 
-        public OccupancyAlertService Build()
+        public OccupancyAlertBackgroundService Build()
         {
-            var sut = new OccupancyAlertService(
+            var sut = new OccupancyAlertBackgroundService(
                 MqttClient,
                 Options.Create(AlertsOptions),
                 AlertsStore,
                 LastFiredAlertQuery,
                 AlertNotifier,
                 new AlertStatusProvider(Options.Create(AlertsOptions)),
-                LoggerFactory.Create(c => c.AddConsole()).CreateLogger<OccupancyAlertService>()
+                LoggerFactory.Create(c => c.AddConsole()).CreateLogger<OccupancyAlertBackgroundService>()
             );
 
             return sut;

@@ -1,6 +1,4 @@
-using System;
-
-namespace JJ.SmartHome.Core.EnvSensors
+﻿namespace JJ.SmartHome.Core.EnvSensors
 {
     public class EnvSensorsOptions
     {

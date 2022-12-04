@@ -1,83 +1,58 @@
-﻿using JJ.SmartHome.Core.Alerts.Dto;
-using JJ.SmartHome.Core.Alerts.Queries;
-using JJ.SmartHome.Core.Extensions;
-using JJ.SmartHome.Core.MQTT;
-using JJ.SmartHome.Notifications;
-using JJ.SmartHome.Db;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using MQTTnet;
-using System;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using JJ.SmartHome.Core.Alerts.Dto;
+using JJ.SmartHome.Core.Alerts.Queries;
+using JJ.SmartHome.Core.MQTT;
+using JJ.SmartHome.Db;
+using JJ.SmartHome.Notifications;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace JJ.SmartHome.Core.Alerts
 {
-    public class OccupancyAlertService : IOccupancyAlertService
+    public class OccupancyAlertBackgroundService : MqttListenerService<AqaraOccupancySensorEvent>
     {
-        private readonly IMqttClient _mqttClient;
         private readonly IAlertsStore _alertsStore;
         private readonly ILastFiredAlertQuery _lastFiredAlertQuery;
         private readonly IAlertNotifier _alertNotifier;
         private readonly AlertStatusProvider _alertStatusProvider;
-        private readonly ILogger<OccupancyAlertService> _logger;
-        private readonly AlertsOptions _options;
 
-        public OccupancyAlertService(
+        public OccupancyAlertBackgroundService(
             IMqttClient mqttClient,
             IOptions<AlertsOptions> options,
             IAlertsStore alertsStore,
             ILastFiredAlertQuery lastFiredAlertQuery,
             IAlertNotifier alertNotifier,
             AlertStatusProvider alertStatusProvider,
-            ILogger<OccupancyAlertService> logger)
+            ILogger<OccupancyAlertBackgroundService> logger)
+            : base(mqttClient, options.Value.OccupancyTopic, logger)
         {
-            _mqttClient = mqttClient;
             _alertsStore = alertsStore;
             _lastFiredAlertQuery = lastFiredAlertQuery;
             _alertNotifier = alertNotifier;
             _alertStatusProvider = alertStatusProvider;
-            _logger = logger;
-            _options = options.Value;
         }
 
-        public async Task Run(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation($"Start {nameof(OccupancyAlertService)}");
-            
             await CheckLastFiredAlert();
-
-            await _mqttClient.Connect("Occupancy", async () =>
-            {
-                _logger.LogInformation($"Subscribing to {_options.OccupancyTopic}");
-                await _mqttClient.Subscribe(_options.OccupancyTopic, HandleMessage);
-                _logger.LogInformation($"Subscribed to {_options.OccupancyTopic}");
-            });
-
-            stoppingToken.LoopUntilCancelled();
-            _logger.LogInformation($"End {nameof(OccupancyAlertService)}");
+            await base.ExecuteAsync(stoppingToken);
         }
 
-        protected async Task HandleMessage(MqttApplicationMessageReceivedEventArgs message)
+        protected override async Task HandleMessage(string topic, AqaraOccupancySensorEvent message)
         {
-            var payload = Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
-            _logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {payload}");
-
-            var messageEvent = JsonSerializer.Deserialize<AqaraOccupancySensorEvent>(payload);
-            if (messageEvent.Occupancy)
+            if (message.Occupancy)
             {
                 _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}");
                 if (_alertStatusProvider.ShouldRaiseAlert())
                 {
                     _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
                     _alertStatusProvider.RaiseAlert();
-                    await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {message.ApplicationMessage.Topic}", $"Occupancy was detected.<br />Payload: <pre>{payload}</pre>");
+                    await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {topic}", $"Occupancy was detected.<br />Payload: <pre>{message}</pre>");
 
-                    var location = message.ApplicationMessage.Topic.Split('/').LastOrDefault()
-                        ?? message.ApplicationMessage.Topic;
+                    var location = topic.Split('/').LastOrDefault() ?? topic;
 
                     await _alertsStore.WriteMeasure(new Db.Entities.AlertMeasure
                     {

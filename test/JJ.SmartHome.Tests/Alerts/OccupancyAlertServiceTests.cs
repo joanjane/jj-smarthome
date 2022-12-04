@@ -1,4 +1,4 @@
-using JJ.SmartHome.Core.Alerts.Dto;
+﻿using JJ.SmartHome.Core.Alerts.Dto;
 using JJ.SmartHome.Db.Entities;
 using JJ.SmartHome.Tests.Builders;
 using NSubstitute;
@@ -36,7 +36,7 @@ namespace JJ.SmartHome.Tests.Alerts
                         Occupancy = true
                     }
                 ),
-                sut.Run(waitToken.Token)
+                sut.StartAsync(waitToken.Token)
             );
 
             // Assert
@@ -67,7 +67,7 @@ namespace JJ.SmartHome.Tests.Alerts
                         Occupancy = true
                     }
                 ),
-                sut.Run(waitToken.Token)
+                sut.StartAsync(waitToken.Token)
             );
 
             // Assert
