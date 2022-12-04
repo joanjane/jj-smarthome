@@ -1,11 +1,16 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:3.1-buster-slim-arm32v7 AS base
+FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster-arm32v7 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /repo
 COPY ["src/JJ.SmartHome.Job/JJ.SmartHome.Job.csproj", "src/JJ.SmartHome.Job/"]
 COPY ["src/JJ.SmartHome.Core/JJ.SmartHome.Core.csproj", "src/JJ.SmartHome.Core/"]
-RUN dotnet restore "src/JJ.SmartHome.Job/JJ.SmartHome.Job.csproj"
+COPY ["src/JJ.SmartHome.Notifications/JJ.SmartHome.Notifications.csproj", "src/JJ.SmartHome.Notifications/"]
+COPY ["src/JJ.SmartHome.Db/JJ.SmartHome.Db.csproj", "src/JJ.SmartHome.Db/"]
+COPY ["test/JJ.SmartHome.Tests/JJ.SmartHome.Tests.csproj", "test/JJ.SmartHome.Tests/"]
+COPY ["JJ.SmartHome.sln", "./"]
+RUN dotnet restore src/JJ.SmartHome.Job/JJ.SmartHome.Job.csproj
+
 COPY . .
 WORKDIR "/repo/src/JJ.SmartHome.Job"
 RUN dotnet build "JJ.SmartHome.Job.csproj" -c Release -o /app/build
