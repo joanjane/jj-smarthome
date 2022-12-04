@@ -37,7 +37,6 @@ services:
     networks:
       - default
     environment:
-      - MQTT_URI=mqtt://mosquitto:1883
       - MQTT_URI=${MQTT_FULL_URI:-mqtt://mosquitto:1883}
 networks:
   default:
