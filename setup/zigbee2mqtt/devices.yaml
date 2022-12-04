@@ -1,2 +1,6 @@
 '0x00158d00042080e2':
-  friendly_name: occupancy/hall
+  friendly_name: "occupancy/hall"
+  #no_occupancy_since:
+  #  - 10
+  #  - 60
+  #occupancy_timeout: 60

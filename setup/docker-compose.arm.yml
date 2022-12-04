@@ -2,15 +2,15 @@ version: "3.8"
 services:
   jj-smarthome-job:
     image: jj-smarthome-job
-    restart: always
+    restart: unless-stopped
     build:
       context: ../
       dockerfile: ./src/JJ.SmartHome.Job/arm.Dockerfile
     networks:
       - default
     environment:
-      - MQTT__URI=mosquitto
-      - MQTT__Port=1883
+      - MQTT__URI=${MQTT__URI:-mosquitto}
+      - MQTT__Port=${MQTT__Port:-1883}
       - MQTT__User=
       - MQTT__Password=
       - MQTT__Secure=false
@@ -29,7 +29,7 @@ services:
   
   jj-smarthome-sensehat:
     image: jj-smarthome-sensehat
-    restart: always
+    restart: unless-stopped
     build:
       context: ../
       dockerfile: ./src/jj-smarthome-sensehat/Dockerfile
@@ -38,6 +38,6 @@ services:
       - default
     environment:
       - MQTT_URI=mqtt://mosquitto:1883
-      
+      - MQTT_URI=${MQTT_FULL_URI:-mqtt://mosquitto:1883}
 networks:
   default:
