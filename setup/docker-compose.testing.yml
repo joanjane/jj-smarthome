@@ -1,13 +1,13 @@
 version: "3.8"
 services:
-  jj-smarthome-job-tests:
-    image: jj-smarthome-job-tests
+  jj-smarthome-webapi-tests:
+    image: jj-smarthome-webapi-tests
     build:
       context: ../
       dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
       target: test
     command: > 
-        bash -c "sleep ${TestSleep} && dotnet test --no-restore -c Release --filter ${TestFilter}"
+        bash -c "sleep ${TestSleep:-5} && dotnet test --no-restore -c Release ${TestFilter:-}"
     networks:
       - default
     environment:

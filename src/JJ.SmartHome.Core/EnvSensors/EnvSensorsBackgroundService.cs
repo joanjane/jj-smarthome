@@ -19,7 +19,7 @@ namespace JJ.SmartHome.Core.EnvSensors
             IOptions<EnvSensorsOptions> options,
             IEnvSensorsStore envSensorsStore,
             ILogger<EnvSensorsBackgroundService> logger) 
-            : base(mqttClient, options.Value.EnvSensorsSenseHatTopic, logger)
+            : base(mqttClient, options.Value.EnvSensorsSenseHatTopic, "EnvSensors", logger)
         {
             _envSensorsStore = envSensorsStore;
         }

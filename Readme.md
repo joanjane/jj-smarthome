@@ -3,7 +3,7 @@ A pet project to build my own smarthome network using 3rd party tools.
 
 ## Development
 1. Create .env file copying `.development.env` in setup folder.
-2. Run required dependencies using docker-compose (MQTT broker and SMTP server) with `./run-dev-containers` on setup folder.
+2. Run required dependencies using docker-compose (MQTT broker and SMTP server) with `./run-dev-services.ps1` on setup folder.
 3. Read received emails on http://localhost:8025/
 4. To simulate an occupancy detected event, run `dotnet test --filter TestCategory=DeviceOccupiedSimulation`
 
@@ -14,7 +14,7 @@ Use [pi-sense-hat-remote-simulator](https://joanjane.github.io/pi-sense-hat-remo
 ## Deployment
 1. On /setup folder, set variables on `.env` file from sample file `.sample.env`
 2. If a new version is deployed, run `./build.sh` script
-3. Run `./run.sh` to launch all services in background
+3. Run `RUN_SERVICES=1 RUN_WEBAPI=1 RUN_SENSEHAT=1 ./run.sh` to launch all services in background
 
 ## Used devices:
 * Zigbee usb dongle: CC2531 USB stick.

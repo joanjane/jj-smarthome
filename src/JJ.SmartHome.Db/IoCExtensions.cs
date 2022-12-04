@@ -1,9 +1,8 @@
-﻿using JJ.SmartHome.Db;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace JJ.SmartHome.Job
+namespace JJ.SmartHome.Db
 {
     public static class IoCExtensions
     {
@@ -16,12 +15,12 @@ namespace JJ.SmartHome.Job
                     c.GetService<IOptions<InfluxDbOptions>>(),
                     c.GetService<InfluxDBClientProvider>().Get()
                 ))
-                .AddTransient<IEnvSensorsStore, EnvSensorsStore>(c => 
+                .AddTransient<IEnvSensorsStore, EnvSensorsStore>(c =>
                     new EnvSensorsStore(
                         c.GetService<IOptions<InfluxDbOptions>>(),
                         c.GetService<InfluxDBClientProvider>().Get()
                     ))
-                .AddTransient<IAlertsStore, AlertsStore>(c => 
+                .AddTransient<IAlertsStore, AlertsStore>(c =>
                     new AlertsStore(
                         c.GetService<IOptions<InfluxDbOptions>>(),
                         c.GetService<InfluxDBClientProvider>().Get()

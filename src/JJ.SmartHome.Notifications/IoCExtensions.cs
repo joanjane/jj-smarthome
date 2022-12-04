@@ -1,10 +1,9 @@
-﻿using JJ.SmartHome.Notifications;
-using JJ.SmartHome.Notifications.NotificationHub.Dto;
+﻿using JJ.SmartHome.Notifications.NotificationHub.Dto;
 using JJ.SmartHome.Notifications.NotificationHub;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace JJ.SmartHome.Job
+namespace JJ.SmartHome.Notifications
 {
     public static class IoCExtensions
     {

@@ -13,32 +13,38 @@ namespace JJ.SmartHome.Core
     public abstract class MqttListenerService : BackgroundService
     {
         protected readonly IMqttClient _mqttClient;
+        protected readonly string _clientPrefix;
         protected readonly string _topic;
         protected readonly ILogger _logger;
 
         public MqttListenerService(
             IMqttClient mqttClient,
             string topic,
+            string clientPrefix,
             ILogger logger)
         {
             _mqttClient = mqttClient;
             _topic = topic;
+            _clientPrefix = clientPrefix;
             _logger = logger;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation($"Start {GetType().Name}");
 
-            await _mqttClient.Connect("EnvSensors", async () =>
-            {
-                _logger.LogInformation($"Subscribing to {_topic}");
-                await _mqttClient.Subscribe(_topic, HandleMqttMessage);
-            });
+            var task = Task.Run(async () => 
+                await _mqttClient.Connect(_clientPrefix, async () =>
+                {
+                    _logger.LogInformation($"Subscribing to {_topic}");
+                    await _mqttClient.Subscribe(_topic, HandleMqttMessage);
+                })
+            , stoppingToken);
 
             stoppingToken.LoopUntilCancelled();
-
             _logger.LogInformation($"End {GetType().Name}");
+
+            return task;
         }
 
         protected virtual T DeserializeMessage<T>(MqttApplicationMessageReceivedEventArgs message)
@@ -58,7 +64,8 @@ namespace JJ.SmartHome.Core
         public MqttListenerService(
             IMqttClient mqttClient,
             string topic,
-            ILogger logger) : base(mqttClient, topic, logger) { }
+            string clientPrefix,
+            ILogger logger) : base(mqttClient, topic, clientPrefix, logger) { }
 
         protected override Task HandleMqttMessage(MqttApplicationMessageReceivedEventArgs message)
         {

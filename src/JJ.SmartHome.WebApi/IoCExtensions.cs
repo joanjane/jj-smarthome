@@ -1,8 +1,10 @@
 ﻿using JJ.SmartHome.Core;
+using JJ.SmartHome.Db;
+using JJ.SmartHome.Notifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace JJ.SmartHome.Job
+namespace JJ.SmartHome.WebApi
 {
     public static class IoCExtensions
     {

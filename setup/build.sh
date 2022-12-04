@@ -1,6 +1,6 @@
 #!/bin/bash
 docker-compose \
--f ./docker-compose.arm.yml \
+-f ./docker-compose.app.yml \
 -f ./docker-compose.mqtt.yml \
 -f ./docker-compose.db.yml \
-build jj-smarthome-job jj-smarthome-sensehat
+build jj-smarthome-webapi jj-smarthome-sensehat

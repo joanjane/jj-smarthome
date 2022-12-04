@@ -30,11 +30,11 @@ namespace JJ.SmartHome.Core.Alerts
 
         public void SetAlertStatus(string status)
         {
-            if (status == "lock")
+            if (status == AlarmStatus.Lock)
             {
                 AlarmUnlocked = false;
             }
-            else if (status == "unlock")
+            else if (status == AlarmStatus.Unlock)
             {
                 AlarmUnlocked = true;
             }
@@ -53,5 +53,11 @@ namespace JJ.SmartHome.Core.Alerts
         {
             return LastFiredAlert = time;
         }
+    }
+
+    public class AlarmStatus
+    {
+        public const string Lock = "lock";
+        public const string Unlock = "unlock";
     }
 }

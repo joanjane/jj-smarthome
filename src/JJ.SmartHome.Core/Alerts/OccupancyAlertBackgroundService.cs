@@ -27,7 +27,7 @@ namespace JJ.SmartHome.Core.Alerts
             IAlertNotifier alertNotifier,
             AlertStatusProvider alertStatusProvider,
             ILogger<OccupancyAlertBackgroundService> logger)
-            : base(mqttClient, options.Value.OccupancyTopic, logger)
+            : base(mqttClient, options.Value.OccupancyTopic, "Occupancy", logger)
         {
             _alertsStore = alertsStore;
             _lastFiredAlertQuery = lastFiredAlertQuery;
@@ -74,7 +74,7 @@ namespace JJ.SmartHome.Core.Alerts
             var lastFiredTime = await _lastFiredAlertQuery.CheckLastFiredAlert();
             if (lastFiredTime != null)
             {
-                _logger.LogInformation($"Last fired alert was {lastFiredTime:d}");
+                _logger.LogInformation($"Last fired alert was {lastFiredTime.Time:s}");
                 _alertStatusProvider.SetLastFiredAlert(lastFiredTime.Time);
             }
         }

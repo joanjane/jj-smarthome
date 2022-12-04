@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "JJ.SmartHome.WebApi": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "launchUrl": "/",
+      "applicationUrl": "http://localhost:5010",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ namespace JJ.SmartHome.Core.Alerts
             IOptions<AlertsOptions> options,
             AlertStatusProvider alertStatusProvider,
             ILogger<AlarmStatusBackgroundService> logger) 
-            : base(mqttClient, options.Value.StatusTopic, logger)
+            : base(mqttClient, options.Value.StatusTopic, "AlarmStatus", logger)
         {
             _alertStatusProvider = alertStatusProvider;
         }
