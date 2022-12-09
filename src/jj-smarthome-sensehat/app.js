@@ -1,7 +1,10 @@
 const env = require('./env');
 
 const envSensorsCheckMinutes = 5;
-
+const alarmStatus = {
+	armed: 1,
+	disarmed: 2
+};
 class App {
   constructor(display, joystick, environmentSensors, mqttClient) {
     this.display = display;
@@ -39,10 +42,10 @@ class App {
 
       if (e === 'up') {
         this.display.showMessage('Alarm ON', 0.1, '#7ed73a');
-        this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: 'lock' });
+        this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.armed });
       } else if (e === 'down') {
         this.display.showMessage('Alarm OFF', 0.1, '#d73a49');
-        this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: 'unlock' });
+        this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.disarmed });
       }
     });
   }

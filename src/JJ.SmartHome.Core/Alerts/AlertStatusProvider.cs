@@ -8,7 +8,7 @@ namespace JJ.SmartHome.Core.Alerts
         private readonly AlertsOptions _options;
         private object LockObject = new object();
         private DateTimeOffset? LastFiredAlert { get; set; }
-        private bool AlarmUnlocked = false;
+        private AlarmStatus Status = AlarmStatus.Armed;
 
         public AlertStatusProvider(IOptions<AlertsOptions> options)
         {
@@ -17,7 +17,7 @@ namespace JJ.SmartHome.Core.Alerts
 
         public bool ShouldRaiseAlert()
         {
-            return !AlarmUnlocked && (!LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow);
+            return Status == AlarmStatus.Armed && (!LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow);
         }
 
         public void RaiseAlert()
@@ -28,20 +28,18 @@ namespace JJ.SmartHome.Core.Alerts
             }
         }
 
-        public void SetAlertStatus(string status)
+        public void SetAlertStatus(AlarmStatus status)
         {
-            if (status == AlarmStatus.Lock)
-            {
-                AlarmUnlocked = false;
-            }
-            else if (status == AlarmStatus.Unlock)
-            {
-                AlarmUnlocked = true;
-            }
-            else
+            if (!Enum.IsDefined(status))
             {
                 throw new ArgumentException("Invalid alarm status to set", nameof(status));
             }
+            Status = status;
+        }
+
+        public AlarmStatus GetAlertStatus()
+        {
+            return Status;
         }
 
         public DateTimeOffset? GetLastFiredAlert()
@@ -55,9 +53,9 @@ namespace JJ.SmartHome.Core.Alerts
         }
     }
 
-    public class AlarmStatus
+    public enum AlarmStatus
     {
-        public const string Lock = "lock";
-        public const string Unlock = "unlock";
+        Armed = 1,
+        Disarmed
     }
 }

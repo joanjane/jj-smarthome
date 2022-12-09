@@ -16,7 +16,7 @@ namespace JJ.SmartHome.Tests.Alerts
             var sut = new AlertStatusProvider(options);
 
             // Initially, alert can be raised
-            sut.SetAlertStatus("lock");
+            sut.SetAlertStatus(AlarmStatus.Armed);
             Assert.True(sut.ShouldRaiseAlert());
             sut.RaiseAlert();
             
@@ -38,7 +38,7 @@ namespace JJ.SmartHome.Tests.Alerts
             var sut = new AlertStatusProvider(options);
 
             // Initially, alert is off
-            sut.SetAlertStatus("unlock");
+            sut.SetAlertStatus(AlarmStatus.Disarmed);
 
             // Don't allow to raise alerts
             Assert.False(sut.ShouldRaiseAlert());

@@ -16,9 +16,19 @@ namespace JJ.SmartHome.WebApi.ControlPanel
             _alertStatusProvider = alertStatusProvider;
         }
 
+        [HttpGet("alarm")]
+        public ActionResult<AlarmStatusDetailsDto> GetAlarmStatus()
+        {
+            return new AlarmStatusDetailsDto
+            {
+                Status = _alertStatusProvider.GetAlertStatus(),
+                LastFiredAlert = _alertStatusProvider.GetLastFiredAlert(),
+            };
+        }
+
         [HttpPut("alarm")]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
-        public ActionResult<AlarmLockRequest> SetAlarmStatus([FromBody] AlarmLockRequest request)
+        public ActionResult<AlarmStatusDto> SetAlarmStatus([FromBody] AlarmStatusDto request)
         {
             _alertStatusProvider.SetAlertStatus(request.Status);
             return request;
