@@ -1,0 +1,25 @@
+{
+  "battery": 100,
+  "humidity": 53.71,
+  "linkquality": 26,
+  "power_outage_count": 5,
+  "pressure": 991.4,
+  "temperature": 19.3,
+  "voltage": 3195,
+  "device": {
+    "applicationVersion": 5,
+    "dateCode": "20191205",
+    "friendlyName": "0x00158d0008aa1202",
+    "hardwareVersion": 30,
+    "ieeeAddr": "0x00158d0008aa1202",
+    "manufacturerID": 4151,
+    "manufacturerName": "LUMI",
+    "model": "WSDCGQ11LM",
+    "networkAddress": 29420,
+    "powerSource": "Battery",
+    "softwareBuildID": "3000-0001",
+    "stackVersion": 2,
+    "type": "EndDevice",
+    "zclVersion": 1
+  }
+}

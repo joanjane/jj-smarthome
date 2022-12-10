@@ -1,0 +1,10 @@
+{
+  "battery": 100,
+  "device_temperature": 27,
+  "illuminance": 6,
+  "illuminance_lux": 6,
+  "linkquality": 13,
+  "occupancy": false,
+  "power_outage_count": 45,
+  "voltage": 3005
+}

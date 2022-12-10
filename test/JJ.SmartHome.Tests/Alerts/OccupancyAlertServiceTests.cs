@@ -31,7 +31,7 @@ namespace JJ.SmartHome.Tests.Alerts
             await Task.WhenAll(
                 occupancyAlertServiceBuilder.MqttClient.Publish(
                     OccupancyAlertServiceBuilder.OccupancyTopic, 
-                    new AqaraOccupancySensorEvent()
+                    new AqaraMotionOccupancySensorEvent()
                     {
                         Occupancy = true
                     }
@@ -62,7 +62,7 @@ namespace JJ.SmartHome.Tests.Alerts
             await Task.WhenAll(
                 occupancyAlertServiceBuilder.MqttClient.Publish(
                     OccupancyAlertServiceBuilder.OccupancyTopic, 
-                    new AqaraOccupancySensorEvent()
+                    new AqaraMotionOccupancySensorEvent()
                     {
                         Occupancy = true
                     }

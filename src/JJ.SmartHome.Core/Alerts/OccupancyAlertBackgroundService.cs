@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 
 namespace JJ.SmartHome.Core.Alerts
 {
-    public class OccupancyAlertBackgroundService : MqttListenerService<AqaraOccupancySensorEvent>
+    public class OccupancyAlertBackgroundService : MqttListenerService<AqaraMotionOccupancySensorEvent>
     {
         private readonly string _occupancyAlertTopic;
         private readonly IAlertsStore _alertsStore;
@@ -43,7 +43,7 @@ namespace JJ.SmartHome.Core.Alerts
             await base.ExecuteAsync(stoppingToken);
         }
 
-        protected override async Task HandleMessage(string topic, AqaraOccupancySensorEvent message)
+        protected override async Task HandleMessage(string topic, AqaraMotionOccupancySensorEvent message)
         {
             if (message.Occupancy)
             {

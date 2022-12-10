@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <None Remove="appsettings.Testing.json" />
+    <None Remove="Mocks\Fixtures\lumi.sensor_magnet.aq2.json" />
+    <None Remove="Mocks\Fixtures\lumi.sensor_motion.aq2.json" />
+    <None Remove="Mocks\Fixtures\lumi.weather.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +18,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Mocks\Fixtures\lumi.sensor_magnet.aq2.json" />
+    <EmbeddedResource Include="Mocks\Fixtures\lumi.sensor_motion.aq2.json" />
+    <EmbeddedResource Include="Mocks\Fixtures\lumi.weather.json" />
   </ItemGroup>
 
   <ItemGroup>
