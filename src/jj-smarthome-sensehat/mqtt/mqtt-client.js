@@ -37,4 +37,26 @@ module.exports.MqttClient = class MqttClient {
       this.client.publish(topic, JSON.stringify(content));
     }
   }
+
+  subscribe(topic) {
+    return new Promise((resolve, reject) => {
+      this.client.subscribe(topic, {
+        qos: 0
+      }, (error, granted) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(granted);
+      });
+    });
+  }
+
+  onMessage(subscribingTopic, callback) {
+    this.client.on('message', function (topic, payload, packet) {
+      if (topic.startsWith(subscribingTopic)) {
+        const message = JSON.parse(payload.toString());
+        callback(topic, message);
+      }
+    });
+  }
 }

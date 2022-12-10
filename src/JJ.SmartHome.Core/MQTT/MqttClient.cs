@@ -86,7 +86,10 @@ namespace JJ.SmartHome.Core.MQTT
                 .Build());
         }
 
-        public Task Publish<T>(string topic, T payload) => Publish(topic, JsonSerializer.Serialize(payload));
+        public Task Publish<T>(string topic, T payload) => Publish(topic, JsonSerializer.Serialize(payload, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        }));
 
         public Task Close()
         {

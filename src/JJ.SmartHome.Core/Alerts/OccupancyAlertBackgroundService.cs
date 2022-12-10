@@ -14,6 +14,7 @@ namespace JJ.SmartHome.Core.Alerts
 {
     public class OccupancyAlertBackgroundService : MqttListenerService<AqaraOccupancySensorEvent>
     {
+        private readonly string _occupancyAlertTopic;
         private readonly IAlertsStore _alertsStore;
         private readonly ILastFiredAlertQuery _lastFiredAlertQuery;
         private readonly IAlertNotifier _alertNotifier;
@@ -29,6 +30,7 @@ namespace JJ.SmartHome.Core.Alerts
             ILogger<OccupancyAlertBackgroundService> logger)
             : base(mqttClient, options.Value.OccupancyTopic, "Occupancy", logger)
         {
+            _occupancyAlertTopic = options.Value.OccupancyAlertTopic;
             _alertsStore = alertsStore;
             _lastFiredAlertQuery = lastFiredAlertQuery;
             _alertNotifier = alertNotifier;
@@ -49,17 +51,24 @@ namespace JJ.SmartHome.Core.Alerts
                 if (_alertStatusProvider.ShouldRaiseAlert())
                 {
                     _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
-                    _alertStatusProvider.RaiseAlert();
-                    await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {topic}", $"Occupancy was detected.<br />Payload: <pre>{message}</pre>");
-
+                    var timestamp = _alertStatusProvider.RaiseAlert();
                     var location = topic.Split('/').LastOrDefault() ?? topic;
+
+                    await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {topic}", $"Occupancy was detected on {location}.<br />Payload: <pre>{message}</pre>");
+                    
+                    await _mqttClient.Publish(_occupancyAlertTopic, new OccupancyAlertEvent
+                    {
+                        Fired = true,
+                        Location = location,
+                        Timestamp = timestamp
+                    });
 
                     await _alertsStore.WriteMeasure(new Db.Entities.AlertMeasure
                     {
                         Location = location,
                         Reason = "occupancy",
                         Value = 1,
-                        Time = _alertStatusProvider.GetLastFiredAlert() ?? DateTimeOffset.UtcNow
+                        Time = timestamp
                     });
                 }
             }

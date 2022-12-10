@@ -2,8 +2,8 @@ const env = require('./env');
 
 const envSensorsCheckMinutes = 5;
 const alarmStatus = {
-	armed: 1,
-	disarmed: 2
+  armed: 1,
+  disarmed: 2
 };
 class App {
   constructor(display, joystick, environmentSensors, mqttClient) {
@@ -33,8 +33,21 @@ class App {
       this.checkEnvironmentStatus();
       this.setAlarmControls();
       this.setPermitJoinControls();
+      this.listenAlertEvents();
     });
   }
+
+  listenAlertEvents() {
+    this.mqttClient.subscribe(env.MQTT_OCCUPANCY_ALERT_TOPIC)
+      .then(() => console.log('Subscribed to topic', env.MQTT_OCCUPANCY_ALERT_TOPIC))
+      .catch(e => console.error('Could not subscribe to topic', env.MQTT_OCCUPANCY_ALERT_TOPIC, e));
+      
+    this.mqttClient.onMessage(env.MQTT_OCCUPANCY_ALERT_TOPIC, (occupancyEvent) => {
+      console.log('Received occuppancy event', occupancyEvent);
+      this.display.showMessage('Alert!', 0.1, '#d73a49');
+    });
+  }
+
 
   setAlarmControls() {
     this.joystick.on('press', (e) => {

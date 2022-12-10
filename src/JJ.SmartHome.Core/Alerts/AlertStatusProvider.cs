@@ -20,12 +20,14 @@ namespace JJ.SmartHome.Core.Alerts
             return Status == AlarmStatus.Armed && (!LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow);
         }
 
-        public void RaiseAlert()
+        public DateTimeOffset RaiseAlert()
         {
             lock (LockObject)
             {
                 LastFiredAlert = DateTimeOffset.UtcNow;
             }
+
+            return LastFiredAlert.Value;
         }
 
         public void SetAlertStatus(AlarmStatus status)

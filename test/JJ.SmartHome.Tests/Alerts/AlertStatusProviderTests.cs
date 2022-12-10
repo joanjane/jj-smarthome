@@ -50,6 +50,7 @@ namespace JJ.SmartHome.Tests.Alerts
             {
                 OccupancyTopic = "none", 
                 StatusTopic = "none",
+                OccupancyAlertTopic = "alert/occupancy",
                 SnoozePeriodAfterAlerting = TimeSpan.FromSeconds(2)
             });
         }

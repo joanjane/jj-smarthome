@@ -40,7 +40,7 @@ namespace JJ.SmartHome.Core
                     _logger.LogInformation($"Subscribing to {_topic}");
                     await _mqttClient.Subscribe(_topic, HandleMqttMessage);
                 });
-                
+
                 stoppingToken.LoopUntilCancelled();
                 _logger.LogInformation($"End {GetType().Name}");
             }, stoppingToken);
@@ -52,7 +52,10 @@ namespace JJ.SmartHome.Core
 
             _logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {payload}");
 
-            return JsonSerializer.Deserialize<T>(payload);
+            return JsonSerializer.Deserialize<T>(payload, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
 
         protected abstract Task HandleMqttMessage(MqttApplicationMessageReceivedEventArgs message);

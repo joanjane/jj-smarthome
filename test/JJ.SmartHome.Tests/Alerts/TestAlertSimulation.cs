@@ -3,6 +3,7 @@ using JJ.SmartHome.Core.MQTT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,20 @@ namespace JJ.SmartHome.Tests.Alerts
                 Voltage = 300,
             };
             await PublishTestMessage(payload, "MQTT:OccupancyTopic");
+        }
+
+        [Fact]
+        [Trait("TestCategory", "Integration")]
+        [Trait("TestCategory", "OcuppancyAlertSimulation")]
+        public async Task SimulateOccupancyAlertEvent()
+        {
+            var payload = new OccupancyAlertEvent
+            {
+                Timestamp = DateTimeOffset.UtcNow,
+                Fired = true,
+                Location = "hall"
+            };
+            await PublishTestMessage(payload, "MQTT:AlertOccupancyTopic");
         }
 
         [Fact]

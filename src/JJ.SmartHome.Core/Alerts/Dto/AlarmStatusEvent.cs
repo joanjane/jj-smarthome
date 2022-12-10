@@ -1,10 +1,7 @@
-﻿using System.Text.Json.Serialization;
-
-namespace JJ.SmartHome.Core.Alerts.Dto
+﻿namespace JJ.SmartHome.Core.Alerts.Dto
 {
-    public class AlarmStatusEvent
+    public record AlarmStatusEvent
     {
-        [JsonPropertyName("status")]
         public AlarmStatus Status { get; set; }
     }
 }

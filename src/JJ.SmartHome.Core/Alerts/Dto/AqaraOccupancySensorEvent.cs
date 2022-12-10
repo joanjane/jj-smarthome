@@ -2,19 +2,21 @@
 
 namespace JJ.SmartHome.Core.Alerts.Dto
 {
-    public class AqaraOccupancySensorEvent
+    public record AqaraOccupancySensorEvent
     {
-        [JsonPropertyName("battery")]
         public int Battery { get; set; }
-        [JsonPropertyName("voltage")]
+        
         public int Voltage { get; set; }
-        [JsonPropertyName("illuminance")]
+        
         public int Illuminance { get; set; }
+
         [JsonPropertyName("illuminance_lux")]
         public int IlluminanceLux { get; set; }
+
         [JsonPropertyName("linkquality")]
+        
         public int LinkQuality { get; set; }
-        [JsonPropertyName("occupancy")]
+        
         public bool Occupancy { get; set; }
     }
 }
