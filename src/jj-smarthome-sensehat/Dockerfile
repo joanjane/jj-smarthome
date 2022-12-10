@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install build-essential \
 COPY src/jj-smarthome-sensehat/package*.json ./
 
 # Let's install our dependencies
-RUN npm i
+RUN npm ci
 
 # And now let's copy our code into the container
 COPY src/jj-smarthome-sensehat/ ./
