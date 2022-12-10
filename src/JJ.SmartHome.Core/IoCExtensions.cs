@@ -1,7 +1,8 @@
-﻿using JJ.SmartHome.Core.Alerts;
-using JJ.SmartHome.Core.Alerts.Queries;
+﻿using JJ.SmartHome.Core.Alarm;
+using JJ.SmartHome.Core.Alarm.Queries;
 using JJ.SmartHome.Core.EnvSensors;
 using JJ.SmartHome.Core.MQTT;
+using JJ.SmartHome.Core.Occupancy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,10 +29,11 @@ namespace JJ.SmartHome.Core
         private static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
             return services
-                .Configure<AlertsOptions>(configuration.GetSection("Alerts"))
+                .Configure<AlarmOptions>(configuration.GetSection("Alerts"))
+                .Configure<OccupancyOptions>(configuration.GetSection("Occupancy"))
                 .Configure<EnvSensorsOptions>(configuration.GetSection("EnvSensors"))
                 .AddTransient<ILastFiredAlertQuery, LastFiredAlertQuery>()
-                .AddSingleton<AlertStatusProvider>()
+                .AddSingleton<AlarmStatusProvider>()
                 .ConfigureBackgroundServices()
                 ;
         }

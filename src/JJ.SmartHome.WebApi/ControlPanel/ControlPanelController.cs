@@ -1,4 +1,4 @@
-﻿using JJ.SmartHome.Core.Alerts;
+﻿using JJ.SmartHome.Core.Alarm;
 using JJ.SmartHome.WebApi.ControlPanel.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +9,9 @@ namespace JJ.SmartHome.WebApi.ControlPanel
     [Route("api/[controller]")]
     public class ControlPanelController : ControllerBase
     {
-        private readonly AlertStatusProvider _alertStatusProvider;
+        private readonly AlarmStatusProvider _alertStatusProvider;
 
-        public ControlPanelController(AlertStatusProvider alertStatusProvider)
+        public ControlPanelController(AlarmStatusProvider alertStatusProvider)
         {
             _alertStatusProvider = alertStatusProvider;
         }
@@ -21,7 +21,7 @@ namespace JJ.SmartHome.WebApi.ControlPanel
         {
             return new AlarmStatusDetailsDto
             {
-                Status = _alertStatusProvider.GetAlertStatus(),
+                Status = _alertStatusProvider.GetAlarmStatus(),
                 LastFiredAlert = _alertStatusProvider.GetLastFiredAlert(),
             };
         }

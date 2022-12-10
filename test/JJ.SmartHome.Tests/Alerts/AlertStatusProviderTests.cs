@@ -1,7 +1,6 @@
-﻿using JJ.SmartHome.Core.Alerts;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using JJ.SmartHome.Core.Alarm;
 using Xunit;
 
 namespace JJ.SmartHome.Tests.Alerts
@@ -12,47 +11,36 @@ namespace JJ.SmartHome.Tests.Alerts
         [Trait("TestCategory", "Unit")]
         public async Task GivenNoAlerts_WhenAlertThrown_ThenShouldRaiseIt()
         {
-            var options = BuildOptions();
-            var sut = new AlertStatusProvider(options);
+            var snoozePeriodAfterAlerting = TimeSpan.FromSeconds(5);
+            var sut = new AlarmStatusProvider();
 
             // Initially, alert can be raised
             sut.SetAlertStatus(AlarmStatus.Armed);
-            Assert.True(sut.ShouldRaiseAlert());
+            Assert.True(sut.ShouldRaiseAlert(snoozePeriodAfterAlerting));
             sut.RaiseAlert();
             
             // Don't allow to raise more alerts until snooze period has passed
-            Assert.False(sut.ShouldRaiseAlert());
+            Assert.False(sut.ShouldRaiseAlert(snoozePeriodAfterAlerting));
             
             // wait for snooze period
-            await Task.Delay((int)options.Value.SnoozePeriodAfterAlerting.TotalMilliseconds);
+            await Task.Delay((int)snoozePeriodAfterAlerting.TotalMilliseconds);
             
             // raising alerts should be allowed again
-            Assert.True(sut.ShouldRaiseAlert());
+            Assert.True(sut.ShouldRaiseAlert(snoozePeriodAfterAlerting));
         }
 
         [Fact]
         [Trait("TestCategory", "Unit")]
         public void GivenUnlockedAlarm_WhenAlertThrownAndLocked_ThenShouldRaiseIt()
         {
-            var options = BuildOptions();
-            var sut = new AlertStatusProvider(options);
+            var snoozePeriodAfterAlerting = TimeSpan.FromSeconds(5);
+            var sut = new AlarmStatusProvider();
 
             // Initially, alert is off
             sut.SetAlertStatus(AlarmStatus.Disarmed);
 
             // Don't allow to raise alerts
-            Assert.False(sut.ShouldRaiseAlert());
-        }
-
-        private static IOptions<AlertsOptions> BuildOptions()
-        {
-            return Options.Create(new AlertsOptions
-            {
-                OccupancyTopic = "none", 
-                StatusTopic = "none",
-                OccupancyAlertTopic = "alert/occupancy",
-                SnoozePeriodAfterAlerting = TimeSpan.FromSeconds(2)
-            });
+            Assert.False(sut.ShouldRaiseAlert(snoozePeriodAfterAlerting));
         }
     }
 }

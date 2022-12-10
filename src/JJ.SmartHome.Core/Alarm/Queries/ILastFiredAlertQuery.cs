@@ -1,7 +1,7 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using JJ.SmartHome.Db.Entities;
 
-namespace JJ.SmartHome.Core.Alerts.Queries
+namespace JJ.SmartHome.Core.Alarm.Queries
 {
     public interface ILastFiredAlertQuery
     {

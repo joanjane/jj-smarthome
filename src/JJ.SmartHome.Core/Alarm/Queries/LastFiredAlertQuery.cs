@@ -1,10 +1,10 @@
-using JJ.SmartHome.Db;
+﻿using JJ.SmartHome.Db;
 using JJ.SmartHome.Db.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JJ.SmartHome.Core.Alerts.Queries
+namespace JJ.SmartHome.Core.Alarm.Queries
 {
     public class LastFiredAlertQuery : ILastFiredAlertQuery
     {
@@ -19,7 +19,7 @@ namespace JJ.SmartHome.Core.Alerts.Queries
         {
             var lastFiredAlert = await _fluxQueryBuilder
                 .From()
-                .Range( DateTimeOffset.UtcNow.AddDays(-1))
+                .Range(DateTimeOffset.UtcNow.AddDays(-1))
                 .FilterMeasurement("alert")
                 .Group(new[] { "_measurement" })
                 .Aggregate("last()")

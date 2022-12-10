@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using JJ.SmartHome.Core.Alerts.Dto;
+using JJ.SmartHome.Core.Occupancy.Dto.Alerts;
+using JJ.SmartHome.Core.Occupancy.Dto.Sensors;
 using JJ.SmartHome.Tests.Mocks.Fixtures;
 using JJ.SmartHome.Tests.Utils;
 using Xunit;

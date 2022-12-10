@@ -1,23 +1,16 @@
 ﻿using System;
-using Microsoft.Extensions.Options;
 
-namespace JJ.SmartHome.Core.Alerts
+namespace JJ.SmartHome.Core.Alarm
 {
-    public class AlertStatusProvider
+    public class AlarmStatusProvider
     {
-        private readonly AlertsOptions _options;
         private object LockObject = new object();
         private DateTimeOffset? LastFiredAlert { get; set; }
         private AlarmStatus Status = AlarmStatus.Armed;
 
-        public AlertStatusProvider(IOptions<AlertsOptions> options)
+        public bool ShouldRaiseAlert(TimeSpan snoozePeriodAfterAlerting)
         {
-            _options = options.Value;
-        }
-
-        public bool ShouldRaiseAlert()
-        {
-            return Status == AlarmStatus.Armed && (!LastFiredAlert.HasValue || LastFiredAlert.Value.Add(_options.SnoozePeriodAfterAlerting) < DateTime.UtcNow);
+            return Status == AlarmStatus.Armed && (!LastFiredAlert.HasValue || LastFiredAlert.Value.Add(snoozePeriodAfterAlerting) < DateTime.UtcNow);
         }
 
         public DateTimeOffset RaiseAlert()
@@ -39,7 +32,7 @@ namespace JJ.SmartHome.Core.Alerts
             Status = status;
         }
 
-        public AlarmStatus GetAlertStatus()
+        public AlarmStatus GetAlarmStatus()
         {
             return Status;
         }

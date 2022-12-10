@@ -1,6 +1,4 @@
-using JJ.SmartHome.Core.Alerts;
-using JJ.SmartHome.Core.Alerts.Queries;
-using JJ.SmartHome.Notifications;
+﻿using JJ.SmartHome.Notifications;
 using JJ.SmartHome.Db;
 using JJ.SmartHome.Db.Entities;
 using JJ.SmartHome.Tests.Mocks;
@@ -8,8 +6,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using System;
-
 using System.Threading.Tasks;
+using JJ.SmartHome.Core.Occupancy;
+using JJ.SmartHome.Core.Alarm.Queries;
+using JJ.SmartHome.Core.Alarm;
 
 namespace JJ.SmartHome.Tests.Builders
 {
@@ -21,7 +21,7 @@ namespace JJ.SmartHome.Tests.Builders
         public ILastFiredAlertQuery LastFiredAlertQuery = Substitute.For<ILastFiredAlertQuery>();
         public IAlertsStore AlertsStore = Substitute.For<IAlertsStore>();
         public IAlertNotifier AlertNotifier = Substitute.For<IAlertNotifier>();
-        private AlertsOptions AlertsOptions = new AlertsOptions()
+        private OccupancyOptions AlertsOptions = new ()
         {
             OccupancyTopic = OccupancyTopic
         };
@@ -68,7 +68,7 @@ namespace JJ.SmartHome.Tests.Builders
                 AlertsStore,
                 LastFiredAlertQuery,
                 AlertNotifier,
-                new AlertStatusProvider(Options.Create(AlertsOptions)),
+                new AlarmStatusProvider(),
                 LoggerFactory.Create(c => c.AddConsole()).CreateLogger<OccupancyAlertBackgroundService>()
             );
 

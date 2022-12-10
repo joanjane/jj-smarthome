@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JJ.SmartHome.Core.Alerts.Dto
+namespace JJ.SmartHome.Core.Occupancy.Dto.Alerts
 {
     public record OccupancyAlertEvent
     {

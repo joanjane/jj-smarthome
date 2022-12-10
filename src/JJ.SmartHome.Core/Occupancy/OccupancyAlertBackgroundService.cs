@@ -2,35 +2,37 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using JJ.SmartHome.Core.Alerts.Dto;
-using JJ.SmartHome.Core.Alerts.Queries;
+using JJ.SmartHome.Core.Alarm;
+using JJ.SmartHome.Core.Alarm.Queries;
 using JJ.SmartHome.Core.MQTT;
+using JJ.SmartHome.Core.Occupancy.Dto.Alerts;
+using JJ.SmartHome.Core.Occupancy.Dto.Sensors;
 using JJ.SmartHome.Db;
 using JJ.SmartHome.Notifications;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace JJ.SmartHome.Core.Alerts
+namespace JJ.SmartHome.Core.Occupancy
 {
     public class OccupancyAlertBackgroundService : MqttListenerService<AqaraMotionOccupancySensorEvent>
     {
-        private readonly string _occupancyAlertTopic;
+        private readonly OccupancyOptions _options;
         private readonly IAlertsStore _alertsStore;
         private readonly ILastFiredAlertQuery _lastFiredAlertQuery;
         private readonly IAlertNotifier _alertNotifier;
-        private readonly AlertStatusProvider _alertStatusProvider;
+        private readonly AlarmStatusProvider _alertStatusProvider;
 
         public OccupancyAlertBackgroundService(
             IMqttClient mqttClient,
-            IOptions<AlertsOptions> options,
+            IOptions<OccupancyOptions> options,
             IAlertsStore alertsStore,
             ILastFiredAlertQuery lastFiredAlertQuery,
             IAlertNotifier alertNotifier,
-            AlertStatusProvider alertStatusProvider,
+            AlarmStatusProvider alertStatusProvider,
             ILogger<OccupancyAlertBackgroundService> logger)
             : base(mqttClient, options.Value.OccupancyTopic, "Occupancy", logger)
         {
-            _occupancyAlertTopic = options.Value.OccupancyAlertTopic;
+            _options = options.Value;
             _alertsStore = alertsStore;
             _lastFiredAlertQuery = lastFiredAlertQuery;
             _alertNotifier = alertNotifier;
@@ -48,15 +50,15 @@ namespace JJ.SmartHome.Core.Alerts
             if (message.Occupancy)
             {
                 _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}");
-                if (_alertStatusProvider.ShouldRaiseAlert())
+                if (_alertStatusProvider.ShouldRaiseAlert(_options.SnoozePeriodAfterAlerting))
                 {
                     _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
                     var timestamp = _alertStatusProvider.RaiseAlert();
                     var location = topic.Split('/').LastOrDefault() ?? topic;
 
                     await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {topic}", $"Occupancy was detected on {location}.<br />Payload: <pre>{message}</pre>");
-                    
-                    await _mqttClient.Publish(_occupancyAlertTopic, new OccupancyAlertEvent
+
+                    await _mqttClient.Publish(_options.OccupancyAlertTopic, new OccupancyAlertEvent
                     {
                         Fired = true,
                         Location = location,

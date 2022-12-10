@@ -1,5 +1,5 @@
 ﻿using System;
-using JJ.SmartHome.Core.Alerts;
+using JJ.SmartHome.Core.Alarm;
 
 namespace JJ.SmartHome.WebApi.ControlPanel.Dto
 {
