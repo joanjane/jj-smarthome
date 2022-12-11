@@ -3,6 +3,7 @@ using JJ.SmartHome.Core.Alarm.Queries;
 using JJ.SmartHome.Core.EnvSensors;
 using JJ.SmartHome.Core.MQTT;
 using JJ.SmartHome.Core.Occupancy;
+using JJ.SmartHome.Core.Occupancy.Evaluation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,8 +33,12 @@ namespace JJ.SmartHome.Core
                 .Configure<AlarmOptions>(configuration.GetSection("Alerts"))
                 .Configure<OccupancyOptions>(configuration.GetSection("Occupancy"))
                 .Configure<EnvSensorsOptions>(configuration.GetSection("EnvSensors"))
+                .Configure<OccupancyDevicesConfiguration>(configuration)
                 .AddTransient<ILastFiredAlertQuery, LastFiredAlertQuery>()
                 .AddSingleton<AlarmStatusProvider>()
+                .AddSingleton<IOccupancyEvaluator, OccupancyEvaluator>()
+                .AddSingleton<IOccupancyEvaluatorStrategy, MotionSensorOccupancyEvaluatorStrategy>()
+                .AddSingleton<IOccupancyEvaluatorStrategy, MagnetSensorOccupancyEvaluatorStrategy>()
                 .ConfigureBackgroundServices()
                 ;
         }

@@ -48,7 +48,7 @@ namespace JJ.SmartHome.Core
 
         protected virtual T DeserializeMessage<T>(MqttApplicationMessageReceivedEventArgs message)
         {
-            var payload = Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
+            var payload = GetMessagePayload(message);
 
             _logger.LogInformation($"Topic {message.ApplicationMessage.Topic}. Message {payload}");
 
@@ -56,6 +56,11 @@ namespace JJ.SmartHome.Core
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
+        }
+
+        protected static string GetMessagePayload(MqttApplicationMessageReceivedEventArgs message)
+        {
+            return Encoding.UTF8.GetString(message.ApplicationMessage.Payload);
         }
 
         protected abstract Task HandleMqttMessage(MqttApplicationMessageReceivedEventArgs message);

@@ -13,23 +13,24 @@ namespace JJ.SmartHome.Tests.Mocks
         public Dictionary<string, Func<MqttApplicationMessageReceivedEventArgs, Task>> Subscribers = new Dictionary<string, Func<MqttApplicationMessageReceivedEventArgs, Task>>();
         private TaskCompletionSource<bool> SubscribersReady = new TaskCompletionSource<bool>();
 
-        public Task Close()
+        public virtual Task Close()
         {
             return Task.CompletedTask;
         }
 
-        public async Task Connect(string clientIdPrefix, Func<Task> connected = null, Func<Task> disconnected = null)
-        {            
+        public virtual async Task Connect(string clientIdPrefix, Func<Task> connected = null, Func<Task> disconnected = null)
+        {
             await connected();
         }
 
-        public void Dispose() { }
+        public virtual void Dispose() { }
 
-        public async Task Publish(string topic, string payload)
+        public virtual async Task Publish(string topic, string payload)
         {
             await SubscribersReady.Task;
 
-            if (Subscribers.ContainsKey(topic)) {
+            if (Subscribers.ContainsKey(topic))
+            {
                 await Subscribers[topic](
                     new MQTTnet.MqttApplicationMessageReceivedEventArgs(
                         "test",
@@ -43,12 +44,15 @@ namespace JJ.SmartHome.Tests.Mocks
             }
         }
 
-        public Task Publish<T>(string topic, T payload)
+        public virtual Task Publish<T>(string topic, T payload)
         {
-            return Publish(topic, JsonSerializer.Serialize(payload));
+            return Publish(topic, JsonSerializer.Serialize(payload, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            }));
         }
 
-        public Task Subscribe(string topic, Func<MqttApplicationMessageReceivedEventArgs, Task> handler)
+        public virtual Task Subscribe(string topic, Func<MqttApplicationMessageReceivedEventArgs, Task> handler)
         {
             Subscribers[topic] = handler;
             SubscribersReady.SetResult(true);

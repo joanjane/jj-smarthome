@@ -1,4 +1,4 @@
-﻿using JJ.SmartHome.Core.Alerts.Queries;
+﻿using JJ.SmartHome.Core.Alarm.Queries;
 using JJ.SmartHome.Db;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
