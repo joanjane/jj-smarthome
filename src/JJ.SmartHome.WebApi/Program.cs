@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using JJ.SmartHome.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("devices.json", true, true);
 
 builder.Services.AddControllers()
     .Services

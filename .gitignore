@@ -349,3 +349,4 @@ database.db
 /setup/pi.env
 /setup/mosquitto/data
 /setup/zigbee2mqtt/coordinator_backup.json
+/src/JJ.SmartHome.WebApi/devices.json
