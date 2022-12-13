@@ -21,5 +21,6 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/JJ.SmartHome.WebApi/devices.json
 LICENSE
 README.md

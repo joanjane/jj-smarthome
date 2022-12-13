@@ -3,7 +3,9 @@ docker-compose `
 -f ./docker-compose.fakes.yml `
 -f ./docker-compose.mqtt.yml `
 -f ./docker-compose.db-v1.yml `
-up --build --exit-code-from=jj-smarthome-webapi-tests `
+--env-file .development.env `
+up --build `
+--exit-code-from=jj-smarthome-webapi-tests `
 jj-smarthome-webapi-tests mosquitto mailhog influxdb_v1
 
 if($?) {

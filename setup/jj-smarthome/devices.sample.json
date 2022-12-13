@@ -1,0 +1,14 @@
+{
+  "Devices": [
+    {
+      "Type": "occupancy",
+      "Topic": "zigbee2mqtt/occupancy/hall",
+      "Evaluator": "motion"
+    },
+    {
+      "Type": "occupancy",
+      "Topic": "zigbee2mqtt/occupancy/main-door",
+      "Evaluator": "magnet"
+    }
+  ]
+}

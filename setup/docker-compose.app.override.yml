@@ -1,5 +1,9 @@
 version: "3.8"
 services:
+  jj-smarthome-webapi:
+    volumes:
+      - ${PWD}/jj-smarthome/devices.sample.json:/app/devices.json
+
   jj-smarthome-sensehat:
     privileged: false
     environment:

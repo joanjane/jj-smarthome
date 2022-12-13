@@ -4,7 +4,7 @@ services:
     image: jj-smarthome-webapi-tests
     build:
       context: ../
-      dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
+      dockerfile: ./src/JJ.SmartHome.WebApi/Dockerfile
       target: test
     command: > 
         bash -c "sleep ${TestSleep:-5} && dotnet test --no-restore -c Release ${TestFilter:-}"
@@ -24,8 +24,8 @@ services:
       - SMTP__Sender=test@test.tst
       - SMTP__NotificationAddresses__0=notification@test.tst
       - InfluxDB__Uri=http://influxdb_v1:8086
-      - InfluxDB__User=${InfluxDB__User}
-      - InfluxDB__Password=${InfluxDB__Password}
+      - InfluxDB__User=${InfluxDB__User:-smarthome}
+      - InfluxDB__Password=${InfluxDB__Password:-smarthome}
       - InfluxDB__Token=${InfluxDB__Token}
 
 networks:

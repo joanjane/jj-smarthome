@@ -5,15 +5,17 @@ services:
     restart: unless-stopped
     build:
       context: ../
-      dockerfile: ./src/JJ.SmartHome.Job/Dockerfile
+      dockerfile: ./src/JJ.SmartHome.WebApi/Dockerfile
+    ports:
+      - "5080:80"
     networks:
       - default
     environment:
       - MQTT__URI=${MQTT__URI:-mosquitto}
       - MQTT__Port=${MQTT__Port:-1883}
-      - MQTT__User=
-      - MQTT__Password=
-      - MQTT__Secure=false
+      - MQTT__User=${MQTT__User:-}
+      - MQTT__Password=${MQTT__Password:-}
+      - MQTT__Secure=${MQTT__Secure:-false}
       - SMTP__Host=${SMTP__Host}
       - SMTP__Port=${SMTP__Port}
       - SMTP__Ssl=${SMTP__Ssl}

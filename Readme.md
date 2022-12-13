@@ -28,7 +28,6 @@ TODO
 
 ## Used devices:
 * Zigbee usb dongle: CC2531 USB stick.
-* Occupancy sensor: Xiaomi Aqara RTCGQ11LM
 * Raspberry Pi as a Hub for hosting the system
 * Raspberry Pi Sense Hat to monitor environmental information and using joystick for commands.
 * [Aqara temperature, humidity and pressure sensor](https://www.zigbee2mqtt.io/devices/WSDCGQ11LM.html#xiaomi-wsdcgq11lm)
