@@ -6,7 +6,7 @@ namespace JJ.SmartHome.Core.Occupancy.Evaluation
     {
         public const string Evaluator = "magnet";
 
-        public MagnetSensorOccupancyEvaluatorStrategy(IOptionsSnapshot<OccupancyDevicesConfiguration> options)
+        public MagnetSensorOccupancyEvaluatorStrategy(IOptions<OccupancyDevicesConfiguration> options)
             : base(options, Evaluator)
         {
         }

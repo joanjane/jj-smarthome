@@ -7,9 +7,9 @@ namespace JJ.SmartHome.Core.Occupancy.Evaluation
     public abstract class OccupancyEvaluatorStrategyBase : IOccupancyEvaluatorStrategy
     {
         protected readonly string _evaluator;
-        protected readonly IOptionsSnapshot<OccupancyDevicesConfiguration> _options;
+        protected readonly IOptions<OccupancyDevicesConfiguration> _options;
 
-        public OccupancyEvaluatorStrategyBase(IOptionsSnapshot<OccupancyDevicesConfiguration> options, string evaluator)
+        public OccupancyEvaluatorStrategyBase(IOptions<OccupancyDevicesConfiguration> options, string evaluator)
         {
             _options = options;
             _evaluator = evaluator;

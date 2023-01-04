@@ -1,6 +1,6 @@
 {
   "battery": 100,
-  "contact": true,
+  "contact": false,
   "device_temperature": 21,
   "linkquality": 0,
   "power_outage_count": 27,

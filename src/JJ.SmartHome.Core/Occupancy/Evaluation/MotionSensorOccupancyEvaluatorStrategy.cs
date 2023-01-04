@@ -6,7 +6,7 @@ namespace JJ.SmartHome.Core.Occupancy.Evaluation
     {
         public const string Evaluator = "motion";
 
-        public MotionSensorOccupancyEvaluatorStrategy(IOptionsSnapshot<OccupancyDevicesConfiguration> options)
+        public MotionSensorOccupancyEvaluatorStrategy(IOptions<OccupancyDevicesConfiguration> options)
             : base(options, Evaluator)
         {
         }

@@ -53,7 +53,8 @@ namespace JJ.SmartHome.Core.Occupancy
         {
             var topic = message.ApplicationMessage.Topic;
             var location = topic.Split('/').LastOrDefault() ?? topic;
-            var occupancy = _occupancyEvaluator.IsOccupancyDetected(topic, GetMessagePayload(message));
+            var payload = GetMessagePayload(message);
+            var occupancy = _occupancyEvaluator.IsOccupancyDetected(topic, payload);
 
             if (!occupancy)
             {
@@ -61,7 +62,7 @@ namespace JJ.SmartHome.Core.Occupancy
                 return;
             }
 
-            _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}");
+            _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}\n{payload}");
             if (_alertStatusProvider.ShouldRaiseAlert(_options.SnoozePeriodAfterAlerting))
             {
                 _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");

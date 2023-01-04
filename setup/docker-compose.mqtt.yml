@@ -4,7 +4,7 @@ services:
     image: koenkk/zigbee2mqtt
     container_name: zigbee2mqtt
     volumes:
-      - ${PWD}/zigbee2mqtt:/app/data
+      - ${PWD:-.}/zigbee2mqtt:/app/data
       - /run/udev:/run/udev:ro
     devices:
       - /dev/ttyACM0:/dev/ttyACM0
@@ -29,8 +29,8 @@ services:
       - "1883:1883"
       - "19001:9001"
     volumes:
-      - ${PWD}/mosquitto/config:/mosquitto/config/
-      - ${PWD}/mosquitto/data:/mosquitto/data/
+      - ${PWD:-.}/mosquitto/config:/mosquitto/config/
+      - ${PWD:-.}/mosquitto/data:/mosquitto/data/
     networks:
       - default
       

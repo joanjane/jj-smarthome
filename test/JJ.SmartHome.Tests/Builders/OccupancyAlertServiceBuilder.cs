@@ -12,7 +12,6 @@ using JJ.SmartHome.Core.Alarm.Queries;
 using JJ.SmartHome.Core.Alarm;
 using JJ.SmartHome.Core.Occupancy.Evaluation;
 using System.Collections.Generic;
-using NSubstitute.Extensions;
 
 namespace JJ.SmartHome.Tests.Builders
 {
@@ -110,7 +109,7 @@ namespace JJ.SmartHome.Tests.Builders
                 .Publish(AlertsOptions.OccupancyAlertTopic, Arg.Any<string>())
                 .Returns(Task.CompletedTask);
 
-            var deviceOptions = Substitute.For<IOptionsSnapshot<OccupancyDevicesConfiguration>>();
+            var deviceOptions = Substitute.For<IOptions<OccupancyDevicesConfiguration>>();
             deviceOptions.Value.Returns(OccupancyDevicesConfiguration);
 
             var sut = new OccupancyAlertBackgroundService(
