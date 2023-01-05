@@ -68,7 +68,7 @@ namespace JJ.SmartHome.Core.Occupancy
                 _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
                 var timestamp = _alertStatusProvider.RaiseAlert();
 
-                await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {topic}", $"Occupancy was detected on {location}.<br />Payload: <pre>{message}</pre>");
+                await _alertNotifier.Notify($"[JJ.Alert.Occupancy] {topic}", $"Occupancy was detected on {location}.<br />Payload: <pre>{payload}</pre>");
 
                 await _mqttClient.Publish(_options.OccupancyAlertTopic, new OccupancyAlertEvent
                 {
