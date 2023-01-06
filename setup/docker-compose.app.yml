@@ -28,6 +28,8 @@ services:
       - InfluxDB__User=${InfluxDB__User}
       - InfluxDB__Password=${InfluxDB__Password}
       - InfluxDB__Token=${InfluxDB__Token}
+    volumes:
+      - ${PWD:-.}/jj-smarthome/devices.json:/app/devices.json
   
   jj-smarthome-sensehat:
     image: jj-smarthome-sensehat
