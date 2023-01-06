@@ -1,6 +1,6 @@
 param ([switch] $skipDeps)
 if (-Not $skipDeps) {
-    docker-compose `
+    docker compose `
     -f ./docker-compose.testing.yml `
     -f ./docker-compose.fakes.yml `
     -f ./docker-compose.mqtt.yml `
@@ -10,7 +10,7 @@ if (-Not $skipDeps) {
     --exit-code-from=jj-smarthome-webapi-tests `
     jj-smarthome-webapi-tests mosquitto mailhog influxdb_v1
 } else {
-    docker-compose -f ./docker-compose.testing.yml  `
+    docker compose -f ./docker-compose.testing.yml  `
         up --build jj-smarthome-webapi-tests
 }
 

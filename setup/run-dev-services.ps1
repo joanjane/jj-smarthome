@@ -1,4 +1,4 @@
-docker-compose `
+docker compose `
 -f ./docker-compose.app.yml `
 -f ./docker-compose.app.override.yml `
 -f ./docker-compose.fakes.yml `

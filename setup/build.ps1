@@ -1,4 +1,4 @@
-docker-compose `
+docker compose `
 -f ./docker-compose.app.yml `
 -f ./docker-compose.mqtt.yml `
 -f ./docker-compose.db.yml `
