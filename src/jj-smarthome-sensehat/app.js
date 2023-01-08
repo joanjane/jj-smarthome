@@ -1,4 +1,5 @@
 const env = require('./env');
+const { renderAnimation } = require('./sensehat/animations/utils');
 
 const envSensorsCheckMinutes = 5;
 const alarmStatus = {
@@ -44,23 +45,41 @@ class App {
       
     this.mqttClient.onMessage(env.MQTT_OCCUPANCY_ALERT_TOPIC, (occupancyEvent) => {
       console.log('Received occuppancy event', occupancyEvent);
-      this.display.showMessage('Alert!', 0.1, '#d73a49');
+      renderAnimation(this.display, countdown, require('./sensehat/animations/alert.json'))
+      .then(() => {
+        setTimeout(() => this.display.clear(), 1500);
+      });
     });
   }
-
 
   setAlarmControls() {
     this.joystick.on('press', (e) => {
       console.log('joystick press ' + e);
 
       if (e === 'up') {
-        this.display.showMessage('Alarm ON', 0.1, '#7ed73a');
-        this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.armed });
+        this.setAlarmOn();
       } else if (e === 'down') {
-        this.display.showMessage('Alarm OFF', 0.1, '#d73a49');
-        this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.disarmed });
+        this.setAlarmOff();
       }
     });
+  }
+
+  setAlarmOn() {
+    let countdown = 15;
+    renderAnimation(this.display, countdown, require('./sensehat/animations/lock.json'))
+      .then(() => {
+        this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.armed });
+        setTimeout(() => this.display.clear(), 1500);
+      });
+  }
+  
+  setAlarmOff() {
+    this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.disarmed });
+    let countdown = 3;
+    renderAnimation(this.display, countdown, require('./sensehat/animations/unlock.json'))
+      .then(() => {
+        setTimeout(() => this.display.clear(), 1500);
+      });
   }
 
   setPermitJoinControls() {
