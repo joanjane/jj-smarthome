@@ -44,11 +44,11 @@ class App {
       .catch(e => console.error('Could not subscribe to topic', env.MQTT_OCCUPANCY_ALERT_TOPIC, e));
       
     this.mqttClient.onMessage(env.MQTT_OCCUPANCY_ALERT_TOPIC, (topic, occupancyEvent) => {
-      console.log('Received occuppancy event', occupancyEvent);
-      if (occupancyEvent.fired && new Date(occupancyEvent.timestamp) > getRelativeDateByMinutes(5)) {
+      console.log('Received occupancy event', occupancyEvent);
+      if (occupancyEvent.fired && new Date(occupancyEvent.timestamp) > getRelativeDateByMinutes(-5)) {
         renderAnimation(this.display, 4, require('./sensehat/animations/alert.json'));
       } else {
-        console.log('Discarded occuppancy event');
+        console.log('Discarded occupancy event');
       }
     });
   }
