@@ -33,7 +33,7 @@ class App {
 
       this.checkEnvironmentStatus();
       this.setAlarmControls();
-      this.setPermitJoinControls();
+      this.setUtilitiesControls();
       this.listenAlertEvents();
     });
   }
@@ -79,16 +79,19 @@ class App {
     renderAnimation(this.display, countdown, require('./sensehat/animations/unlock.json'));
   }
 
-  setPermitJoinControls() {
+  setUtilitiesControls() {
     this.joystick.on('press', (e) => {
       console.log('joystick press ' + e);
 
-      if (e === 'left') {
-        this.display.showMessage('PERMIT JOIN', 0.1, '#7ed73a');
-        this.mqttClient.publish(env.MQTT_PERMIT_JOIN_TOPIC, 'true');
-      } else if (e === 'right') {
-        this.display.showMessage('DISABLE JOIN', 0.1, '#d73a49');
-        this.mqttClient.publish(env.MQTT_PERMIT_JOIN_TOPIC, 'false');
+      if (e === 'right') {
+        this.environmentSensors.getSensorsStatus().then(envSensorsStatus => {
+          this.display.showMessage(`T: ${envSensorsStatus.temperature}ºC H: ${envSensorsStatus.humidity}%`, 0.1, '#7ed73a');
+        });
+      } else if (e === 'left') {
+        const date = new Date();
+        this.display.showMessage(`${date.getHours()}:${date.getMinutes()}`, 0.1, '#7ed73a');
+      } else if (e === 'click') {
+        this.display.showMessage('🙂', 0.1, '#7ed73a');
       }
     });
   }
