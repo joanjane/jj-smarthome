@@ -25,7 +25,7 @@ class App {
       console.log('Modules connected');
 
       this.display.clear();
-      this.display.showMessage('Connected', 0.1, '#3c8cd7');
+      this.display.showMessage('Connected', 0.05, '#3c8cd7');
 
       this.interval = setInterval(
         () => this.checkEnvironmentStatus(),
@@ -43,12 +43,13 @@ class App {
       .then(() => console.log('Subscribed to topic', env.MQTT_OCCUPANCY_ALERT_TOPIC))
       .catch(e => console.error('Could not subscribe to topic', env.MQTT_OCCUPANCY_ALERT_TOPIC, e));
       
-    this.mqttClient.onMessage(env.MQTT_OCCUPANCY_ALERT_TOPIC, (occupancyEvent) => {
+    this.mqttClient.onMessage(env.MQTT_OCCUPANCY_ALERT_TOPIC, (topic, occupancyEvent) => {
       console.log('Received occuppancy event', occupancyEvent);
-      renderAnimation(this.display, countdown, require('./sensehat/animations/alert.json'))
-      .then(() => {
-        setTimeout(() => this.display.clear(), 1500);
-      });
+      if (occupancyEvent.fired && new Date(occupancyEvent.timestamp) > getRelativeDateByMinutes(5)) {
+        renderAnimation(this.display, 4, require('./sensehat/animations/alert.json'));
+      } else {
+        console.log('Discarded occuppancy event');
+      }
     });
   }
 
@@ -69,17 +70,13 @@ class App {
     renderAnimation(this.display, countdown, require('./sensehat/animations/lock.json'))
       .then(() => {
         this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.armed });
-        setTimeout(() => this.display.clear(), 1500);
       });
   }
   
   setAlarmOff() {
     this.mqttClient.publish(env.MQTT_ALARM_TOPIC, { status: alarmStatus.disarmed });
     let countdown = 3;
-    renderAnimation(this.display, countdown, require('./sensehat/animations/unlock.json'))
-      .then(() => {
-        setTimeout(() => this.display.clear(), 1500);
-      });
+    renderAnimation(this.display, countdown, require('./sensehat/animations/unlock.json'));
   }
 
   setPermitJoinControls() {
@@ -117,6 +114,10 @@ class App {
     this.display.clear();
     [this.display, this.joystick, this.environmentSensors].forEach(c => c.close());
   }
+}
+
+function getRelativeDateByMinutes(minutes) {
+  return new Date(new Date().setMinutes(new Date().getMinutes() + minutes));
 }
 
 module.exports.App = App;
