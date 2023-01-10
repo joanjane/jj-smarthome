@@ -17,6 +17,7 @@ namespace JJ.SmartHome.Core.Occupancy
 {
     public class OccupancyAlertBackgroundService : MqttListenerService
     {
+        private const int AlertGracePeriodDelaySeconds = 10;
         private readonly OccupancyOptions _options;
         private readonly IAlertsStore _alertsStore;
         private readonly ILastFiredAlertQuery _lastFiredAlertQuery;
@@ -63,6 +64,8 @@ namespace JJ.SmartHome.Core.Occupancy
             }
 
             _logger.LogInformation($"Occupancy detected {DateTime.Now.ToString("s")}\n{payload}");
+            await Task.Delay(AlertGracePeriodDelaySeconds * 1000);
+            
             if (_alertStatusProvider.ShouldRaiseAlert(_options.SnoozePeriodAfterAlerting))
             {
                 _logger.LogInformation($"Notifying alert. Last fired alert '{_alertStatusProvider.GetLastFiredAlert():s}'");
