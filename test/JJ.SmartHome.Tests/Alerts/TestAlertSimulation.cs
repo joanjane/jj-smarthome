@@ -47,7 +47,7 @@ namespace JJ.SmartHome.Tests.Alerts
         [Theory]
         [InlineData(FixtureContants.MotionSensorPayload, "MQTT:MotionOccupancyTopic")]
         [InlineData(FixtureContants.MagnetSensorPayload, "MQTT:MagnetOccupancyTopic")]
-        [InlineData(FixtureContants.WeatherSensorPayload, "MQTT:EnvSensorsSenseHatTopic")]
+        [InlineData(FixtureContants.WeatherSensorPayload, "MQTT:EnvSensorsTopic")]
         public async Task SimulateSensorEvent(string fixture, string topicSettingKey)
         {
             var payload = FixtureUtils.LoadFixture(fixture);

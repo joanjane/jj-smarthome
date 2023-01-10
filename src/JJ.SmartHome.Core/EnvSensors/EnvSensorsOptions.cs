@@ -2,6 +2,6 @@
 {
     public class EnvSensorsOptions
     {
-        public string EnvSensorsSenseHatTopic { get; set; }
+        public string EnvSensorsTopic { get; set; }
     }
 }
